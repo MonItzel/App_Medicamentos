@@ -1,6 +1,10 @@
 //Luis Eduardo Carreón Soto
 //Yessica Tellez Martinez
+<<<<<<< HEAD
 //Leonardo Ortega Chávez
+=======
+//Monica
+>>>>>>> a1b39c334246b9cc33e7fd23616d6b0d39a09b76
 import 'package:flutter/material.dart';
 
 void main() {
