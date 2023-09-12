@@ -71,7 +71,7 @@ class _NameRegister extends State <NameRegister> {
                     backgroundColor: Color(0xFF0063C9),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(16),
                     )
                 ),
                 child: Text("Continuar",
