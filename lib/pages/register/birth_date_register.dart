@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+class BirthRegister extends StatefulWidget {
+  const BirthRegister({super.key});
 
-class DatePickerScreen extends StatefulWidget {
   @override
-  _DatePickerScreenState createState() => _DatePickerScreenState();
+  State<StatefulWidget> createState() {
+    return _BirthRegister();
+  }
 }
 
-class _DatePickerScreenState extends State<DatePickerScreen> {
+class _BirthRegister extends State<BirthRegister> {
   // Inicializa una fecha seleccionada con la fecha actual.
   DateTime selectedDate = DateTime.now();
   // Inicializa un año seleccionado con el año actual.
@@ -66,7 +69,3 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     );
   }
 }
-
-void main() => runApp(MaterialApp(
-  home: DatePickerScreen(),
-));

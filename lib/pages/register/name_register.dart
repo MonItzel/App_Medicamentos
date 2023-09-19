@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,7 @@ class _NameRegister extends State <NameRegister> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => NameRegister()
+                        builder: (BuildContext context) => StartPage()
                     ),
                         (route) => false,
                   );
