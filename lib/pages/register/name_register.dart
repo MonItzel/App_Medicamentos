@@ -1,6 +1,6 @@
-import 'package:app_medicamentos/pages/register/birth_date_register.dart';
-import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:flutter/material.dart';
+import 'package:app_medicamentos/pages/start_page.dart';
+import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 
 class NameRegister extends StatefulWidget {
   const NameRegister({super.key});
@@ -20,6 +20,12 @@ class _NameRegister extends State <NameRegister> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
+          title: Text(
+            'Registro de Paciente',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
             onPressed: () {
@@ -44,15 +50,62 @@ class _NameRegister extends State <NameRegister> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(55, 0, 55, 100),
-            child: Container(
-              child: Image(
-                image: AssetImage('assets/images/logo_apesaam.png'),
+          TextFormField(
+            obscureText: false,
+            textAlign: TextAlign.left,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(
+                      color: Colors.white,
+                      width: 1,
+                      style: BorderStyle.solid
+
+                  )
               ),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Nombre(s)',
             ),
           ),
+          SizedBox(height: 20.0,),
+          TextFormField(
+            obscureText: false,
+            textAlign: TextAlign.left,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(
+                      color: Colors.white,
+                      width: 1,
+                      style: BorderStyle.solid
 
+                  )
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Apellido paterno',
+            ),
+          ),
+          SizedBox(height: 20.0,),
+          TextFormField(
+            obscureText: false,
+            textAlign: TextAlign.left,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(
+                      color: Colors.white,
+                      width: 1,
+                      style: BorderStyle.solid
+
+                  )
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Apellido materno',
+            ),
+          ),
           Padding(
             padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
             child: Container(
@@ -63,7 +116,7 @@ class _NameRegister extends State <NameRegister> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => StartPage()
+                        builder: (BuildContext context) => BirthDateRegister()
                     ),
                         (route) => false,
                   );
@@ -75,7 +128,7 @@ class _NameRegister extends State <NameRegister> {
                       borderRadius: BorderRadius.circular(16),
                     )
                 ),
-                child: Text("Continuar",
+                child: Text("Siguiente",
                   style: TextStyle(
                       fontSize: 26
                   ),
