@@ -14,6 +14,7 @@ class Pathologies extends StatefulWidget {
 class _Pathologies extends State <Pathologies> {
   @override
   Widget build(BuildContext context) {
+    List patologias = ['Diabetes Mellitus', 'Hipertensión arterial sistemática', 'Demencia o Alzheimer', 'Artritis', 'Osteoporosis', 'Cardiopatias', 'Parkinson', 'Depresión'];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFEDF2FA),
@@ -50,23 +51,37 @@ class _Pathologies extends State <Pathologies> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          TextFormField(
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
-
-                  )
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Patologías',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Calle',
             ),
+          ),
+          SizedBox(height: 20.0,),
+          DropdownButtonFormField(
+              decoration: InputDecoration(
+                hintText: 'Patologías más comunes',
+                filled: true,
+                fillColor: Colors.white,
+              ),
+              iconEnabledColor: Color(0xFF09184D),
+              focusColor: Colors.white,
+              dropdownColor: Colors.white,
+              items: patologias.map((name){
+                return DropdownMenuItem(
+                  child: Text(name),
+                  value: name,
+                );
+              }).toList(),
+              onChanged: (value){
+                print(value);
+              },
           ),
           SizedBox(height: 20.0,),
           TextFormField(
@@ -79,7 +94,6 @@ class _Pathologies extends State <Pathologies> {
                       color: Colors.white,
                       width: 1,
                       style: BorderStyle.solid
-
                   )
               ),
               filled: true,
@@ -87,8 +101,6 @@ class _Pathologies extends State <Pathologies> {
               hintText: 'Otras patologías',
             ),
           ),
-          SizedBox(height: 20.0,),
-
           Padding(
             padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
             child: Container(

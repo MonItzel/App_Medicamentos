@@ -50,6 +50,19 @@ class _Address extends State <Address> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Domicilio',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
           TextFormField(
             obscureText: false,
             textAlign: TextAlign.left,
