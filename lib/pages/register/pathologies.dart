@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
-import 'package:app_medicamentos/pages/start_page.dart';
+import 'package:app_medicamentos/pages/home_page.dart';
 
 class Pathologies extends StatefulWidget {
   const Pathologies({super.key});
@@ -111,7 +111,7 @@ class _Pathologies extends State <Pathologies> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => StartPage()
+                        builder: (BuildContext context) => HomePage()
                     ),
                         (route) => false,
                   );
