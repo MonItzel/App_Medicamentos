@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class BirthDateRegister extends StatefulWidget {
   const BirthDateRegister({super.key});
@@ -50,6 +51,15 @@ class _BirthDateRegister extends State <BirthDateRegister> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          SfDateRangePicker(
+            selectionMode: DateRangePickerSelectionMode.single,
+            showNavigationArrow: true,
+            onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+              print(args.value);
+            },
+            todayHighlightColor: Color(0xFF09184D),
+            selectionColor: Color(0xFF09184D),
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
