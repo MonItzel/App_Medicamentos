@@ -10,8 +10,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   sqflite: ^2.3.0
-  flutter_datetime_picker: ^1.5.1
   syncfusion_flutter_datepicker: ^23.1.36
+  persistent_bottom_nav_bar_v2: ^4.2.8
 
 dev_dependencies:
   flutter_test:
