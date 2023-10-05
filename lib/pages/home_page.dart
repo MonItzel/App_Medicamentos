@@ -35,12 +35,11 @@ class _HomePage extends State<HomePage> {
               label: 'Buscar',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite,
+              icon: Icon(Icons.account_circle_rounded,
                   color: Colors.white),
-              label: 'Favoritos',
+              label: 'Perfil',
             ),
           ],
-          currentIndex: _selectedIndex,
           onTap: null, // Establece onTap en null para deshabilitar la navegación
         ),
       ),

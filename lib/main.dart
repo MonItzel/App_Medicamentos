@@ -1,8 +1,10 @@
+import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
-
+import 'package:app_medicamentos/pages/profile/edit_profile.dart';
+import 'package:app_medicamentos/pages/register/name_register.dart';
 void main() {
   runApp(const MyApp());
 }
