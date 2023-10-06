@@ -157,29 +157,28 @@ class _Pathologies extends State <Pathologies> {
   }
 
   void register() async {
-    Database database = await openDatabase(join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
     await database.transaction((txn) async {
-
       var usuario = {
-        'nombre'  : widget.nombre,
-        'apellidoP' : widget.apellidoP,
-        'apellidoM' : widget.apellidoM,
-        'fechaNac' : widget.fechaNac.toString(),
-        'calle' : widget.calle,
-        'club' : widget.colonia,
-        'numero_exterior' : widget.numExterior,
-        'cuidador_activo' : 0
+        'nombre': widget.nombre,
+        'apellidoP': widget.apellidoP,
+        'apellidoM': widget.apellidoM,
+        'fechaNac': widget.fechaNac.toString(),
+        'calle': widget.calle,
+        'club': widget.colonia,
+        'numero_exterior': widget.numExterior,
+        'cuidador_activo': 0
       };
 
       var id1 = txn.insert('Usuario', usuario);
-      print('inserted1: $id1');
 
       int id2 = await txn.rawInsert(
           'INSERT INTO Padecimiento(nombre_padecimiento) '
-              'VALUES(' + patologia + ')' );
-      print('inserted2: $id2');
+              'VALUES(' + patologia + ')');
     });
   }
 }
+
 
 

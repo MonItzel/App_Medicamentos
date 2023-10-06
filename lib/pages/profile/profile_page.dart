@@ -2,6 +2,8 @@ import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key, required this.nombre, required this.apellidoP, required this.apellidoM,
@@ -164,5 +166,28 @@ class _ProfilePage extends State<ProfilePage> {
         },
       ),
     );
+  }
+
+  Future<void> select() async {
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+   'SELECT TOP 1 * FROM Usuario',
+    );
+    final List<Map<String, dynamic>> map2 = await database.rawQuery(
+      'SELECT TOP 1 * FROM Padecimiento',
+    );
+
+    var user = [
+      map1[0]['nombre'],
+      map1[0]['apellidoP'],
+      map1[0]['apellidoM'],
+      map1[0]['fechaNac'],
+      map1[0]['calle'],
+      map1[0]['club'],
+      map1[0]['numero_exterior'],
+      map2[0]['nombre_padecimiento'],
+    ];
   }
 }
