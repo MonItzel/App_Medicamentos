@@ -1,6 +1,7 @@
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
+import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
+  int _currentIndex = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +92,26 @@ class _ProfilePage extends State<ProfilePage> {
             ),
           ],
         ),
+      ),
+
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index; // Actualiza el índice seleccionado
+          });
+          // Realiza la navegación aquí según el índice
+          if (index == 0) {
+            // Navega a la página de inicio
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          } else if (index == 1) {
+            // Navega a la página de búsqueda
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+          } else if (index == 2) {
+            // Navega a la página de perfil
+            // Por ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+          }
+        },
       ),
     );
   }

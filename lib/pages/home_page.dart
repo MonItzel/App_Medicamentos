@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
+import 'package:app_medicamentos/pages/profile/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,37 +12,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Contenido de la página'),
+          child: Text('Home Page'),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color(0xFF446CF9),
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.home,
-              color: Colors.white
-              ),
-              label: 'Inicio',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search,
-                  color: Colors.white),
-              label: 'Buscar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_rounded,
-                  color: Colors.white),
-              label: 'Perfil',
-            ),
-          ],
-          onTap: null, // Establece onTap en null para deshabilitar la navegación
+        bottomNavigationBar: CustomBottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index; // Actualiza el índice seleccionado
+            });
+            // Realiza la navegación aquí según el índice
+            if (index == 0) {
+              // Navega a la página de inicio
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+            } else if (index == 1) {
+              // Navega a la página de búsqueda
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+            } else if (index == 2) {
+              // Navega a la página de perfil
+              // Por ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+            }
+          },
         ),
       ),
     );
