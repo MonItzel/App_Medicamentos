@@ -38,7 +38,7 @@ class _StartPage extends State <StartPage> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => NameRegister()
+                          builder: (BuildContext context) => const NameRegister()
                       ),
                       (route) => false,
                   );

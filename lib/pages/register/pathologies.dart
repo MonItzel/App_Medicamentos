@@ -131,7 +131,7 @@ class _Pathologies extends State <Pathologies> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => HomePage()
+                        builder: (BuildContext context) => HomePage(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM, fechaNac: widget.fechaNac, calle: widget.calle, colonia: widget.colonia, numExterior: widget.numExterior, patologia: patologia,)
                     ),
                         (route) => false,
                   );
@@ -170,6 +170,7 @@ class _Pathologies extends State <Pathologies> {
         'numero_exterior' : widget.numExterior,
         'cuidador_activo' : 0
       };
+
       var id1 = txn.insert('Usuario', usuario);
       print('inserted1: $id1');
 

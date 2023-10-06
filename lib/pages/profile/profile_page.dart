@@ -4,7 +4,19 @@ import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({super.key, required this.nombre, required this.apellidoP, required this.apellidoM,
+    required this.fechaNac,
+    required this.calle,  required this.colonia, required this.numExterior,
+    required this.patologia});
+
+  final nombre;
+  final apellidoP;
+  final apellidoM;
+  final fechaNac;
+  final calle;
+  final colonia;
+  final numExterior;
+  final patologia;
 
   @override
   State<StatefulWidget> createState() {
@@ -14,8 +26,20 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   int _currentIndex = 1;
+
   @override
   Widget build(BuildContext context) {
+    var user = [
+      widget.nombre,
+      widget.apellidoP,
+      widget.apellidoM,
+      widget.fechaNac.toString(),
+      widget.calle,
+      widget.colonia,
+      widget.numExterior,
+      widget.patologia,
+    ];
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFEDF2FA),
@@ -35,7 +59,15 @@ class _ProfilePage extends State<ProfilePage> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => HomePage()
+                    builder: (BuildContext context) =>
+                        HomePage(nombre: widget.nombre,
+                          apellidoP: widget.apellidoP,
+                          apellidoM: widget.apellidoM,
+                          fechaNac: widget.fechaNac,
+                          calle: widget.calle,
+                          colonia: widget.colonia,
+                          numExterior: widget.numExterior,
+                          patologia: widget.patologia,)
                 ),
                     (route) => false,
               );
@@ -56,7 +88,7 @@ class _ProfilePage extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nombre',
+              'Nombre: ' + user[0] + ' ' + user[1] + ' ' + user[2],
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -65,7 +97,7 @@ class _ProfilePage extends State<ProfilePage> {
             ),
             SizedBox(height: 20.0,),
             Text(
-              'Fecha de nacimiento',
+              'Fecha de nacimiento: ' + user[3],
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -74,7 +106,7 @@ class _ProfilePage extends State<ProfilePage> {
             ),
             SizedBox(height: 20.0,),
             Text(
-              'Dirección',
+              'Dirección: ' + user[4] + ', ' + user[6] + ', ' + user[5],
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -103,10 +135,28 @@ class _ProfilePage extends State<ProfilePage> {
           // Realiza la navegación aquí según el índice
           if (index == 0) {
             // Navega a la página de inicio
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                HomePage(
+                  nombre: widget.nombre,
+                  apellidoP: widget.apellidoP,
+                  apellidoM: widget.apellidoM,
+                  fechaNac: widget.fechaNac,
+                  calle: widget.calle,
+                  colonia: widget.colonia,
+                  numExterior: widget.numExterior,
+                  patologia: widget.patologia,)));
           } else if (index == 1) {
             // Navega a la página de búsqueda
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ProfilePage(
+              nombre: widget.nombre,
+              apellidoP: widget.apellidoP,
+              apellidoM: widget.apellidoM,
+              fechaNac: widget.fechaNac,
+              calle: widget.calle,
+              colonia: widget.colonia,
+              numExterior: widget.numExterior,
+              patologia: widget.patologia,)));
           } else if (index == 2) {
             // Navega a la página de perfil
             // Por ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
