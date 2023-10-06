@@ -3,7 +3,12 @@ import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:app_medicamentos/pages/register/pathologies.dart';
 
 class Address extends StatefulWidget {
-  const Address({super.key});
+  const Address({super.key, required this.nombre, required this.apellidoP, required this.apellidoM, required this.fechaNac});
+  final nombre;
+  final apellidoP;
+  final apellidoM;
+  final fechaNac;
+
 
   @override
   State<StatefulWidget> createState() {
@@ -32,7 +37,7 @@ class _Address extends State <Address> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => BirthDateRegister()
+                    builder: (BuildContext context) => BirthDateRegister(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM)
                 ),
                     (route) => false,
               );
@@ -64,6 +69,7 @@ class _Address extends State <Address> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: calleController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -83,6 +89,7 @@ class _Address extends State <Address> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: coloniaController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -102,6 +109,7 @@ class _Address extends State <Address> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: numExteriorController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -129,7 +137,9 @@ class _Address extends State <Address> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => Pathologies()
+                        builder: (BuildContext context) => Pathologies(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM,
+                                                                        fechaNac: widget.fechaNac,
+                                                                        calle: calleController.text, colonia: coloniaController.text, numExterior: numExteriorController.text,)
                     ),
                         (route) => false,
                   );
@@ -154,3 +164,7 @@ class _Address extends State <Address> {
     );
   }
 }
+
+TextEditingController calleController = TextEditingController();
+TextEditingController coloniaController = TextEditingController();
+TextEditingController numExteriorController = TextEditingController();

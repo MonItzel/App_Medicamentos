@@ -1,3 +1,5 @@
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
@@ -51,6 +53,7 @@ class _NameRegister extends State <NameRegister> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextFormField(
+            controller: nombreController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -69,6 +72,7 @@ class _NameRegister extends State <NameRegister> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: apellidoPController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -88,6 +92,7 @@ class _NameRegister extends State <NameRegister> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: apellidoMController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -115,7 +120,7 @@ class _NameRegister extends State <NameRegister> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => BirthDateRegister()
+                        builder: (BuildContext context) => BirthDateRegister(nombre: nombreController.text, apellidoM: apellidoMController.text, apellidoP: apellidoPController.text,)
                     ),
                         (route) => false,
                   );
@@ -140,3 +145,8 @@ class _NameRegister extends State <NameRegister> {
     );
   }
 }
+
+TextEditingController nombreController = TextEditingController();
+TextEditingController apellidoPController = TextEditingController();
+TextEditingController apellidoMController = TextEditingController();
+

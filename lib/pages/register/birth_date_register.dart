@@ -1,18 +1,27 @@
+//import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class BirthDateRegister extends StatefulWidget {
-  const BirthDateRegister({super.key});
+  const BirthDateRegister({required this.nombre, required this.apellidoP, required this.apellidoM});
+
+  final nombre;
+  final apellidoP;
+  final apellidoM;
 
   @override
   State<StatefulWidget> createState() {
+
     return _BirthDateRegister();
   }
 }
 
 class _BirthDateRegister extends State <BirthDateRegister> {
+  var fechaNac;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +64,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             selectionMode: DateRangePickerSelectionMode.single,
             showNavigationArrow: true,
             onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-              print(args.value);
+              fechaNac = args.value;
             },
             todayHighlightColor: Color(0xFF09184D),
             selectionColor: Color(0xFF09184D),
@@ -103,7 +112,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => Address()
+                        builder: (BuildContext context) => Address(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM, fechaNac: fechaNac)
                     ),
                         (route) => false,
                   );

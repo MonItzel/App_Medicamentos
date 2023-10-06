@@ -1,9 +1,24 @@
+import 'package:app_medicamentos/database/conection.dart';
+import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class Pathologies extends StatefulWidget {
-  const Pathologies({super.key});
+  const Pathologies({super.key, required this.nombre, required this.apellidoP, required this.apellidoM,
+                                required this.fechaNac,
+                                required this.calle, required this.colonia,  required this.numExterior});
+
+  final nombre;
+  final apellidoP;
+  final apellidoM;
+  final fechaNac;
+  final calle;
+  final colonia;
+  final numExterior;
+
 
   @override
   State<StatefulWidget> createState() {
@@ -12,6 +27,8 @@ class Pathologies extends StatefulWidget {
 }
 
 class _Pathologies extends State <Pathologies> {
+  var patologia;
+
   @override
   Widget build(BuildContext context) {
     List patologias = ['Diabetes Mellitus', 'Hipertensión arterial sistemática', 'Demencia o Alzheimer', 'Artritis', 'Osteoporosis', 'Cardiopatias', 'Parkinson', 'Depresión'];
@@ -33,7 +50,8 @@ class _Pathologies extends State <Pathologies> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => Address()
+                    builder: (BuildContext context) => Address(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM,
+                                                                fechaNac: widget.fechaNac)
                 ),
                     (route) => false,
               );
@@ -80,6 +98,7 @@ class _Pathologies extends State <Pathologies> {
                 );
               }).toList(),
               onChanged: (value){
+                patologia = value;
                 print(value);
               },
           ),
@@ -108,6 +127,7 @@ class _Pathologies extends State <Pathologies> {
               height: 60,
               child: ElevatedButton(
                 onPressed: () {
+                  register();
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
@@ -135,4 +155,30 @@ class _Pathologies extends State <Pathologies> {
       ),
     );
   }
+
+  void register() async {
+    Database database = await openDatabase(join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+    await database.transaction((txn) async {
+
+      var usuario = {
+        'nombre'  : widget.nombre,
+        'apellidoP' : widget.apellidoP,
+        'apellidoM' : widget.apellidoM,
+        'fechaNac' : widget.fechaNac.toString(),
+        'calle' : widget.calle,
+        'club' : widget.colonia,
+        'numero_exterior' : widget.numExterior,
+        'cuidador_activo' : 0
+      };
+      var id1 = txn.insert('Usuario', usuario);
+      print('inserted1: $id1');
+
+      int id2 = await txn.rawInsert(
+          'INSERT INTO Padecimiento(nombre_padecimiento) '
+              'VALUES(' + patologia + ')' );
+      print('inserted2: $id2');
+    });
+  }
 }
+
+
