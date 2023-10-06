@@ -17,6 +17,28 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  final adultoMayor = openDatabase(
+    join(await getDatabasesPath(), 'medicamentos.db'),
+    onCreate: (db, version) {
+      // Run the CREATE TABLE statement on the database.
+      return db.execute(
+        'CREATE TABLE Usuario(id_usuario INTEGER PRIMARY KEY, '
+            'nombre TEXT, '
+            'apellidoP TEXT,  '
+            'apellidoM TEXT,  '
+            'fechaNac REAL,  '
+            'telefono TEXT, '
+            'calle TEXT'
+            'club TEXT, '
+            'numero_exterior TEXT'
+            'cuidador_activo INTEGER, '
+            'cuidador_nombre TEXT, '
+            'cuidador_telefono TEXT)',
+      );
+    },
+    version: 1,
+  );
+
   final medicamentos = openDatabase(
     join(await getDatabasesPath(), 'medicamentos.db'),
     onCreate: (db, version) {
@@ -62,26 +84,6 @@ void main() async {
       );
     },
     version: 1,
-  );
-
-  final usuarios = openDatabase(
-      join(await getDatabasesPath(), 'medicamentos.db'),
-      onCreate: (db, version) {
-    // Run the CREATE TABLE statement on the database.
-    return db.execute(
-      'CREATE TABLE Recordatorio(id_usuario INTEGER PRIMARY KEY, '
-          'nombre TEXT, '
-          'apellidoP TEXT, '
-          'apellidoM TEXT, '
-          'fechaNac REAL, '
-          'telefono TEXT, '
-          'club TEXT, '
-          'cuidador_activo BOOLEAN, '
-          'cuidador_nombre TEXT, '
-          'cuidador_telefono TEXT, ',
-    );
-  },
-  version: 1,
   );
 
   final padecimientos = openDatabase(
