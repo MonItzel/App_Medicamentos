@@ -1,3 +1,4 @@
+import 'dart:ffi' as ffi;
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
@@ -28,10 +29,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   int _currentIndex = 1;
+  List<String> user = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
   @override
   Widget build(BuildContext context) {
-    var user = [
+    /*var user = [
       widget.nombre,
       widget.apellidoP,
       widget.apellidoM,
@@ -40,7 +42,9 @@ class _ProfilePage extends State<ProfilePage> {
       widget.colonia,
       widget.numExterior,
       widget.patologia,
-    ];
+    ];*/
+
+    select();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -90,7 +94,7 @@ class _ProfilePage extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nombre: ' + user[0] + ' ' + user[1] + ' ' + user[2],
+              'Nombre: ' + nombreController.text + ' ' + apellidoPController.text + ' ' + apellidoMController.text,
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -99,7 +103,7 @@ class _ProfilePage extends State<ProfilePage> {
             ),
             SizedBox(height: 20.0,),
             Text(
-              'Fecha de nacimiento: ' + user[3],
+              'Fecha de nacimiento: ' + fechaNacController.text,
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -108,7 +112,7 @@ class _ProfilePage extends State<ProfilePage> {
             ),
             SizedBox(height: 20.0,),
             Text(
-              'Dirección: ' + user[4] + ', ' + user[6] + ', ' + user[5],
+              'Dirección: ' + calleController.text + ' ' + numExteriorController.text + ', ' + coloniaController.text,
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -173,21 +177,34 @@ class _ProfilePage extends State<ProfilePage> {
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
     final List<Map<String, dynamic>> map1 = await database.rawQuery(
-   'SELECT TOP 1 * FROM Usuario',
+   'SELECT * FROM Usuario LIMIT 1',
     );
     final List<Map<String, dynamic>> map2 = await database.rawQuery(
-      'SELECT TOP 1 * FROM Padecimiento',
+      'SELECT * FROM Padecimiento LIMIT 1',
     );
 
-    var user = [
-      map1[0]['nombre'],
-      map1[0]['apellidoP'],
-      map1[0]['apellidoM'],
-      map1[0]['fechaNac'],
-      map1[0]['calle'],
-      map1[0]['club'],
-      map1[0]['numero_exterior'],
-      map2[0]['nombre_padecimiento'],
-    ];
+    print("map1: " + map1.length.toString());
+    print("map2: " + map2.length.toString());
+    print(map1[0]['nombre'].toString());
+
+    nombreController.text = map1[0]['nombre'].toString();
+    apellidoPController.text =  map1[0]['apellidoP'].toString();
+    apellidoMController.text = map1[0]['apellidoM'].toString();
+    fechaNacController.text = map1[0]['fechaNac'].toString();
+    calleController.text = map1[0]['calle'].toString();
+    coloniaController.text = map1[0]['club'].toString();
+    numExteriorController.text = map1[0]['numero_exterior'].toString();
+    patologiaController.text = map2[0]['nombre_padecimiento'].toString();
+
+    print(nombreController.text);
   }
 }
+
+TextEditingController nombreController = TextEditingController();
+TextEditingController apellidoPController = TextEditingController();
+TextEditingController apellidoMController = TextEditingController();
+TextEditingController fechaNacController = TextEditingController();
+TextEditingController calleController = TextEditingController();
+TextEditingController coloniaController = TextEditingController();
+TextEditingController numExteriorController = TextEditingController();
+TextEditingController patologiaController = TextEditingController();
