@@ -159,7 +159,52 @@ class _Pathologies extends State <Pathologies> {
   void register() async {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
     await database.transaction((txn) async {
+
+      String sql=
+          'CREATE TABLE Usuario (id_usuario INTEGER PRIMARY KEY, '
+          'nombre TEXT, '
+          'apellidoP TEXT,  '
+          'apellidoM TEXT,  '
+          'fechaNac REAL,  '
+          'telefono TEXT, '
+          'calle TEXT, '
+          'club TEXT, '
+          'numero_exterior TEXT, '
+          'cuidador_activo INTEGER, '
+          'cuidador_nombre TEXT, '
+          'cuidador_telefono TEXT); ';
+      txn.rawQuery(sql);
+
+       sql=
+          'CREATE TABLE Padecimiento (id_padecimiento INTEGER PRIMARY KEY, '
+          'nombre_padecimiento TEXT); ';
+      txn.rawQuery(sql);
+
+      sql =  'CREATE TABLE Medicamento (id_medicamento INTEGER PRIMARY KEY, '
+          'nombre TEXT, '
+          'descripcion TEXT,  '
+          'dosis TEXT,  '
+          'inicioToma REAL,  '
+          'finToma REAL, '
+          'frecuenciaToma INTEGER); ';
+      txn.rawQuery(sql);
+
+      sql = 'CREATE TABLE Cita (id_cita INTEGER PRIMARY KEY, '
+          'nombre_medico TEXT, '
+          'especialidad_medico TEXT,  '
+          'ubicacion TEXT,  '
+          'telefono_medico TEXT,  '
+          'fecha REAL); ';
+      txn.rawQuery(sql);
+
+      sql = 'CREATE TABLE Recordatorio (id_recordatorio INTEGER PRIMARY KEY, '
+          'tipo TEXT, '
+          'id_medicamento INTEGER,  '
+          'id_cita);  ';
+      txn.rawQuery(sql);
+
       var usuario = {
         'nombre': widget.nombre,
         'apellidoP': widget.apellidoP,
@@ -173,9 +218,13 @@ class _Pathologies extends State <Pathologies> {
 
       var id1 = txn.insert('Usuario', usuario);
 
-      int id2 = await txn.rawInsert(
-          'INSERT INTO Padecimiento(nombre_padecimiento) '
-              'VALUES(' + patologia + ')');
+      var padecimiento = {
+        'nombre_padecimiento': patologia,
+      };
+
+      var id2 = txn.insert('Padecimiento', padecimiento);
+
+      print(id2.toString());
     });
   }
 }
