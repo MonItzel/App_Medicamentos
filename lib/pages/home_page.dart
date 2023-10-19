@@ -28,10 +28,15 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = "${now.day}-${now.month}-${now.year}";
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Home Page'),
+          child: Text(
+            'Fecha actual: $formattedDate',
+            style: TextStyle(fontSize: 24),
+          ),
         ),
         bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: _currentIndex,
