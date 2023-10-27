@@ -17,13 +17,24 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return BottomNavigationBar(
       currentIndex: widget.currentIndex,
       onTap: widget.onTap,
+      backgroundColor: Color(0xFF0063C9),// Cambia el color de fondo del navbar
+      unselectedItemColor: Colors.grey, // Cambia el color de los íconos no seleccionados
+      selectedItemColor: Colors.green,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: Icon(Icons.calendar_month),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.edit_note),
           label: '',
         ),
         BottomNavigationBarItem(

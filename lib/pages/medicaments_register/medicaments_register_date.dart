@@ -1,27 +1,17 @@
-//import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:app_medicamentos/pages/register/name_register.dart';
-import 'package:app_medicamentos/pages/register/address.dart';
+import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class BirthDateRegister extends StatefulWidget {
-  const BirthDateRegister({required this.nombre, required this.apellidoP, required this.apellidoM});
-
-  final nombre;
-  final apellidoP;
-  final apellidoM;
+class MedicamentDateRegister extends StatefulWidget {
+  const MedicamentDateRegister({super.key});
 
   @override
   State<StatefulWidget> createState() {
-
-    return _BirthDateRegister();
+    return _MedicamentDateRegister();
   }
 }
 
-class _BirthDateRegister extends State <BirthDateRegister> {
-  var fechaNac;
-
+class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +21,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Registro de Paciente',
+            'Agregar medicamento',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -42,7 +32,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => NameRegister()
+                    builder: (BuildContext context) => StartPage()
                 ),
                     (route) => false,
               );
@@ -64,55 +54,21 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             selectionMode: DateRangePickerSelectionMode.single,
             showNavigationArrow: true,
             onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-              fechaNac = args.value;
             },
             todayHighlightColor: Color(0xFF09184D),
             selectionColor: Color(0xFF09184D),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Fecha de nacimiento',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(height: 20.0,),
-          TextFormField(
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
-
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: '',
-            ),
-          ),
-          SizedBox(height: 20.0,),
-
           Padding(
             padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
             child: Container(
-              width: 180,
-              height: 60,
+              width: 193,
+              height: 77,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => Address(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM, fechaNac: fechaNac)
+                        builder: (BuildContext context) => StartPage()
                     ),
                         (route) => false,
                   );
