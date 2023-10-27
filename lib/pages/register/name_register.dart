@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 
+import '../../models/user_model.dart';
+
 class NameRegister extends StatefulWidget {
   const NameRegister({super.key});
 
@@ -14,6 +16,9 @@ class NameRegister extends StatefulWidget {
 }
 
 class _NameRegister extends State <NameRegister> {
+
+  final User user = User();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,10 +122,11 @@ class _NameRegister extends State <NameRegister> {
               height: 77,
               child: ElevatedButton(
                 onPressed: () {
+                  SetUser();
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => BirthDateRegister(nombre: nombreController.text, apellidoM: apellidoMController.text, apellidoP: apellidoPController.text,)
+                        builder: (BuildContext context) => BirthDateRegister(user: user,)
                     ),
                         (route) => false,
                   );
@@ -143,6 +149,12 @@ class _NameRegister extends State <NameRegister> {
         ],
       ),
     );
+  }
+
+  void SetUser(){
+    user.nombre = nombreController.text;
+    user.apellidoP = apellidoPController.text;
+    user.apellidoM = apellidoMController.text;
   }
 }
 

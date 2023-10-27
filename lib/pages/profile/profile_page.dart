@@ -7,19 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.nombre, required this.apellidoP, required this.apellidoM,
-    required this.fechaNac,
-    required this.calle,  required this.colonia, required this.numExterior,
-    required this.patologia});
-
-  final nombre;
-  final apellidoP;
-  final apellidoM;
-  final fechaNac;
-  final calle;
-  final colonia;
-  final numExterior;
-  final patologia;
+  const ProfilePage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -66,14 +54,7 @@ class _ProfilePage extends State<ProfilePage> {
                 context,
                 MaterialPageRoute <dynamic>(
                     builder: (BuildContext context) =>
-                        HomePage(nombre: widget.nombre,
-                          apellidoP: widget.apellidoP,
-                          apellidoM: widget.apellidoM,
-                          fechaNac: widget.fechaNac,
-                          calle: widget.calle,
-                          colonia: widget.colonia,
-                          numExterior: widget.numExterior,
-                          patologia: widget.patologia,)
+                        HomePage()
                 ),
                     (route) => false,
               );
@@ -142,27 +123,11 @@ class _ProfilePage extends State<ProfilePage> {
           if (index == 0) {
             // Navega a la página de inicio
             Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                HomePage(
-                  nombre: widget.nombre,
-                  apellidoP: widget.apellidoP,
-                  apellidoM: widget.apellidoM,
-                  fechaNac: widget.fechaNac,
-                  calle: widget.calle,
-                  colonia: widget.colonia,
-                  numExterior: widget.numExterior,
-                  patologia: widget.patologia,)));
+                HomePage()));
           } else if (index == 1) {
             // Navega a la página de búsqueda
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProfilePage(
-              nombre: widget.nombre,
-              apellidoP: widget.apellidoP,
-              apellidoM: widget.apellidoM,
-              fechaNac: widget.fechaNac,
-              calle: widget.calle,
-              colonia: widget.colonia,
-              numExterior: widget.numExterior,
-              patologia: widget.patologia,)));
+                context, MaterialPageRoute(builder: (context) => ProfilePage()));
           } else if (index == 2) {
             // Navega a la página de perfil
             // Por ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));

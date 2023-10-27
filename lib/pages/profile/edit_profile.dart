@@ -31,7 +31,7 @@ class _NameRegister extends State <NameRegister> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => HomePage(nombre: '', apellidoP: '',apellidoM: '', fechaNac: '', calle: '', colonia: '', numExterior: '', patologia: '')
+                    builder: (BuildContext context) => HomePage()
                 ),
                     (route) => false,
               );

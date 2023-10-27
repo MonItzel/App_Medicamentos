@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:app_medicamentos/pages/register/pathologies.dart';
 
+import '../../models/user_model.dart';
+
 class Address extends StatefulWidget {
-  const Address({super.key, required this.nombre, required this.apellidoP, required this.apellidoM, required this.fechaNac});
-  final nombre;
-  final apellidoP;
-  final apellidoM;
-  final fechaNac;
+  const Address({super.key, required User this.user});
+
+  final user;
 
 
   @override
@@ -37,7 +37,7 @@ class _Address extends State <Address> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => BirthDateRegister(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM)
+                    builder: (BuildContext context) => BirthDateRegister(user: widget.user)
                 ),
                     (route) => false,
               );
@@ -134,12 +134,11 @@ class _Address extends State <Address> {
               height: 60,
               child: ElevatedButton(
                 onPressed: () {
+                  SetUser();
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => Pathologies(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM,
-                                                                        fechaNac: widget.fechaNac,
-                                                                        calle: calleController.text, colonia: coloniaController.text, numExterior: numExteriorController.text,)
+                        builder: (BuildContext context) => Pathologies(user: widget.user,)
                     ),
                         (route) => false,
                   );
@@ -162,6 +161,12 @@ class _Address extends State <Address> {
         ],
       ),
     );
+  }
+
+  void SetUser(){
+    widget.user.calle = calleController.text;
+    widget.user.club = calleController.text;
+    widget.user.numExterior = numExteriorController.text;
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:app_medicamentos/database/conection.dart';
+import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
@@ -7,17 +8,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class Pathologies extends StatefulWidget {
-  const Pathologies({super.key, required this.nombre, required this.apellidoP, required this.apellidoM,
-                                required this.fechaNac,
-                                required this.calle, required this.colonia,  required this.numExterior});
+  const Pathologies({super.key, required User this.user});
 
-  final nombre;
-  final apellidoP;
-  final apellidoM;
-  final fechaNac;
-  final calle;
-  final colonia;
-  final numExterior;
+  final user;
 
 
   @override
@@ -50,8 +43,7 @@ class _Pathologies extends State <Pathologies> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => Address(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM,
-                                                                fechaNac: widget.fechaNac)
+                    builder: (BuildContext context) => Address(user: widget.user,)
                 ),
                     (route) => false,
               );
@@ -131,7 +123,7 @@ class _Pathologies extends State <Pathologies> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => HomePage(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM, fechaNac: widget.fechaNac, calle: widget.calle, colonia: widget.colonia, numExterior: widget.numExterior, patologia: patologia,)
+                        builder: (BuildContext context) => HomePage()
                     ),
                         (route) => false,
                   );
@@ -206,13 +198,13 @@ class _Pathologies extends State <Pathologies> {
       txn.rawQuery(sql);
 
       var usuario = {
-        'nombre': widget.nombre,
-        'apellidoP': widget.apellidoP,
-        'apellidoM': widget.apellidoM,
-        'fechaNac': widget.fechaNac.toString(),
-        'calle': widget.calle,
-        'club': widget.colonia,
-        'numero_exterior': widget.numExterior,
+        'nombre': widget.user.nombre,
+        'apellidoP': widget.user.apellidoP,
+        'apellidoM': widget.user.apellidoM,
+        'fechaNac': widget.user.fechaNac.toString(),
+        'calle': widget.user.calle,
+        'club': widget.user.club,
+        'numero_exterior': widget.user.numExterior,
         'cuidador_activo': 0
       };
 
