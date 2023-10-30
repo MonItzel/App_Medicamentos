@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'package:app_medicamentos/models/medicament_model.dart';
 
 class MedicamentDateRegister extends StatefulWidget {
-  const MedicamentDateRegister({super.key});
+  const MedicamentDateRegister({super.key, required this.medicament});
+
+  final Medicament medicament;
 
   @override
   State<StatefulWidget> createState() {
@@ -12,6 +17,8 @@ class MedicamentDateRegister extends StatefulWidget {
 }
 
 class _MedicamentDateRegister extends State <MedicamentDateRegister> {
+  var medicamentDate;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,50 +53,81 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
         ),
       ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SfDateRangePicker(
-            selectionMode: DateRangePickerSelectionMode.single,
-            showNavigationArrow: true,
-            onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-            },
-            todayHighlightColor: Color(0xFF09184D),
-            selectionColor: Color(0xFF09184D),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-            child: Container(
-              width: 193,
-              height: 77,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil <dynamic>(
-                    context,
-                    MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => StartPage()
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SfDateRangePicker(
+              selectionMode: DateRangePickerSelectionMode.single,
+              showNavigationArrow: true,
+              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                medicamentDate = args.value;
+              },
+              todayHighlightColor: Color(0xFF09184D),
+              selectionColor: Color(0xFF09184D),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              child: Container(
+                width: 193,
+                height: 77,
+                child: ElevatedButton(
+                  onPressed: () {
+                    RegisterMedicament();
+                    Navigator.pushAndRemoveUntil <dynamic>(
+                      context,
+                      MaterialPageRoute <dynamic>(
+                          builder: (BuildContext context) => StartPage()
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0063C9),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                  ),
+                  child: Text("Siguiente",
+                    style: TextStyle(
+                        fontSize: 26
                     ),
-                        (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0063C9),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )
-                ),
-                child: Text("Siguiente",
-                  style: TextStyle(
-                      fontSize: 26
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  void RegisterMedicament() async {
+    widget.medicament.inicioToma  = medicamentDate.toString();
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    await database.transaction((txn) async {
+
+      var medModel = new Medicament();
+      var medicamento = medModel.toMap();
+
+      var id1 = txn.insert('Medicamento', medicamento);
+
+      final List<Map<String, dynamic>> map1 = await database.rawQuery(
+        'SELECT * FROM Medicamento',
+      );
+
+      for(int i = 0; i < map1.length; i++){
+        for(int j = 0; j < map1.elementAt(i).keys.length; j ++){
+          print(map1.elementAt(i).keys.elementAt(j) + ": " + map1.elementAt(i).values.elementAt(j));
+        }
+      }
+      print("Fin del Registro");
+    });
   }
 }

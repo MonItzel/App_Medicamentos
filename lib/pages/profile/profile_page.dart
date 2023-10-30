@@ -7,19 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.nombre, required this.apellidoP, required this.apellidoM,
-    required this.fechaNac,
-    required this.calle,  required this.colonia, required this.numExterior,
-    required this.patologia});
-
-  final nombre;
-  final apellidoP;
-  final apellidoM;
-  final fechaNac;
-  final calle;
-  final colonia;
-  final numExterior;
-  final patologia;
+  const ProfilePage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -44,7 +32,7 @@ class _ProfilePage extends State<ProfilePage> {
       widget.patologia,
     ];*/
 
-    select();
+    select(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -66,14 +54,7 @@ class _ProfilePage extends State<ProfilePage> {
                 context,
                 MaterialPageRoute <dynamic>(
                     builder: (BuildContext context) =>
-                        HomePage(nombre: widget.nombre,
-                          apellidoP: widget.apellidoP,
-                          apellidoM: widget.apellidoM,
-                          fechaNac: widget.fechaNac,
-                          calle: widget.calle,
-                          colonia: widget.colonia,
-                          numExterior: widget.numExterior,
-                          patologia: widget.patologia,)
+                        HomePage()
                 ),
                     (route) => false,
               );
@@ -143,27 +124,11 @@ class _ProfilePage extends State<ProfilePage> {
           if (index == 0) {
             // Navega a la página de inicio
             Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                HomePage(
-                  nombre: widget.nombre,
-                  apellidoP: widget.apellidoP,
-                  apellidoM: widget.apellidoM,
-                  fechaNac: widget.fechaNac,
-                  calle: widget.calle,
-                  colonia: widget.colonia,
-                  numExterior: widget.numExterior,
-                  patologia: widget.patologia,)));
+                HomePage()));
           } else if (index == 1) {
             // Navega a la página de búsqueda
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProfilePage(
-              nombre: widget.nombre,
-              apellidoP: widget.apellidoP,
-              apellidoM: widget.apellidoM,
-              fechaNac: widget.fechaNac,
-              calle: widget.calle,
-              colonia: widget.colonia,
-              numExterior: widget.numExterior,
-              patologia: widget.patologia,)));
+                context, MaterialPageRoute(builder: (context) => ProfilePage()));
           } else if (index == 2) {
             // Navega a la página de perfil
             // Por ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
@@ -173,31 +138,49 @@ class _ProfilePage extends State<ProfilePage> {
     );
   }
 
-  Future<void> select() async {
-    Database database = await openDatabase(
-        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+  Future<void> select(var context) async {
 
-    final List<Map<String, dynamic>> map1 = await database.rawQuery(
-   'SELECT * FROM Usuario LIMIT 1',
-    );
-    final List<Map<String, dynamic>> map2 = await database.rawQuery(
-      'SELECT * FROM Padecimiento LIMIT 1',
-    );
+    if(nombreController.text == "" &&
+        apellidoPController.text == "" &&
+        apellidoMController.text == "" &&
+        fechaNacController.text == "" &&
+        calleController.text == "" &&
+        coloniaController.text == "" &&
+        numExteriorController.text == "" &&
+        patologiaController.text == ""){
+      Database database = await openDatabase(
+          join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    print("map1: " + map1.length.toString());
-    print("map2: " + map2.length.toString());
-    print(map1[0]['nombre'].toString());
+      final List<Map<String, dynamic>> map1 = await database.rawQuery(
+        'SELECT * FROM Usuario LIMIT 1',
+      );
+      final List<Map<String, dynamic>> map2 = await database.rawQuery(
+        'SELECT * FROM Padecimiento LIMIT 1',
+      );
 
-    nombreController.text = map1[0]['nombre'].toString();
-    apellidoPController.text =  map1[0]['apellidoP'].toString();
-    apellidoMController.text = map1[0]['apellidoM'].toString();
-    fechaNacController.text = map1[0]['fechaNac'].toString();
-    calleController.text = map1[0]['calle'].toString();
-    coloniaController.text = map1[0]['club'].toString();
-    numExteriorController.text = map1[0]['numero_exterior'].toString();
-    patologiaController.text = map2[0]['nombre_padecimiento'].toString();
+      print("map1: " + map1.length.toString());
+      print("map2: " + map2.length.toString());
+      print(map1[0]['nombre'].toString());
 
-    print(nombreController.text);
+      nombreController.text = map1[0]['nombre'].toString();
+      apellidoPController.text =  map1[0]['apellidoP'].toString();
+      apellidoMController.text = map1[0]['apellidoM'].toString();
+      fechaNacController.text = map1[0]['fechaNac'].toString();
+      calleController.text = map1[0]['calle'].toString();
+      coloniaController.text = map1[0]['club'].toString();
+      numExteriorController.text = map1[0]['numero_exterior'].toString();
+      patologiaController.text = map2[0]['nombre_padecimiento'].toString();
+
+      print(nombreController.text);
+
+      Navigator.pushAndRemoveUntil <dynamic>(
+        context,
+        MaterialPageRoute <dynamic>(
+            builder: (BuildContext context) => const ProfilePage()
+        ),
+            (route) => false,
+      );
+    }
   }
 }
 

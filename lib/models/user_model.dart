@@ -1,23 +1,27 @@
 class User{
-  final int? id;
-  final String name;
-  final String middlename;
-  final String? surname;
-  final DateTime? birthdate;
-  final String phone;
-  final String club;
-  final bool? activeCaregiver;
-  final String? nameCaregiver;
-  final String? phoneCaregiver;
+   int? id_usuario;
+   String? nombre;
+   String? apellidoP;
+   String? apellidoM;
+   String? fechaNac;
+   String? telefono;
+   String? calle;
+   String? club;
+   String? numExterior;
+   bool? activeCaregiver;
+   String? nameCaregiver;
+   String? phoneCaregiver;
 
   User({
-    this.id,
-    required this.name,
-    required this.middlename,
-    this.surname,
-    this.birthdate,
-    required this.phone,
-    required this.club,
+    this.id_usuario,
+    this.nombre,
+    this.apellidoP,
+    this.apellidoM,
+    this.fechaNac,
+    this.telefono,
+    this.calle,
+    this.numExterior,
+    this.club,
     this.activeCaregiver,
     this.nameCaregiver,
     this.phoneCaregiver
@@ -25,12 +29,12 @@ class User{
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'name': name,
-      'middlename': middlename,
-      'surname': surname,
-      'phone': phone,
-      'birthdate': birthdate,
+      'id_usuario': id_usuario,
+      'nombre': nombre,
+      'apellidoP': apellidoP,
+      'apellidoM': apellidoM,
+      'fechaNac': telefono,
+      'birthdate': fechaNac,
       'club': club,
       'active_caregiver': activeCaregiver,
       'name_caregiver': nameCaregiver,

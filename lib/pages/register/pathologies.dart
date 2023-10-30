@@ -1,4 +1,5 @@
 import 'package:app_medicamentos/database/conection.dart';
+import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
@@ -7,17 +8,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class Pathologies extends StatefulWidget {
-  const Pathologies({super.key, required this.nombre, required this.apellidoP, required this.apellidoM,
-                                required this.fechaNac,
-                                required this.calle, required this.colonia,  required this.numExterior});
+  const Pathologies({super.key, required User this.user});
 
-  final nombre;
-  final apellidoP;
-  final apellidoM;
-  final fechaNac;
-  final calle;
-  final colonia;
-  final numExterior;
+  final User user;
 
 
   @override
@@ -50,8 +43,7 @@ class _Pathologies extends State <Pathologies> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => Address(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM,
-                                                                fechaNac: widget.fechaNac)
+                    builder: (BuildContext context) => Address(user: widget.user,)
                 ),
                     (route) => false,
               );
@@ -65,93 +57,96 @@ class _Pathologies extends State <Pathologies> {
         ),
       ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Patologías',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Patologías',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 20.0,),
-          DropdownButtonFormField(
-              decoration: InputDecoration(
-                hintText: 'Patologías más comunes',
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              iconEnabledColor: Color(0xFF09184D),
-              focusColor: Colors.white,
-              dropdownColor: Colors.white,
-              items: patologias.map((name){
-                return DropdownMenuItem(
-                  child: Text(name),
-                  value: name,
-                );
-              }).toList(),
-              onChanged: (value){
-                patologia = value;
-                print(value);
-              },
-          ),
-          SizedBox(height: 20.0,),
-          TextFormField(
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Otras patologías',
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-            child: Container(
-              width: 180,
-              height: 60,
-              child: ElevatedButton(
-                onPressed: () {
-                  register();
-                  Navigator.pushAndRemoveUntil <dynamic>(
-                    context,
-                    MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => HomePage(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM, fechaNac: widget.fechaNac, calle: widget.calle, colonia: widget.colonia, numExterior: widget.numExterior, patologia: patologia,)
-                    ),
-                        (route) => false,
+            SizedBox(height: 20.0,),
+            DropdownButtonFormField(
+                decoration: InputDecoration(
+                  hintText: 'Patologías más comunes',
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                iconEnabledColor: Color(0xFF09184D),
+                focusColor: Colors.white,
+                dropdownColor: Colors.white,
+                items: patologias.map((name){
+                  return DropdownMenuItem(
+                    child: Text(name),
+                    value: name,
                   );
+                }).toList(),
+                onChanged: (value){
+                  patologia = value;
+                  print(value);
                 },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0063C9),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+            ),
+            SizedBox(height: 20.0,),
+            TextFormField(
+              obscureText: false,
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 1,
+                        style: BorderStyle.solid
                     )
                 ),
-                child: Text("Siguiente",
-                  style: TextStyle(
-                      fontSize: 26
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Otras patologías',
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              child: Container(
+                width: 180,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    register();
+                    Navigator.pushAndRemoveUntil <dynamic>(
+                      context,
+                      MaterialPageRoute <dynamic>(
+                          builder: (BuildContext context) => HomePage()
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0063C9),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                  ),
+                  child: Text("Siguiente",
+                    style: TextStyle(
+                        fontSize: 26
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -209,13 +204,13 @@ class _Pathologies extends State <Pathologies> {
       txn.rawQuery(sql);
 
       var usuario = {
-        'nombre': widget.nombre,
-        'apellidoP': widget.apellidoP,
-        'apellidoM': widget.apellidoM,
-        'fechaNac': widget.fechaNac.toString(),
-        'calle': widget.calle,
-        'club': widget.colonia,
-        'numero_exterior': widget.numExterior,
+        'nombre': widget.user.nombre,
+        'apellidoP': widget.user.apellidoP,
+        'apellidoM': widget.user.apellidoM,
+        'fechaNac': widget.user.fechaNac.toString(),
+        'calle': widget.user.calle,
+        'club': widget.user.club,
+        'numero_exterior': widget.user.numExterior,
         'cuidador_activo': 0
       };
 
