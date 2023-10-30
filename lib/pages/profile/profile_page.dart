@@ -132,7 +132,8 @@ class _ProfilePage extends State<ProfilePage> {
         ),
       ),
 
-      bottomNavigationBar: CustomBottomNavigationBar(
+      bottomNavigationBar: CustomNavigationBar(
+
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {

@@ -13,6 +13,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^23.1.36
   persistent_bottom_nav_bar_v2: ^4.2.8
   path_provider: ^2.1.1
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/utils/button.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key,required this.nombre, required this.apellidoP, required this.apellidoM,
@@ -29,17 +30,66 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //Intl.defaultLocale = 'es';
     DateTime now = DateTime.now();
-    String formattedDate = "${now.day}-${now.month}-${now.year}";
+    String formattedDate = DateFormat.yMMMMd().format(now);
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text(
-            'Fecha actual: $formattedDate',
-            style: TextStyle(fontSize: 24),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent, // Fondo transparente
+          elevation: 0, // Sin sombra
+          title: Row(
+            children: [
+              Icon(Icons.calendar_today, color: Colors.black, size: 38), // Icono de calendario
+              SizedBox(width: 16), // Espacio entre el icono y el texto
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hoy', // Etiqueta "Hoy"
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black), // Texto en negro
+                  ),
+                  Text(
+                    formattedDate, // Fecha actual con el nombre del mes
+                    style: TextStyle(fontSize: 20, color: Colors.black), // Texto en negro
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        bottomNavigationBar: CustomBottomNavigationBar(
+        body: Container(
+          height: 100, // Establece la altura del Container a 200 píxeles
+          child: Card(
+            elevation: 3, // Elevación para dar profundidad al card
+            margin: EdgeInsets.all(16), // Margen alrededor del card
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15), // Borde redondeado con radio de 15
+            ),
+            child: ListTile(
+              leading: Icon(Icons.medication_liquid, size: 40), // Icono de medicina a la izquierda
+              title: Text(
+                'Nombre del Medicamento',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Tipo de Medicamento'),
+                  Text('Dosis'),
+                ],
+              ),
+              trailing: Text(
+                '00:00',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+
+        bottomNavigationBar: Container(
+          color: Colors.red,
+          child: CustomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
             setState(() {
@@ -59,6 +109,7 @@ class _HomePage extends State<HomePage> {
             }
           },
         ),
+      ),
       ),
     );
   }

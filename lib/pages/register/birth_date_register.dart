@@ -69,37 +69,9 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             todayHighlightColor: Color(0xFF09184D),
             selectionColor: Color(0xFF09184D),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Fecha de nacimiento',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(height: 20.0,),
-          TextFormField(
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
 
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: '',
-            ),
-          ),
+          SizedBox(height: 20.0,),
+
           SizedBox(height: 20.0,),
 
           Padding(

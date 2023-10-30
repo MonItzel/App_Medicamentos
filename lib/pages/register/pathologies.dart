@@ -205,6 +205,9 @@ class _Pathologies extends State <Pathologies> {
           'id_cita);  ';
       txn.rawQuery(sql);
 
+      sql = 'SELECT * FROM Usuario';
+      txn.rawQuery(sql);
+
       var usuario = {
         'nombre': widget.nombre,
         'apellidoP': widget.apellidoP,
