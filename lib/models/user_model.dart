@@ -7,7 +7,7 @@ class User{
    String? telefono;
    String? calle;
    String? club;
-   int? numExterior;
+   String? numExterior;
    bool? activeCaregiver;
    String? nameCaregiver;
    String? phoneCaregiver;
