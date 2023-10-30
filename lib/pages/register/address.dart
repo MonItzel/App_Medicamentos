@@ -7,7 +7,7 @@ import '../../models/user_model.dart';
 class Address extends StatefulWidget {
   const Address({super.key, required User this.user});
 
-  final user;
+  final User user;
 
 
   @override
@@ -165,7 +165,7 @@ class _Address extends State <Address> {
 
   void SetUser(){
     widget.user.calle = calleController.text;
-    widget.user.club = calleController.text;
+    widget.user.club = coloniaController.text;
     widget.user.numExterior = numExteriorController.text;
   }
 }

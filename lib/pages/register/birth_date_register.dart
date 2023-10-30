@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import '../../models/user_model.dart';
 
 class BirthDateRegister extends StatefulWidget {
-  const BirthDateRegister({required this.nombre, required this.apellidoP, required this.apellidoM});
+  const BirthDateRegister({required User this.user});
 
-  final nombre;
-  final apellidoP;
-  final apellidoM;
+  final  User user;
 
   @override
   State<StatefulWidget> createState() {
@@ -109,10 +108,11 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               height: 60,
               child: ElevatedButton(
                 onPressed: () {
+                  SetUser();
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => Address(nombre: widget.nombre, apellidoP: widget.apellidoP, apellidoM: widget.apellidoM, fechaNac: fechaNac)
+                        builder: (BuildContext context) => Address(user: widget.user,)
                     ),
                         (route) => false,
                   );
@@ -135,5 +135,9 @@ class _BirthDateRegister extends State <BirthDateRegister> {
         ],
       ),
     );
+  }
+
+  void SetUser(){
+    widget.user.fechaNac = fechaNac.toString();
   }
 }

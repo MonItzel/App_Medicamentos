@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 class Pathologies extends StatefulWidget {
   const Pathologies({super.key, required User this.user});
 
-  final user;
+  final User user;
 
 
   @override
