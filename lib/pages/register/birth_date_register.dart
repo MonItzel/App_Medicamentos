@@ -55,84 +55,87 @@ class _BirthDateRegister extends State <BirthDateRegister> {
         ),
       ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SfDateRangePicker(
-            selectionMode: DateRangePickerSelectionMode.single,
-            showNavigationArrow: true,
-            onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-              fechaNac = args.value;
-            },
-            todayHighlightColor: Color(0xFF09184D),
-            selectionColor: Color(0xFF09184D),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Fecha de nacimiento',
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SfDateRangePicker(
+              selectionMode: DateRangePickerSelectionMode.single,
+              showNavigationArrow: true,
+              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                fechaNac = args.value;
+              },
+              todayHighlightColor: Color(0xFF09184D),
+              selectionColor: Color(0xFF09184D),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Fecha de nacimiento',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 20.0,),
+            TextFormField(
+              obscureText: false,
               textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(height: 20.0,),
-          TextFormField(
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 1,
+                        style: BorderStyle.solid
 
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: '',
-            ),
-          ),
-          SizedBox(height: 20.0,),
-
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-            child: Container(
-              width: 180,
-              height: 60,
-              child: ElevatedButton(
-                onPressed: () {
-                  SetUser();
-                  Navigator.pushAndRemoveUntil <dynamic>(
-                    context,
-                    MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => Address(user: widget.user,)
-                    ),
-                        (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0063C9),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
                     )
                 ),
-                child: Text("Siguiente",
-                  style: TextStyle(
-                      fontSize: 26
+                filled: true,
+                fillColor: Colors.white,
+                hintText: '',
+              ),
+            ),
+            SizedBox(height: 20.0,),
+
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              child: Container(
+                width: 180,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    SetUser();
+                    Navigator.pushAndRemoveUntil <dynamic>(
+                      context,
+                      MaterialPageRoute <dynamic>(
+                          builder: (BuildContext context) => Address(user: widget.user,)
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0063C9),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                  ),
+                  child: Text("Siguiente",
+                    style: TextStyle(
+                        fontSize: 26
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

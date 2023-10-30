@@ -53,51 +53,54 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
         ),
       ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SfDateRangePicker(
-            selectionMode: DateRangePickerSelectionMode.single,
-            showNavigationArrow: true,
-            onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-              medicamentDate = args.value;
-            },
-            todayHighlightColor: Color(0xFF09184D),
-            selectionColor: Color(0xFF09184D),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-            child: Container(
-              width: 193,
-              height: 77,
-              child: ElevatedButton(
-                onPressed: () {
-                  RegisterMedicament();
-                  Navigator.pushAndRemoveUntil <dynamic>(
-                    context,
-                    MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => StartPage()
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SfDateRangePicker(
+              selectionMode: DateRangePickerSelectionMode.single,
+              showNavigationArrow: true,
+              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                medicamentDate = args.value;
+              },
+              todayHighlightColor: Color(0xFF09184D),
+              selectionColor: Color(0xFF09184D),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              child: Container(
+                width: 193,
+                height: 77,
+                child: ElevatedButton(
+                  onPressed: () {
+                    RegisterMedicament();
+                    Navigator.pushAndRemoveUntil <dynamic>(
+                      context,
+                      MaterialPageRoute <dynamic>(
+                          builder: (BuildContext context) => StartPage()
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0063C9),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                  ),
+                  child: Text("Siguiente",
+                    style: TextStyle(
+                        fontSize: 26
                     ),
-                        (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0063C9),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )
-                ),
-                child: Text("Siguiente",
-                  style: TextStyle(
-                      fontSize: 26
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

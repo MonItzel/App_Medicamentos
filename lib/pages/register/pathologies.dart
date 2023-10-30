@@ -57,93 +57,96 @@ class _Pathologies extends State <Pathologies> {
         ),
       ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Patologías',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Patologías',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 20.0,),
-          DropdownButtonFormField(
-              decoration: InputDecoration(
-                hintText: 'Patologías más comunes',
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              iconEnabledColor: Color(0xFF09184D),
-              focusColor: Colors.white,
-              dropdownColor: Colors.white,
-              items: patologias.map((name){
-                return DropdownMenuItem(
-                  child: Text(name),
-                  value: name,
-                );
-              }).toList(),
-              onChanged: (value){
-                patologia = value;
-                print(value);
-              },
-          ),
-          SizedBox(height: 20.0,),
-          TextFormField(
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Otras patologías',
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-            child: Container(
-              width: 180,
-              height: 60,
-              child: ElevatedButton(
-                onPressed: () {
-                  register();
-                  Navigator.pushAndRemoveUntil <dynamic>(
-                    context,
-                    MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => HomePage()
-                    ),
-                        (route) => false,
+            SizedBox(height: 20.0,),
+            DropdownButtonFormField(
+                decoration: InputDecoration(
+                  hintText: 'Patologías más comunes',
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                iconEnabledColor: Color(0xFF09184D),
+                focusColor: Colors.white,
+                dropdownColor: Colors.white,
+                items: patologias.map((name){
+                  return DropdownMenuItem(
+                    child: Text(name),
+                    value: name,
                   );
+                }).toList(),
+                onChanged: (value){
+                  patologia = value;
+                  print(value);
                 },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0063C9),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+            ),
+            SizedBox(height: 20.0,),
+            TextFormField(
+              obscureText: false,
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 1,
+                        style: BorderStyle.solid
                     )
                 ),
-                child: Text("Siguiente",
-                  style: TextStyle(
-                      fontSize: 26
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Otras patologías',
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              child: Container(
+                width: 180,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    register();
+                    Navigator.pushAndRemoveUntil <dynamic>(
+                      context,
+                      MaterialPageRoute <dynamic>(
+                          builder: (BuildContext context) => HomePage()
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0063C9),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                  ),
+                  child: Text("Siguiente",
+                    style: TextStyle(
+                        fontSize: 26
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

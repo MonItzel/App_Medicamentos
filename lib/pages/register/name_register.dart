@@ -19,6 +19,9 @@ class _NameRegister extends State <NameRegister> {
 
   final User user = User();
 
+  //Declaración de variables para validar las entradas ingresadas por el usuario
+  late bool _validateU = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,100 +56,171 @@ class _NameRegister extends State <NameRegister> {
         ),
       ),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          TextFormField(
-            controller: nombreController,
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Nombre(s)',
-            ),
-          ),
-          SizedBox(height: 20.0,),
-          TextFormField(
-            controller: apellidoPController,
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
-
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Apellido paterno',
-            ),
-          ),
-          SizedBox(height: 20.0,),
-          TextFormField(
-            controller: apellidoMController,
-            obscureText: false,
-            textAlign: TextAlign.left,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid
-
-                  )
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Apellido materno',
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-            child: Container(
-              width: 193,
-              height: 77,
-              child: ElevatedButton(
-                onPressed: () {
-                  SetUser();
-                  Navigator.pushAndRemoveUntil <dynamic>(
-                    context,
-                    MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => BirthDateRegister(user: user,)
-                    ),
-                        (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0063C9),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )
-                ),
-                child: Text("Siguiente",
+      body: Padding(
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 50.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Nombre(s)',
+                  textAlign: TextAlign.left,
                   style: TextStyle(
-                      fontSize: 26
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-          )
-        ],
+            SizedBox(height: 10,),
+            TextFormField(
+              controller: nombreController,
+              obscureText: false,
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 1,
+                        style: BorderStyle.solid
+                    )
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Nombre(s)',
+                errorText: _validateU ?
+                'Debe ingresar el nombre de usuario' : null,
+                errorStyle: TextStyle(fontSize: 20,),
+
+                contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 15.0, right: 15.0,),
+              ),
+              style: const TextStyle(height: 1.5,),
+              onChanged: (text){
+                setState(() {
+                  if(text.trim().isNotEmpty){
+                    _validateU = false;
+                  }
+                });
+              },
+            ),
+
+            SizedBox(height: 20.0,),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Apellido paterno',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            TextFormField(
+              controller: apellidoPController,
+              obscureText: false,
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 1,
+                        style: BorderStyle.solid
+
+                    )
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Apellido paterno',
+              ),
+            ),
+            SizedBox(height: 20.0,),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Apellido materno',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            TextFormField(
+              controller: apellidoMController,
+              obscureText: false,
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 1,
+                        style: BorderStyle.solid
+
+                    )
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Apellido materno',
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              child: Container(
+                width: 193,
+                height: 77,
+                child: ElevatedButton(
+                  onPressed: () {
+                    SetUser();
+                    setState(() {
+                      nombreController.text.isEmpty ?
+                      _validateU = true : _validateU = false;
+                      if(!_validateU){
+                        Navigator.pushAndRemoveUntil <dynamic>(
+                            context,
+                            MaterialPageRoute <dynamic>(
+                              builder: (BuildContext context) => BirthDateRegister(user: user,),
+                            ),
+                                (route) => false);
+                      }
+                      //  );
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF0063C9),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      )
+                  ),
+                  child: Text("Siguiente",
+                    style: TextStyle(
+                        fontSize: 26
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
