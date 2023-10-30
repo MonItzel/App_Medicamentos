@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register_date.dart';
+import 'package:app_medicamentos/models/medicament_model.dart';
 
 class MedicamentNameRegister extends StatefulWidget {
   const MedicamentNameRegister({super.key});
@@ -12,6 +13,8 @@ class MedicamentNameRegister extends StatefulWidget {
 }
 
 class _MedicamentNameRegister extends State <MedicamentNameRegister> {
+  final Medicament medicament = Medicament();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +54,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextFormField(
+            controller: nombreController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -69,6 +73,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: dosisController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -94,10 +99,11 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
               height: 77,
               child: ElevatedButton(
                 onPressed: () {
+                  SetMedicamento();
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
-                        builder: (BuildContext context) => MedicamentDateRegister()
+                        builder: (BuildContext context) => MedicamentDateRegister(medicament: medicament,)
                     ),
                         (route) => false,
                   );
@@ -121,4 +127,11 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
       ),
     );
   }
+  void SetMedicamento(){
+    medicament.nombre = nombreController.text;
+    medicament.dosis = dosisController.text;
+  }
+
 }
+TextEditingController nombreController = TextEditingController();
+TextEditingController dosisController = TextEditingController();
