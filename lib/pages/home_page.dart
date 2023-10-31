@@ -28,7 +28,7 @@ class _HomePage extends State<HomePage> {
           elevation: 0, // Sin sombra
           title: Row(
             children: [
-              Icon(Icons.calendar_today, color: Colors.black, size: 38), // Icono de calendario
+              Icon(Icons.today, color: Colors.black, size: 42), // Icono de calendario
               SizedBox(width: 16), // Espacio entre el icono y el texto
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,28 +76,26 @@ class _HomePage extends State<HomePage> {
         ),
 
         bottomNavigationBar: Container(
-          color: Colors.red,
           child: CustomNavigationBar(
           currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index; // Actualiza el índice seleccionado
-            });
-            // Realiza la navegación aquí según el índice
-            if (index == 0) {
-              // Navega a la página de inicio
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-            } else if (index == 1) {
-              // Navega a la página de búsqueda
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-            } else if (index == 2) {
-              muestraButtonSheet();
-              // Navega a la página de perfil
-              // Por ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-            }
-          },
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+              if (index == 0) {
+
+              } else if (index == 1) {
+                //Calendario
+              } else if (index == 2) {
+                muestraButtonSheet();
+              } else if (index == 3) {
+                //Registros
+              } else if (index == 4) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              }
+            },
+          ),
         ),
-      ),
       ),
     );
   }

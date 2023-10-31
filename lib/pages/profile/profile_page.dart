@@ -16,7 +16,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
-  int _currentIndex = 1;
+  int _currentIndex = 4;
   List<String> user = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
   @override
@@ -113,27 +113,26 @@ class _ProfilePage extends State<ProfilePage> {
         ),
       ),
 
-      bottomNavigationBar: CustomNavigationBar(
+      bottomNavigationBar: Container(
+        child: CustomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            if (index == 0) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+            } else if (index == 1) {
+              //Calendario
+            } else if (index == 2) {
+              //muestraButtonSheet();
+            } else if (index == 3) {
+              //Registros
+            } else if (index == 4) {
 
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index; // Actualiza el índice seleccionado
-          });
-          // Realiza la navegación aquí según el índice
-          if (index == 0) {
-            // Navega a la página de inicio
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                HomePage()));
-          } else if (index == 1) {
-            // Navega a la página de búsqueda
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ProfilePage()));
-          } else if (index == 2) {
-            // Navega a la página de perfil
-            // Por ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-          }
-        },
+            }
+          },
+        ),
       ),
     );
   }
