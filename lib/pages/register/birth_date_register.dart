@@ -30,9 +30,13 @@ class _BirthDateRegister extends State <BirthDateRegister> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Registro de Paciente',
+            'Registro de paciente',
             style: TextStyle(
               color: Colors.black,
+              fontSize: 26,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w600,
+              height: 0,
             ),
           ),
           leading: IconButton(
@@ -106,8 +110,8 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Container(
-                width: 180,
-                height: 60,
+                width: 193,
+                height: 77,
                 child: ElevatedButton(
                   onPressed: () {
                     SetUser();

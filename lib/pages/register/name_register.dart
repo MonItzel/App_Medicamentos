@@ -26,14 +26,18 @@ class _NameRegister extends State <NameRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEDF2FA),
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Registro de Paciente',
-            style: TextStyle(
+            'Registro de paciente',
+              style: TextStyle(
               color: Colors.black,
+              fontSize: 26,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w600,
+              height: 0,
             ),
           ),
           leading: IconButton(
@@ -49,7 +53,7 @@ class _NameRegister extends State <NameRegister> {
             },
           ),
           actions: const [],
-          backgroundColor: const Color(0xFFEDF2FA),
+          backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           centerTitle: false,
           elevation: 0,
@@ -78,38 +82,55 @@ class _NameRegister extends State <NameRegister> {
               ),
             ),
             SizedBox(height: 10,),
-            TextFormField(
-              controller: nombreController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: nombreController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                     borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-                    )
+                      color: Colors.white,
+                      width: 1,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  errorText: _validateU ? 'Debe ingresar el nombre de usuario' : null,
+                  errorStyle: TextStyle(fontSize: 20,),
+                  contentPadding: const EdgeInsets.only(
+                    top: 10.0,
+                    bottom: 10.0,
+                    left: 15.0,
+                    right: 15.0,
+                  ),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Nombre(s)',
-                errorText: _validateU ?
-                'Debe ingresar el nombre de usuario' : null,
-                errorStyle: TextStyle(fontSize: 20,),
-
-                contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 15.0, right: 15.0,),
+                style: const TextStyle(height: 1.5),
+                onChanged: (text) {
+                  setState(() {
+                    if (text.trim().isNotEmpty) {
+                      _validateU = false;
+                    }
+                  });
+                },
               ),
-              style: const TextStyle(height: 1.5,),
-              onChanged: (text){
-                setState(() {
-                  if(text.trim().isNotEmpty){
-                    _validateU = false;
-                  }
-                });
-              },
             ),
-
             SizedBox(height: 20.0,),
             Align(
               alignment: Alignment.centerLeft,
@@ -127,23 +148,38 @@ class _NameRegister extends State <NameRegister> {
               ),
             ),
             SizedBox(height: 10,),
-            TextFormField(
-              controller: apellidoPController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-
-                    )
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Apellido paterno',
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: apellidoPController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                          style: BorderStyle.solid
+
+                      )
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
               ),
             ),
             SizedBox(height: 20.0,),
@@ -157,29 +193,44 @@ class _NameRegister extends State <NameRegister> {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 20,
-                    //fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
             SizedBox(height: 10,),
-            TextFormField(
-              controller: apellidoMController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-
-                    )
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Apellido materno',
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: apellidoMController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                          style: BorderStyle.solid
+
+                      )
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
               ),
             ),
             Padding(

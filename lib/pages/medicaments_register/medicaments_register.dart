@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_medicamentos/pages/start_page.dart';
+import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register_date.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 
@@ -35,7 +35,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => StartPage()
+                    builder: (BuildContext context) => HomePage()
                 ),
                     (route) => false,
               );
@@ -55,42 +55,73 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            TextFormField(
-              controller: nombreController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-                    )
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Nombre del medicamento',
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: nombreController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                          style: BorderStyle.solid
+                      )
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Nombre del medicamento',
+                ),
               ),
             ),
             SizedBox(height: 20.0,),
-            TextFormField(
-              controller: dosisController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-
-                    )
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Dosis',
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: dosisController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                          style: BorderStyle.solid
+                      )
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Dosis',
+                ),
               ),
             ),
             SizedBox(height: 20.0,),

@@ -104,7 +104,13 @@ class _HomePage extends State<HomePage> {
   void muestraButtonSheet(){
     // band: revisar que valor tiene para mostrar los widgets qe necesites
     //final bool num = 0;
-    showModalBottomSheet(context: context,
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12.0)
+        )
+      ),
+      context: context,
       builder: (BuildContext context){
         return SizedBox(
             height: 350,
@@ -120,12 +126,12 @@ class _HomePage extends State<HomePage> {
                   // const SizedBox(width: 0.0, height: 60.0,), YA NO SE UTILIZA
                   Button(color: 0xFF0D1C52,
                     ancho: 263,
-                    alto: 60,
+                    alto: 71,
                     contenido: 'Agregar medicamento',),
                   const SizedBox(width: 0.0, height: 60.0,),
                   Button(color: 0xFF0D1C52,
                       ancho: 263,
-                      alto: 60,
+                      alto: 71,
                       contenido: 'Agregar cita médica')
 
 

@@ -37,8 +37,8 @@ class _StartPage extends State <StartPage> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
             child: Container(
-              width: 180,
-              height: 60,
+              width: 193,
+              height: 77,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil <dynamic>(

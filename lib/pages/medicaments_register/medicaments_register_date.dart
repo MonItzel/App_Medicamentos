@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_medicamentos/pages/start_page.dart';
+import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -39,7 +39,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => StartPage()
+                    builder: (BuildContext context) => HomePage()
                 ),
                     (route) => false,
               );
@@ -79,7 +79,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => StartPage()
+                          builder: (BuildContext context) => HomePage()
                       ),
                           (route) => false,
                     );

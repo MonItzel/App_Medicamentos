@@ -70,70 +70,118 @@ class _Address extends State <Address> {
               ),
             ),
             SizedBox(height: 20.0,),
-            TextFormField(
-              controller: calleController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-
-                    )
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Calle',
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: calleController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                          style: BorderStyle.solid
+
+                      )
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Calle',
+                ),
               ),
             ),
             SizedBox(height: 20.0,),
-            TextFormField(
-              controller: coloniaController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-
-                    )
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Colonia',
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: coloniaController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                          style: BorderStyle.solid
+
+                      )
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Colonia',
+                ),
               ),
             ),
             SizedBox(height: 20.0,),
-            TextFormField(
-              controller: numExteriorController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-
-                    )
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Número exterior',
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: TextFormField(
+                controller: numExteriorController,
+                obscureText: false,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                          style: BorderStyle.solid
+
+                      )
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Número exterior',
+                ),
               ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Container(
-                width: 180,
-                height: 60,
+                width: 193,
+                height: 77,
                 child: ElevatedButton(
                   onPressed: () {
                     SetUser();

@@ -35,6 +35,9 @@ class _Pathologies extends State <Pathologies> {
             'Registro de Paciente',
             style: TextStyle(
               color: Colors.black,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.bold,
+              fontSize: 29
             ),
           ),
           leading: IconButton(
@@ -76,7 +79,22 @@ class _Pathologies extends State <Pathologies> {
               ),
             ),
             SizedBox(height: 20.0,),
-            DropdownButtonFormField(
+            Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: DropdownButtonFormField(
                 decoration: InputDecoration(
                   hintText: 'Patologías más comunes',
                   filled: true,
@@ -95,6 +113,7 @@ class _Pathologies extends State <Pathologies> {
                   patologia = value;
                   print(value);
                 },
+              ),
             ),
             SizedBox(height: 20.0,),
             TextFormField(
@@ -117,8 +136,8 @@ class _Pathologies extends State <Pathologies> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Container(
-                width: 180,
-                height: 60,
+                width: 193,
+                height: 77,
                 child: ElevatedButton(
                   onPressed: () {
                     register();
