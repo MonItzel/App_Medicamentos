@@ -35,7 +35,11 @@ class _HomePage extends State<HomePage> {
                 children: [
                   Text(
                     'Hoy', // Etiqueta "Hoy"
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black), // Texto en negro
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                    ), // Texto en negro
                   ),
                   Text(
                     formattedDate, // Fecha actual con el nombre del mes
