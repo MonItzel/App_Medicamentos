@@ -6,6 +6,8 @@ import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
+
 
 class Pathologies extends StatefulWidget {
   const Pathologies({super.key, required User this.user});
@@ -60,112 +62,122 @@ class _Pathologies extends State <Pathologies> {
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Patologías',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        // padding: EdgeInsets.only(top: 150),
+        child: Form(
+          //key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            //padding: const EdgeInsets.all(20),
+            child: Column(
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //Padding(padding: EdgeInsets.only(top: 50)),
+
+                const SizedBox(
+                  height: 100,
                 ),
-              ),
-            ),
-            SizedBox(height: 20.0,),
-            Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                const Text(
+                  "Patologías",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: DropdownButtonFormField(
-                decoration: InputDecoration(
-                  hintText: 'Patologías más comunes',
-                  filled: true,
-                  fillColor: Colors.white,
+                const SizedBox(
+                  height: 20,
                 ),
-                iconEnabledColor: Color(0xFF09184D),
-                focusColor: Colors.white,
-                dropdownColor: Colors.white,
-                items: patologias.map((name){
-                  return DropdownMenuItem(
-                    child: Text(name),
-                    value: name,
-                  );
-                }).toList(),
-                onChanged: (value){
-                  patologia = value;
-                  print(value);
-                },
-              ),
-            ),
-            SizedBox(height: 20.0,),
-            TextFormField(
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-                    )
+
+                Column(
+
+                  children: [
+                    DropDownTextField.multiSelection(
+
+
+                      //controller: _cntMulti.dropDownValueList,
+                      //Propiedades botón
+                      submitButtonColor: Colors.indigoAccent,
+                      submitButtonText: 'Aceptar',
+                      submitButtonTextStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+
+
+
+                      dropdownColor: Colors.white,
+
+                      dropdownRadius: 0,
+                      //displayCompleteItem: true, //Muestra los campos seleccionados
+                      //initialValue: const ["name1", "name2", "name8", "name3"],
+                      dropDownItemCount: 10, //La cantidad que te muestra al inicio, lo demás con el scroll
+                      dropDownList: const [
+                        DropDownValueModel(name: 'Artritis', value: "Artritis", /*toolTipMsg: "DropDownButton is a widget that we can use to select one unique value from a set of values"*/),
+                        DropDownValueModel(name: 'Artritis/Osteoartrosis', value: "Osteoartrosis"),
+                        DropDownValueModel(name: 'Cardiopatías', value: "Cardiopatías"),
+                        DropDownValueModel(name: 'Demencia o Alzheimer', value: "Demencia o Alzheimer"),
+                        DropDownValueModel(name: 'Depresión', value: "Depresión"),
+                        DropDownValueModel(name: 'Diabetes Mellitus', value: "Diabetes Mellitus"),
+                        DropDownValueModel(name: 'Hipertensión arterial sistemática', value: "Hipertensión arterial sistemática", /* Muestra un dialog* toolTipMsg: "DropDownButton is a widget that we can use to select one unique value from a set of values"*/),
+                        DropDownValueModel(name: 'Osteoporosis', value: "Osteoporosis"),
+                        DropDownValueModel(name: 'Parkinson', value: "Parkinson"),
+                        /*
+                        DropDownValueModel(name: 'name10', value: "value10"),
+                        DropDownValueModel(name: 'name11', value: "value11"),
+
+                        */
+                      ],
+                      onChanged: (val) {
+                        setState(() {
+
+                          for(int i=0; i<val.length; i++) {
+                            print(val[i].name);
+                          }
+
+                        });
+                      },
+                    ),
+                  ],
+
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Otras patologías',
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-              child: Container(
-                width: 193,
-                height: 77,
-                child: ElevatedButton(
-                  onPressed: () {
-                    register();
-                    Navigator.pushAndRemoveUntil <dynamic>(
-                      context,
-                      MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => HomePage()
+                const SizedBox(height: 180,),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+                  child: Container(
+                    width: 193,
+                    height: 77,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        register();
+                        Navigator.pushAndRemoveUntil <dynamic>(
+                          context,
+                          MaterialPageRoute <dynamic>(
+                              builder: (BuildContext context) => HomePage()
+                          ),
+                              (route) => false,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF0063C9),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          )
                       ),
-                          (route) => false,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF0063C9),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )
-                  ),
-                  child: Text("Siguiente",
-                    style: TextStyle(
-                        fontSize: 26
+                      child: Text("Siguiente",
+                        style: TextStyle(
+                            fontSize: 26
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
+
+              ],
+
+
+            ),
+
+
+          ),
         ),
+
       ),
     );
   }

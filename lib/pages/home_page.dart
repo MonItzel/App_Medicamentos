@@ -3,6 +3,7 @@ import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/utils/button.dart';
 import 'package:intl/intl.dart';
+import 'package:app_medicamentos/utils/texto.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -128,6 +129,7 @@ class _HomePage extends State<HomePage> {
                   //if(num = 0){
                   /* FUNCIONES*/
                   // const SizedBox(width: 0.0, height: 60.0,), YA NO SE UTILIZA
+                  /*
                   Button(color: 0xFF0D1C52,
                     ancho: 263,
                     alto: 71,
@@ -137,7 +139,7 @@ class _HomePage extends State<HomePage> {
                       ancho: 263,
                       alto: 71,
                       contenido: 'Agregar cita médica')
-
+*/
 
                   /* MEDICAMENTO AGREGADO
                  // const SizedBox(width: 0.0, height: 60.0,),
@@ -154,12 +156,12 @@ class _HomePage extends State<HomePage> {
                   */
 
 
-                  /* CITA AGREGADO
+                  /* CITA AGREGADO*/
                   //const SizedBox(width: 0.0, height: 60.0,),
                   Texto(contenido: 'Cita agregada con éxito',),
                   const SizedBox(width: 0.0, height: 60.0,),
                   Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar'),
-                  */
+
 
 
 
