@@ -22,7 +22,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Agregar medicamento',
+            'Agendar cita',
             style: TextStyle(
               color: Colors.black,
             ),
