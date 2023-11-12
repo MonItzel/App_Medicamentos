@@ -21,11 +21,11 @@ class _Address extends State <Address> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEDF2FA),
+      backgroundColor: const Color(0xFFEDF2FA),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: Text(
+          title: const Text(
             'Registro de Paciente',
             style: TextStyle(
               color: Colors.black,
@@ -57,19 +57,54 @@ class _Address extends State <Address> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            const Row(
+              children: [
+                 Align(
+                  alignment: Alignment.centerLeft,
+                  child: const Text(
+                    'Domicilio',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10,),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '(opcional)',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Color(0xFF6A6A6A),
+                      fontFamily: 'Roboto',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20,),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                'Domicilio',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              child: const Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Calle',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            const SizedBox(height: 10.0,),
+
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -77,7 +112,7 @@ class _Address extends State <Address> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 shadows: [
-                  BoxShadow(
+                  const BoxShadow(
                     color: Color(0x3F000000),
                     blurRadius: 4,
                     offset: Offset(0, 4),
@@ -101,11 +136,38 @@ class _Address extends State <Address> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Calle',
+                ),
+                onChanged: (text) {
+                  setState(() {
+                    // Verificar si el texto no está vacío
+                    if (text.trim().isNotEmpty) {
+                      // Convertir la primera letra a mayúscula
+                      text = text[0].toUpperCase() + text.substring(1);
+                      // Asignar el texto al controlador
+                      calleController.text = text;
+
+                    }
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: 20.0,),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Colonia',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            const SizedBox(height: 10.0,),
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -113,7 +175,7 @@ class _Address extends State <Address> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 shadows: [
-                  BoxShadow(
+                  const BoxShadow(
                     color: Color(0x3F000000),
                     blurRadius: 4,
                     offset: Offset(0, 4),
@@ -137,11 +199,37 @@ class _Address extends State <Address> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Colonia',
+                ),
+                onChanged: (text) {
+                  setState(() {
+                    // Verificar si el texto no está vacío
+                    if (text.trim().isNotEmpty) {
+                      // Convertir la primera letra a mayúscula
+                      text = text[0].toUpperCase() + text.substring(1);
+                      // Asignar el texto al controlador
+                      coloniaController.text = text;
+                    }
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: 20.0,),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Numero Exterior',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            const SizedBox(height: 10.0,),
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -173,8 +261,18 @@ class _Address extends State <Address> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Número exterior',
                 ),
+                onChanged: (text) {
+                  setState(() {
+                    // Verificar si el texto no está vacío
+                    if (text.trim().isNotEmpty) {
+                      // Convertir la primera letra a mayúscula
+                      text = text[0].toUpperCase() + text.substring(1);
+                      // Asignar el texto al controlador
+                      numExteriorController.text = text;
+                    }
+                  });
+                },
               ),
             ),
             Padding(
@@ -200,7 +298,7 @@ class _Address extends State <Address> {
                         borderRadius: BorderRadius.circular(16),
                       )
                   ),
-                  child: Text("Siguiente",
+                  child: const Text("Siguiente",
                     style: TextStyle(
                         fontSize: 26
                     ),

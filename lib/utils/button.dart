@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
-
+import 'package:app_medicamentos/pages/register/name_register.dart';
 class Button extends StatelessWidget {
   final int color;
   final double ancho, alto;
@@ -23,7 +23,7 @@ class Button extends StatelessWidget {
         Navigator.pushAndRemoveUntil <dynamic>(
           context,
           MaterialPageRoute <dynamic>(
-              builder: (BuildContext context) =>MedicamentNameRegister()
+              builder: (BuildContext context) =>NameRegister()
           ),
               (route) => false,
         );

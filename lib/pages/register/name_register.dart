@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
-
 import '../../models/user_model.dart';
+import 'package:app_medicamentos/utils/validaciones.dart';
 
 class NameRegister extends StatefulWidget {
   const NameRegister({super.key});
@@ -21,6 +21,7 @@ class _NameRegister extends State <NameRegister> {
 
   //Declaración de variables para validar las entradas ingresadas por el usuario
   late bool _validateU = false;
+  late bool _validateApp = false;
 
   @override
   Widget build(BuildContext context) {
@@ -97,38 +98,51 @@ class _NameRegister extends State <NameRegister> {
                   )
                 ],
               ),
-              child: TextFormField(
-                controller: nombreController,
-                obscureText: false,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: nombreController,
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+
+                    filled: true,
+                    fillColor: Colors.white,
+                    errorText: _validateU ? 'Debe ingresar su nombre(s) \ncorrectamente' : null,
+
+                    errorStyle: TextStyle(fontSize: 18, color: Color(0xFFFF1744)),
+
+                    contentPadding: const EdgeInsets.only(
+                      top: 10.0,
+                      bottom: 10.0,
+                      left: 15.0,
+                      right: 15.0,
                     ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  errorText: _validateU ? 'Debe ingresar el nombre de usuario' : null,
-                  errorStyle: TextStyle(fontSize: 20,),
-                  contentPadding: const EdgeInsets.only(
-                    top: 10.0,
-                    bottom: 10.0,
-                    left: 15.0,
-                    right: 15.0,
-                  ),
+                  style: const TextStyle(height: 1.5),
+                  onChanged: (text) {
+                    setState(() {
+                      if (text.trim().isNotEmpty) {
+                        // Dividir el texto por espacios y capitalizar la primera letra de cada palabra
+                        List<String> words = text.split(' ');
+                        for (int i = 0; i < words.length; i++) {
+                          words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+                        }
+                        // Unir las palabras de nuevo con espacios y asignar al controlador
+                        nombreController.text = words.join(' ');
+                        _validateU = false;
+                      }
+                    });
+                  },
                 ),
-                style: const TextStyle(height: 1.5),
-                onChanged: (text) {
-                  setState(() {
-                    if (text.trim().isNotEmpty) {
-                      _validateU = false;
-                    }
-                  });
-                },
               ),
             ),
             SizedBox(height: 20.0,),
@@ -163,22 +177,40 @@ class _NameRegister extends State <NameRegister> {
                   )
                 ],
               ),
-              child: TextFormField(
-                controller: apellidoPController,
-                obscureText: false,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
-                          color: Colors.white,
-                          width: 1,
-                          style: BorderStyle.solid
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: apellidoPController,
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 1,
+                            style: BorderStyle.solid
 
-                      )
+                        )
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    errorText: _validateApp ? 'Debe ingresar su apellido paterno \ncorrectamente' : null,
+                    errorStyle: TextStyle(fontSize: 18, color: Color(0xFFFF1744)),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
+                  style: const TextStyle(height: 1.5),
+                  onChanged: (text) {
+                    setState(() {
+                      // Verificar si el texto no está vacío
+                      if (text.trim().isNotEmpty) {
+                        // Convertir la primera letra a mayúscula
+                        text = text[0].toUpperCase() + text.substring(1);
+                        // Asignar el texto al controlador
+                        apellidoPController.text = text;
+                        _validateApp = false;
+                      }
+                    });
+                  },
                 ),
               ),
             ),
@@ -193,7 +225,7 @@ class _NameRegister extends State <NameRegister> {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    /*fontWeight: FontWeight.bold,*/
                   ),
                 ),
               ),
@@ -231,6 +263,18 @@ class _NameRegister extends State <NameRegister> {
                   filled: true,
                   fillColor: Colors.white,
                 ),
+                style: const TextStyle(height: 1.5),
+                onChanged: (text) {
+                  setState(() {
+                    if (text.isNotEmpty) {
+                      // Convertir la primera letra a mayúscula
+                      text = text[0].toUpperCase() + text.substring(1);
+
+                      // Actualizar el controlador con el texto modificado
+                      apellidoMController.text = text;
+                    }
+                  });
+                },
               ),
             ),
             Padding(
@@ -242,9 +286,18 @@ class _NameRegister extends State <NameRegister> {
                   onPressed: () {
                     SetUser();
                     setState(() {
-                      nombreController.text.isEmpty ?
-                      _validateU = true : _validateU = false;
-                      if(!_validateU){
+                      //Verificar que el nombre completo cumpla las características de la expresión regular
+                      String? nombreError = validateNombre(nombreController.text);
+                      _validateU = nombreError != null;
+
+                      //Verificar que el nombre completo cumpla las características de la expresión regular
+                      String? appaternoError = validateApellidos(apellidoPController.text);
+                      _validateApp = appaternoError != null;
+
+                      if(!_validateU && !_validateApp ){
+                        print(nombreController.text);
+                        print(apellidoPController.text);
+                        print(apellidoMController.text);
                         Navigator.pushAndRemoveUntil <dynamic>(
                             context,
                             MaterialPageRoute <dynamic>(

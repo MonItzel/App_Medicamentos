@@ -7,15 +7,31 @@
  */
 
 String? validateNombre(String value){
-  Pattern pattern = r'(^[a-zA-Z0-9 ]*$)';
+  Pattern pattern = r'(^[a-zA-ZáéíóúÁÉÍÓÚ]+(\s[a-zA-ZáéíóúÁÉÍÓÚ]+)*$)';
   RegExp regexp = RegExp(pattern.toString());
   if(regexp.hasMatch(value)){
-    return 'true';
+    print('acceso');
+    return null;
+
   }else{
+    print('acceso denegado');
     return 'false';
   }
 }
 
+String? validateApellidos(String value){
+                                           //\s{0,1} Aceptar 1 o 0 espacios
+  Pattern pattern = r'(^[a-zA-ZáéíóúÁÉÍÓÚ]+$)';
+  RegExp regexp = RegExp(pattern.toString());
+  if(regexp.hasMatch(value)){
+    print('acceso');
+    return null;
+
+  }else{
+    print('acceso denegado');
+    return 'false';
+  }
+}
 
 /*
  * Función que se encarga de validar que sea un correo electrónico
