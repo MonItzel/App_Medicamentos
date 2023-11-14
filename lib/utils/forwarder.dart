@@ -25,24 +25,27 @@ class _Forwarder extends State <Forwarder> {
   }
 
   Future<void> select(var context) async {
-    Database database = await openDatabase(
-        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    final List<Map<String, dynamic>> map1 = await database.rawQuery(
-      'SELECT * FROM Usuario LIMIT 1',
-    );
+    try {
+      Database database = await openDatabase(
+          join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    if (map1.length > 0) {
-      print(map1[0]['nombre'].toString());
-
-      Navigator.pushAndRemoveUntil <dynamic>(
-        context,
-        MaterialPageRoute <dynamic>(
-            builder: (BuildContext context) => const HomePage()
-        ),
-            (route) => false,
+      final List<Map<String, dynamic>> map1 = await database.rawQuery(
+        'SELECT * FROM Usuario LIMIT 1',
       );
-    } else {
+
+      if (map1.length > 0) {
+        print(map1[0]['nombre'].toString());
+
+        Navigator.pushAndRemoveUntil <dynamic>(
+          context,
+          MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) => const HomePage()
+          ),
+              (route) => false,
+        );
+      }
+    }catch(exception){
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
         MaterialPageRoute <dynamic>(
@@ -51,5 +54,8 @@ class _Forwarder extends State <Forwarder> {
             (route) => false,
       );
     }
+
+
+
   }
 }

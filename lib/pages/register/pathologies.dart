@@ -23,7 +23,7 @@ class Pathologies extends StatefulWidget {
 }
 
 class _Pathologies extends State <Pathologies> {
-  var patologia;
+  var patologias;
   final otraspatController = TextEditingController();
 
   @override
@@ -154,7 +154,7 @@ class _Pathologies extends State <Pathologies> {
                           for(int i=0; i<val.length; i++) {
                             print(val[i].name);
                           }
-
+                          savePathologies(val);
                         });
                       },
                     ),
@@ -272,6 +272,10 @@ class _Pathologies extends State <Pathologies> {
     );
   }
 
+  void savePathologies(dynamic val){
+    patologias = val;
+  }
+
   void register() async {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -337,13 +341,23 @@ class _Pathologies extends State <Pathologies> {
 
       var id1 = txn.insert('Usuario', usuario);
 
-      var padecimiento = {
-        'nombre_padecimiento': patologia,
+      for(int i=0; i<patologias.length; i++) {
+        var padecimiento = {
+          'nombre_padecimiento': patologias,
+        };
+
+        var id2 = txn.insert('Padecimiento', padecimiento);
+
+        print(padecimiento["nombre_padecimiento"].toString() + " insertado.");
+      }
+
+      var otroPadecimiento = {
+        'nombre_padecimiento': otraspatController.text,
       };
 
-      var id2 = txn.insert('Padecimiento', padecimiento);
+      var id2 = txn.insert('Padecimiento', otroPadecimiento);
 
-      print(id2.toString());
+      print(otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
     });
   }
 }

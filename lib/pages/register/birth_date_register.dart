@@ -69,7 +69,8 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               selectionMode: DateRangePickerSelectionMode.single,
               showNavigationArrow: true,
               onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                fechaNac = args.value;
+                fechaNac = args.value.toString().split(' ')[0];
+                fechaController.text = fechaNac;
               },
               todayHighlightColor: Color(0xFF09184D),
               selectionColor: Color(0xFF09184D),
@@ -88,6 +89,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             ),
             SizedBox(height: 20.0,),
             TextFormField(
+              controller: fechaController,
               obscureText: false,
               textAlign: TextAlign.left,
               decoration: InputDecoration(
@@ -148,3 +150,5 @@ class _BirthDateRegister extends State <BirthDateRegister> {
     widget.user.fechaNac = fechaNac.toString();
   }
 }
+
+TextEditingController fechaController = TextEditingController();

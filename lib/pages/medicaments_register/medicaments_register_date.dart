@@ -114,8 +114,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
 
     await database.transaction((txn) async {
 
-      var medModel = new Medicament();
-      var medicamento = medModel.toMap();
+      var medicamento = widget.medicament.toMap();
 
       var id1 = txn.insert('Medicamento', medicamento);
 
@@ -123,12 +122,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
         'SELECT * FROM Medicamento',
       );
 
-      for(int i = 0; i < map1.length; i++){
-        for(int j = 0; j < map1.elementAt(i).keys.length; j ++){
-          print(map1.elementAt(i).keys.elementAt(j) + ": " + map1.elementAt(i).values.elementAt(j));
-        }
-      }
-      print("Fin del Registro");
+      print("map1: " + map1.length.toString());
     });
   }
 }

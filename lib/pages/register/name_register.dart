@@ -330,6 +330,11 @@ class _NameRegister extends State <NameRegister> {
   }
 
   void SetUser(){
+    nombreController.text = nombreController.text.trim();
+    apellidoMController.text = apellidoMController.text.trim();
+    apellidoMController.text = apellidoMController.text.trim();
+
+
     user.nombre = nombreController.text;
     user.apellidoP = apellidoPController.text;
     user.apellidoM = apellidoMController.text;
