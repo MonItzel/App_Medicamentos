@@ -77,7 +77,6 @@ class _NameRegister extends State <NameRegister> {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 20,
-                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -118,7 +117,7 @@ class _NameRegister extends State <NameRegister> {
                     fillColor: Colors.white,
                     errorText: _validateU ? 'Debe ingresar su nombre(s) \ncorrectamente' : null,
 
-                    errorStyle: TextStyle(fontSize: 18, color: Color(0xFFFF1744)),
+                    errorStyle: TextStyle(fontSize: 20, color: Color(0xFFFF1744), fontWeight: FontWeight.bold),
 
                     contentPadding: const EdgeInsets.only(
                       top: 10.0,
@@ -196,7 +195,7 @@ class _NameRegister extends State <NameRegister> {
                     filled: true,
                     fillColor: Colors.white,
                     errorText: _validateApp ? 'Debe ingresar su apellido paterno \ncorrectamente' : null,
-                    errorStyle: TextStyle(fontSize: 18, color: Color(0xFFFF1744)),
+                    errorStyle: TextStyle(fontSize: 20, color: Color(0xFFFF1744), fontWeight: FontWeight.bold),
                   ),
                   style: const TextStyle(height: 1.5),
                   onChanged: (text) {
@@ -287,11 +286,11 @@ class _NameRegister extends State <NameRegister> {
                     SetUser();
                     setState(() {
                       //Verificar que el nombre completo cumpla las características de la expresión regular
-                      String? nombreError = validateNombre(nombreController.text);
+                      String? nombreError = validateUser(nombreController.text);
                       _validateU = nombreError != null;
 
                       //Verificar que el nombre completo cumpla las características de la expresión regular
-                      String? appaternoError = validateApellidos(apellidoPController.text);
+                      String? appaternoError = validateUser(apellidoPController.text);
                       _validateApp = appaternoError != null;
 
                       if(!_validateU && !_validateApp ){

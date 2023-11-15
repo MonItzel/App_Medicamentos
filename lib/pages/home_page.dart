@@ -107,13 +107,14 @@ class _HomePage extends State<HomePage> {
   //  void muestraButtonSheet(BuildContext context, int bandShow, String text){PENDIENTE}
 
   void muestraButtonSheet(){
+    final int bandShow = 0;
     // band: revisar que valor tiene para mostrar los widgets qe necesites
     //final bool num = 0;
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-            top: Radius.circular(12.0)
-        )
+          borderRadius: BorderRadius.vertical(
+              top: Radius.circular(12.0)
+          )
       ),
       context: context,
       builder: (BuildContext context){
@@ -121,58 +122,64 @@ class _HomePage extends State<HomePage> {
             height: 350,
             child: Center(
               // child: bandShow == 1 ? Column(
-              child:  Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  if (bandShow == 0)
+                    Column(
+                      children: [
+                        Button(color: 0xFF0D1C52,
+                          ancho: 263,
+                          alto: 71,
+                          contenido: 'Agregar medicamento',
+                          ruta: 0,
+                        ),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0D1C52,
+                          ancho: 263,
+                          alto: 71,
+                          contenido: 'Agregar cita médica',
+                          ruta: 1,
+                        )
+                      ],
+                    ),
 
-                  //if(num = 0){
-                  /* FUNCIONES*/
-                  // const SizedBox(width: 0.0, height: 60.0,), YA NO SE UTILIZA
-                  /*
-                  Button(color: 0xFF0D1C52,
-                    ancho: 263,
-                    alto: 71,
-                    contenido: 'Agregar medicamento',),
-                  const SizedBox(width: 0.0, height: 60.0,),
-                  Button(color: 0xFF0D1C52,
-                      ancho: 263,
-                      alto: 71,
-                      contenido: 'Agregar cita médica')
-*/
+                  if (bandShow == 1)
+                    Column(
+                      children: [
+                        Texto(contenido: 'Medicamento agregado con éxito',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    ),
 
-                  /* MEDICAMENTO AGREGADO
-                 // const SizedBox(width: 0.0, height: 60.0,),
-                  Texto(contenido: 'Medicamento agregado con éxito',),
-                  const SizedBox(width: 0.0, height: 60.0,),
-                  Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar'),
-                  */
+                  if (bandShow == 2)
+                    Column(
+                      children: [
+                        Texto(contenido: 'Error al agregar medicamento',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    ),
 
-                  /*ERROR AL AGREGAR EL MEDICAMENTO
-                  //const SizedBox(width: 0.0, height: 60.0,),
-                  Texto(contenido: 'Error al agregar medicamento',),
-                  const SizedBox(width: 0.0, height: 60.0,),
-                  Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar'),
-                  */
+                  if (bandShow == 3)
+                    Column(
+                      children: [
+                        Texto(contenido: 'Cita agregada con éxito',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    ),
 
-
-                  /* CITA AGREGADO*/
-                  //const SizedBox(width: 0.0, height: 60.0,),
-                  Texto(contenido: 'Cita agregada con éxito',),
-                  const SizedBox(width: 0.0, height: 60.0,),
-                  Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar'),
-
-
-
-
-
-                  /*ERROR AL AGREGAR LA CITA
-                  //const SizedBox(width: 0.0, height: 60.0,),
-                  Texto(contenido: 'Error al agregar cita',),
-                  const SizedBox(width: 0.0, height: 60.0,),
-                  Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar'),
-*/
-
+                  if (bandShow == 4)
+                    Column(
+                      children: [
+                        Texto(contenido: 'Error al agregar cita',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    )
                 ],
               ) ,
             )

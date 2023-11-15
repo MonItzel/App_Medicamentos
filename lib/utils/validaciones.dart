@@ -6,8 +6,9 @@
  * Devuelve un String
  */
 
-String? validateNombre(String value){
-  Pattern pattern = r'(^[a-zA-ZáéíóúÁÉÍÓÚ]+(\s[a-zA-ZáéíóúÁÉÍÓÚ]+)*$)';
+String? validateUser(String value){
+  Pattern pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚ]+(\s[a-zA-ZáéíóúÁÉÍÓÚ]+){0,2}$';
+
   RegExp regexp = RegExp(pattern.toString());
   if(regexp.hasMatch(value)){
     print('acceso');
