@@ -313,6 +313,7 @@ class _Pathologies extends State <Pathologies> {
 
       sql = 'CREATE TABLE Cita (id_cita INTEGER PRIMARY KEY, '
           'nombre_medico TEXT, '
+          'motivo TEXT,  '
           'especialidad_medico TEXT,  '
           'ubicacion TEXT,  '
           'telefono_medico TEXT,  '
