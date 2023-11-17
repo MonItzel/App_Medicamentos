@@ -16,7 +16,7 @@ FlutterLocalNotificationsPlugin();
 
 Future<void> initNotifications() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('Icon_medNotification');
+  AndroidInitializationSettings('icon_mednotification');
 
   const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
 
