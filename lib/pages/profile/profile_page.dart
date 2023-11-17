@@ -1,7 +1,8 @@
 import 'dart:ffi' as ffi;
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app_medicamentos/pages/profile/profile_page.dart';
+import 'package:app_medicamentos/pages/calendar/calendar.dart';
+import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -123,11 +124,11 @@ class _ProfilePage extends State<ProfilePage> {
             if (index == 0) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
             } else if (index == 1) {
-              //Calendario
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()));
             } else if (index == 2) {
               //muestraButtonSheet();
             } else if (index == 3) {
-              //Registros
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RecordsPage()));//Registros
             } else if (index == 4) {
 
             }
