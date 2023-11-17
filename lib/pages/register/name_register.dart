@@ -1,5 +1,3 @@
-//import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
+import 'package:app_medicamentos/pages/calendar/calendar.dart';
+import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/utils/button.dart';
 import 'package:intl/intl.dart';
@@ -77,11 +79,11 @@ class _HomePage extends State<HomePage> {
               if (index == 0) {
 
               } else if (index == 1) {
-                //Calendario
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()));
               } else if (index == 2) {
                 muestraButtonSheet();
               } else if (index == 3) {
-                //Registros
+                Navigator.push(context, MaterialPageRoute(builder: (context) => RecordsPage()));//Registros
               } else if (index == 4) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
               }
