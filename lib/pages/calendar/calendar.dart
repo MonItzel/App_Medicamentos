@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/utils/button.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as Path;
 
 class CalendarPage extends StatefulWidget{
   const CalendarPage({super.key});
@@ -17,7 +20,6 @@ class CalendarPage extends StatefulWidget{
 
 class _CalendarPage extends State <CalendarPage>{
   int _currentIndex = 1;
-
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -52,34 +54,34 @@ class _CalendarPage extends State <CalendarPage>{
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SfDateRangePicker(
-              selectionMode: DateRangePickerSelectionMode.single,
-              showNavigationArrow: true,
-              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-
-              },
-              todayHighlightColor: Color(0xFF09184D),
-              selectionColor: Color(0xFF09184D),
-            ),
-            SizedBox(height: 20.0,),
-            Text(
-              'Eventos',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-                height: 0,
+      body: Container(
+          height: calendarPageCards.length * 120 + 350, // Establece la altura del Container a 200 píxeles
+          child: ListView(
+            children: <Widget>[
+              SfDateRangePicker(
+                selectionMode: DateRangePickerSelectionMode.single,
+                showNavigationArrow: true,
+                onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                  CreateCards(context, args.value.toString());
+                },
+                todayHighlightColor: Color(0xFF09184D),
+                selectionColor: Color(0xFF09184D),
               ),
-            )
-          ],
-        ),
+              const SizedBox(height: 20.0,),
+              const Text(
+                'Eventos de ',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                ),
+              )
+            ]
+                + calendarPageCards
+            ,
+          )
       ),
 
       bottomNavigationBar: Container(
@@ -187,4 +189,62 @@ class _CalendarPage extends State <CalendarPage>{
       },
     );
   }
+
+  Future<void> CreateCards(var context, String date) async {
+    try{
+      calendarPageCards.clear();
+      Database database = await openDatabase(
+          Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+      print("SELECT * FROM Medicamento LIKE '" + date.toString().split(" ")[0] + "%'");
+
+      final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
+        "SELECT * FROM Medicamento WHERE inicioToma LIKE '" + date.toString().split(" ")[0] + "%'",
+      );
+      print("map: " + medicamentos.length.toString());
+
+      if(medicamentos.length > 0){
+        for(int i = 0; i < medicamentos.length; i++){
+          calendarPageCards.add(Card(
+            elevation: 3, // Elevación para dar profundidad al card
+            margin: EdgeInsets.all(16), // Margen alrededor del card
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15), // Borde redondeado con radio de 15
+            ),
+            child: ListTile(
+              leading: Icon(Icons.medication_liquid, size: 40), // Icono de medicina a la izquierda
+              title: Text(
+                medicamentos[i]['nombre'].toString(), //Nombre del medicamento
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Tipo de Medicamento'),
+                  Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
+                ],
+              ),
+              trailing: Text(
+                "Inicio: " + medicamentos[i]['inicioToma'].toString().split(" ")[0], //Fecha de inicio
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+          );
+        }
+        Navigator.pushAndRemoveUntil <dynamic>(
+          context,
+          MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) => const CalendarPage()
+          ),
+              (route) => false,
+        );
+      }
+      print("cards: " + calendarPageCards.length.toString());
+    }catch(exception){
+      print(exception);
+    }
+  }
 }
+
+List<Widget> calendarPageCards = [];
