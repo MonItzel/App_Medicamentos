@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+/* //////////////////////Notification/////////////////////// */
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
 class Message extends StatefulWidget {
@@ -7,6 +9,23 @@ class Message extends StatefulWidget {
 
   @override
   State<Message> createState() => _MessageState();
+}
+/* //////////////////////Initialitation Notification/////////////////////// */
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
+Future<void> initNotifications() async {
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('Icon_medNotification');
+
+  const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
+
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
 }
 
 class _MessageState extends State<Message> {
@@ -36,12 +55,45 @@ class _MessageState extends State<Message> {
               },
               icon: Icon(Icons.call, color: Color(0xFF035600), size: 50,),
             ),
+            IconButton(//Notificaciones
+              onPressed: () {
+                setState(() {
+                  mostrarNotificacion(1);
+                });
+              },
+              icon: Icon(Icons.access_alarm_rounded, color: Color(0xFF035600), size: 50,),
+            ),
+            IconButton(//Notificaciones
+              onPressed: () {
+                setState(() {
+                  mostrarNotificacion(2);
+                });
+              },
+              icon: Icon(Icons.access_alarm, color: Color(0xFF035600), size: 50,),
+            ),
           ],
         ),
       ),
     );
   }
+int checkNotification = 0;
+  Future<void> mostrarNotificacion(checkNotification) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails('your_channel_id', 'your_channel_ame');
 
+    const NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+    );
+    if(checkNotification == 1)
+        await flutterLocalNotificationsPlugin.show(1, 'RECORDATORIO DE MEDICAMENTOS',
+        'No olvides que han pasado 5 minutos desde que debias tomar tus medicamentos',
+        notificationDetails);
+    if(checkNotification == 2)
+      await flutterLocalNotificationsPlugin.show(1, 'RECORDATORIO DE MEDICAMENTOS',
+          'No olvides que es la hora de tomar tus medicamentos',
+          notificationDetails);
+
+  }
   _callMe() async {
     //$telefono variable
     launch('tel: 4448284676');
