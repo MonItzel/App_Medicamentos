@@ -4,9 +4,16 @@ import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/utils/button.dart';
 import 'package:intl/intl.dart';
 import 'package:app_medicamentos/utils/texto.dart';
+import 'package:app_medicamentos/models/medicament_model.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as Path;
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.medicamentList, this.medicamentos});
+
+  final List<Medicament>? medicamentList;
+
+  final List<Map<String, dynamic>>? medicamentos;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,6 +26,8 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    CreateCards(context);
+
     //Intl.defaultLocale = 'es';
     DateTime now = DateTime.now();
     String formattedDate = DateFormat.yMMMMd().format(now);
@@ -52,32 +61,10 @@ class _HomePage extends State<HomePage> {
           ),
         ),
         body: Container(
-          height: 100, // Establece la altura del Container a 200 píxeles
-          child: Card(
-            elevation: 3, // Elevación para dar profundidad al card
-            margin: EdgeInsets.all(16), // Margen alrededor del card
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), // Borde redondeado con radio de 15
-            ),
-            child: ListTile(
-              leading: Icon(Icons.medication_liquid, size: 40), // Icono de medicina a la izquierda
-              title: Text(
-                'Nombre del Medicamento',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Tipo de Medicamento'),
-                  Text('Dosis'),
-                ],
-              ),
-              trailing: Text(
-                '00:00',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
+          height: homePageCards.length * 120, // Establece la altura del Container a 200 píxeles
+          child: new ListView(
+            children: homePageCards,
+          )
         ),
 
         bottomNavigationBar: Container(
@@ -187,4 +174,65 @@ class _HomePage extends State<HomePage> {
       },
     );
   }
+
+  Future<void> CreateCards(var context) async {
+    try{
+      if(homePageCards.length < 1){
+        Database database = await openDatabase(
+            Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+        DateTime now = new DateTime.now();
+        DateTime date = new DateTime(now.year, now.month, now.day);
+        print("SELECT * FROM Medicamento LIKE '" + date.toString().split(" ")[0] + "%'");
+
+        final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
+          "SELECT * FROM Medicamento WHERE inicioToma LIKE '" + date.toString().split(" ")[0] + "%'",
+        );
+        print("map: " + medicamentos.length.toString());
+        print("cards: " + homePageCards.length.toString());
+
+        if(medicamentos.length > 0){
+          for(int i = 0; i < medicamentos.length; i++){
+            homePageCards.add(Card(
+              elevation: 3, // Elevación para dar profundidad al card
+              margin: EdgeInsets.all(16), // Margen alrededor del card
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15), // Borde redondeado con radio de 15
+              ),
+              child: ListTile(
+                leading: Icon(Icons.medication_liquid, size: 40), // Icono de medicina a la izquierda
+                title: Text(
+                  medicamentos[i]['nombre'].toString(), //Nombre del medicamento
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Tipo de Medicamento'),
+                    Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
+                  ],
+                ),
+                trailing: Text(
+                  "Inicio: " + medicamentos[i]['inicioToma'].toString().split(" ")[0], //Fecha de inicio
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+            );
+          }
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) => const HomePage()
+            ),
+                (route) => false,
+          );
+        }
+      }
+    }catch(exception){
+      print(exception);
+    }
+  }
 }
+
+List<Widget> homePageCards = [];
