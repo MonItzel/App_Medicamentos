@@ -3,6 +3,8 @@ import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/appointment_register/appointments_date.dart';
 import 'package:app_medicamentos/models/appointment_model.dart';
 
+
+
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
 
@@ -55,6 +57,22 @@ class _AppointmentsPage extends State <AppointmentsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Nombre del médico',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -85,11 +103,26 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Nombre del médico',
                 ),
               ),
             ),
             SizedBox(height: 20.0,),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Motivo de cita médica',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -120,11 +153,26 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Motivo de cita médica',
                 ),
               ),
             ),
             SizedBox(height: 20.0,),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Lugar de cita médica',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -155,11 +203,26 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Lugar de cita médica',
                 ),
               ),
             ),
             SizedBox(height: 20.0,),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Teléfono del médico',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -190,13 +253,12 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Teléfono del médico',
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+           // SizedBox(height: 20.0,),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
               child: Container(
                 width: 193,
                 height: 77,
