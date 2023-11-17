@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/appointment_register/appointments_date.dart';
+import 'package:app_medicamentos/models/appointment_model.dart';
 
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
@@ -12,6 +13,7 @@ class AppointmentsPage extends StatefulWidget {
 }
 
 class _AppointmentsPage extends State <AppointmentsPage> {
+  final  Appointment appointment = Appointment();
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +71,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 ],
               ),
               child: TextFormField(
+                controller: nombreMedicoController,
                 obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
@@ -103,6 +106,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 ],
               ),
               child: TextFormField(
+                controller: motivoController,
                 obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
@@ -137,6 +141,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 ],
               ),
               child: TextFormField(
+                controller: lugarController,
                 obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
@@ -171,6 +176,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 ],
               ),
               child: TextFormField(
+                controller: telefonoController,
                 obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
@@ -196,10 +202,11 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 height: 77,
                 child: ElevatedButton(
                   onPressed: () {
+                    SetAppointment();
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => AppointmentsDatePage()
+                          builder: (BuildContext context) => AppointmentsDatePage(appointment: appointment,)
                       ),
                           (route) => false,
                     );
@@ -224,4 +231,16 @@ class _AppointmentsPage extends State <AppointmentsPage> {
       ),
     );
   }
+
+  void SetAppointment(){
+    appointment.nombre_medico = nombreMedicoController.text;
+    appointment.motivo = motivoController.text;
+    appointment.ubicacion = lugarController.text;
+    appointment.telefono_medico = telefonoController.text;
+  }
 }
+
+TextEditingController nombreMedicoController = TextEditingController();
+TextEditingController motivoController = TextEditingController();
+TextEditingController lugarController = TextEditingController();
+TextEditingController telefonoController = TextEditingController();

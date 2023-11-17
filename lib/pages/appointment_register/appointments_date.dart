@@ -1,9 +1,14 @@
+import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AppointmentsDatePage extends StatefulWidget {
-  const AppointmentsDatePage({super.key});
+  const AppointmentsDatePage({super.key, required this.appointment});
+
+  final Appointment appointment;
 
   @override
   State<StatefulWidget> createState() {
@@ -12,6 +17,7 @@ class AppointmentsDatePage extends StatefulWidget {
 }
 
 class _AppointmentsDatePage extends State <AppointmentsDatePage> {
+  var appointmentDate;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +63,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
               selectionMode: DateRangePickerSelectionMode.single,
               showNavigationArrow: true,
               onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-
+                  appointmentDate = args.value;
               },
               todayHighlightColor: Color(0xFF09184D),
               selectionColor: Color(0xFF09184D),
@@ -98,5 +104,25 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
         ),
       ),
     );
+  }
+
+  void RegisterAppointment() async {
+    widget.appointment.fecha  = appointmentDate.toString();
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    await database.transaction((txn) async {
+
+      var cita = widget.appointment.toMap();
+
+      var id1 = txn.insert('Cita', cita);
+    });
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+      'SELECT * FROM Cita',
+    );
+
+    print("Citas registradas: " + map1.length.toString());
   }
 }
