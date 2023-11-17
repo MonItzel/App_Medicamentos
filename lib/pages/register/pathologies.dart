@@ -238,7 +238,7 @@ class _Pathologies extends State <Pathologies> {
                         Navigator.pushAndRemoveUntil <dynamic>(
                           context,
                           MaterialPageRoute <dynamic>(
-                              builder: (BuildContext context) => CarerPage()
+                              builder: (BuildContext context) => CarerPage(user: widget.user,)
                           ),
                               (route) => false,
                         );
@@ -325,22 +325,6 @@ class _Pathologies extends State <Pathologies> {
           'id_medicamento INTEGER,  '
           'id_cita);  ';
       txn.rawQuery(sql);
-
-      sql = 'SELECT * FROM Usuario';
-      txn.rawQuery(sql);
-
-      var usuario = {
-        'nombre': widget.user.nombre,
-        'apellidoP': widget.user.apellidoP,
-        'apellidoM': widget.user.apellidoM,
-        'fechaNac': widget.user.fechaNac.toString(),
-        'calle': widget.user.calle,
-        'club': widget.user.club,
-        'numero_exterior': widget.user.numExterior,
-        'cuidador_activo': 0
-      };
-
-      var id1 = txn.insert('Usuario', usuario);
 
       for(int i=0; i<patologias.length; i++) {
         var padecimiento = {

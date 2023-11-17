@@ -1,9 +1,14 @@
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/models/user_model.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
 class CarerPage extends StatefulWidget {
-  const CarerPage({super.key});
+  const CarerPage({super.key, required this.user});
+
+  final User user;
 
   @override
   State<StatefulWidget> createState() {
@@ -52,6 +57,7 @@ class _CarerPage extends State <CarerPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextFormField(
+            controller: nombreCuidadorController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -70,6 +76,7 @@ class _CarerPage extends State <CarerPage> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: apellidoCuidadorController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -89,6 +96,7 @@ class _CarerPage extends State <CarerPage> {
           ),
           SizedBox(height: 20.0,),
           TextFormField(
+            controller: telefonoCuidadorController,
             obscureText: false,
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -114,6 +122,7 @@ class _CarerPage extends State <CarerPage> {
               height: 77,
               child: ElevatedButton(
                 onPressed: () {
+                  register();
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
                     MaterialPageRoute <dynamic>(
@@ -141,4 +150,36 @@ class _CarerPage extends State <CarerPage> {
       ),
     );
   }
+
+  void register() async {
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    await database.transaction((txn) async {
+
+      widget.user.cuidador_nombre = nombreCuidadorController.text + " " + apellidoCuidadorController.text;
+      widget.user.cuidador_telefono = telefonoCuidadorController.text;
+
+      var usuario = {
+        'nombre': widget.user.nombre,
+        'apellidoP': widget.user.apellidoP,
+        'apellidoM': widget.user.apellidoM,
+        'fechaNac': widget.user.fechaNac.toString(),
+        'calle': widget.user.calle,
+        'club': widget.user.club,
+        'numero_exterior': widget.user.numExterior,
+        'cuidador_activo': 0,
+        'cuidador_nombre': widget.user.cuidador_nombre,
+        'cuidador_telefono': widget.user.cuidador_telefono
+      };
+
+      var id1 = txn.insert('Usuario', usuario);
+
+      print(widget.user.toMap().toString());
+    });
+  }
 }
+
+TextEditingController nombreCuidadorController = TextEditingController();
+TextEditingController apellidoCuidadorController = TextEditingController();
+TextEditingController telefonoCuidadorController = TextEditingController();
