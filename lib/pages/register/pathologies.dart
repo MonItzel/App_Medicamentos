@@ -317,7 +317,7 @@ class _Pathologies extends State <Pathologies> {
           'especialidad_medico TEXT,  '
           'ubicacion TEXT,  '
           'telefono_medico TEXT,  '
-          'fecha REAL); ';
+          'fecha TEXT); ';
       txn.rawQuery(sql);
 
       sql = 'CREATE TABLE Recordatorio (id_recordatorio INTEGER PRIMARY KEY, '

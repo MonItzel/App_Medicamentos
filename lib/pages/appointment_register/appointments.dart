@@ -239,7 +239,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 ],
               ),
               child: TextFormField(
-                controller: telefonoController,
+                controller: telefonoMedicoController,
                 obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
@@ -298,11 +298,11 @@ class _AppointmentsPage extends State <AppointmentsPage> {
     appointment.nombre_medico = nombreMedicoController.text;
     appointment.motivo = motivoController.text;
     appointment.ubicacion = lugarController.text;
-    appointment.telefono_medico = telefonoController.text;
+    appointment.telefono_medico = telefonoMedicoController.text;
   }
 }
 
 TextEditingController nombreMedicoController = TextEditingController();
 TextEditingController motivoController = TextEditingController();
 TextEditingController lugarController = TextEditingController();
-TextEditingController telefonoController = TextEditingController();
+TextEditingController telefonoMedicoController = TextEditingController();

@@ -80,6 +80,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
                 height: 77,
                 child: ElevatedButton(
                   onPressed: () {
+                    RegisterAppointment();
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
@@ -124,6 +125,8 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
       var cita = widget.appointment.toMap();
 
       var id1 = txn.insert('Cita', cita);
+
+      print(cita.toString());
     });
 
     final List<Map<String, dynamic>> map1 = await database.rawQuery(
