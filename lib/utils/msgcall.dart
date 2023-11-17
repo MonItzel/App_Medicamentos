@@ -73,6 +73,14 @@ class _MessageState extends State<Message> {
               },
               icon: Icon(Icons.access_alarm, color: Colors.pinkAccent, size: 50,),
             ),
+            IconButton(//Notificaciones
+              onPressed: () {
+                setState(() {
+                  mostrarNotificacion(3);
+                });
+              },
+              icon: Icon(Icons.calendar_month, color: Colors.pinkAccent, size: 50,),
+            ),
           ],
         ),
       ),
@@ -94,6 +102,9 @@ int checkNotification = 0;
       await flutterLocalNotificationsPlugin.show(1, 'RECORDATORIO DE MEDICAMENTOS',
           'No olvides que es la hora de tomar tus medicamentos',
           notificationDetails);
+    if(checkNotification == 3)
+        await flutterLocalNotificationsPlugin.show(1, 'CITA MEDICA PROGRAMADA PARA MAÑANA ',
+            'Recuerda que dentro de 24 horas tienes una cita medica', notificationDetails);
 
   }
   _callMe() async {
