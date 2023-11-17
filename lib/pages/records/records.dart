@@ -5,6 +5,8 @@ import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/utils/button.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as Path;
 
 class RecordsPage extends StatefulWidget{
   const RecordsPage({super.key});
@@ -20,6 +22,8 @@ class _RecordsPage extends State <RecordsPage>{
 
   @override
   Widget build(BuildContext context){
+    CreateCards(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -56,16 +60,11 @@ class _RecordsPage extends State <RecordsPage>{
         ),
       ),
 
-      body: Text(
-        'Aún no hay registros de citas ni medicamentos',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Color(0xFF6A6A6A),
-          fontSize: 22,
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.w700,
-          height: 0,
-        ),
+      body: Container(
+          height: recordsPageCards.length * 120, // Establece la altura del Container a 200 píxeles
+          child: new ListView(
+            children: recordsPageCards,
+          )
       ),
 
       bottomNavigationBar: Container(
@@ -173,4 +172,77 @@ class _RecordsPage extends State <RecordsPage>{
       },
     );
   }
+
+
+  Future<void> CreateCards(var context) async {
+    try{
+      if(recordsPageCards.length < 1){
+        Database database = await openDatabase(
+            Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+        DateTime now = new DateTime.now();
+        DateTime date = new DateTime(now.year, now.month, now.day);
+
+        final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
+          "SELECT * FROM Medicamento",
+        );
+        print("map: " + medicamentos.length.toString());
+        print("cards: " + recordsPageCards.length.toString());
+
+        if(medicamentos.length > 0){
+          for(int i = 0; i < medicamentos.length; i++){
+            recordsPageCards.add(Card(
+              elevation: 3, // Elevación para dar profundidad al card
+              margin: EdgeInsets.all(16), // Margen alrededor del card
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15), // Borde redondeado con radio de 15
+              ),
+              child: ListTile(
+                leading: Icon(Icons.medication_liquid, size: 40), // Icono de medicina a la izquierda
+                title: Text(
+                  medicamentos[i]['nombre'].toString(), //Nombre del medicamento
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Tipo de Medicamento'),
+                    Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
+                  ],
+                ),
+                trailing: Text(
+                  "Inicio: " + medicamentos[i]['inicioToma'].toString().split(" ")[0], //Fecha de inicio
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+            );
+          }
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) => const RecordsPage()
+            ),
+                (route) => false,
+          );
+        }else{
+          recordsPageCards.add(Text(
+            'Aún no hay registros de citas ni medicamentos',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFF6A6A6A),
+              fontSize: 22,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+              height: 0,
+            ),
+          ),);
+        }
+      }
+    }catch(exception){
+      print(exception);
+    }
+  }
 }
+
+List<Widget> recordsPageCards = [];
