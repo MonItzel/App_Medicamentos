@@ -54,34 +54,37 @@ class _CalendarPage extends State <CalendarPage>{
         ),
       ),
 
-      body: Container(
-          height: calendarPageCards.length * 120 + 350, // Establece la altura del Container a 200 píxeles
-          child: ListView(
-            children: <Widget>[
-              SfDateRangePicker(
-                selectionMode: DateRangePickerSelectionMode.single,
-                showNavigationArrow: true,
-                onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                  CreateCards(context, args.value.toString());
-                },
-                todayHighlightColor: Color(0xFF09184D),
-                selectionColor: Color(0xFF09184D),
-              ),
-              const SizedBox(height: 20.0,),
-              const Text(
-                'Eventos de ',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Container(
+            height: calendarPageCards.length * 120 + 350, // Establece la altura del Container a 200 píxeles
+            child: ListView(
+              children: <Widget>[
+                SfDateRangePicker(
+                  selectionMode: DateRangePickerSelectionMode.single,
+                  showNavigationArrow: true,
+                  onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                    CreateCards(context, args.value.toString());
+                  },
+                  todayHighlightColor: Color(0xFF09184D),
+                  selectionColor: Color(0xFF09184D),
                 ),
-              )
-            ]
-                + calendarPageCards
-            ,
-          )
+                const SizedBox(height: 20.0,),
+                const Text(
+                  'Eventos de ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                )
+              ]
+                  + calendarPageCards
+              ,
+            )
+        ),
       ),
 
       bottomNavigationBar: Container(

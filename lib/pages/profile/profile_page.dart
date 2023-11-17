@@ -5,6 +5,7 @@ import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:path/path.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -128,6 +129,28 @@ class _ProfilePage extends State<ProfilePage> {
                   backgroundColor: Color(0xFF09184D),
                   child: Icon(
                     Icons.edit
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20.0,),
+            Padding(
+              padding: const EdgeInsets.only(right: 5, bottom: 50),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton.small(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil <dynamic>(
+                      context,
+                      MaterialPageRoute <dynamic>(
+                          builder: (BuildContext context) => const Message()
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  backgroundColor: Color(0xFF09184D),
+                  child: Icon(
+                      Icons.message
                   ),
                 ),
               ),

@@ -55,21 +55,23 @@ class _MessageState extends State<Message> {
               },
               icon: Icon(Icons.call, color: Color(0xFF035600), size: 50,),
             ),
+            const SizedBox(height: 20,),
             IconButton(//Notificaciones
               onPressed: () {
                 setState(() {
                   mostrarNotificacion(1);
                 });
               },
-              icon: Icon(Icons.access_alarm_rounded, color: Color(0xFF035600), size: 50,),
+              icon: Icon(Icons.access_alarm_rounded, color: Colors.blue, size: 50,),
             ),
+            const SizedBox(height: 20,),
             IconButton(//Notificaciones
               onPressed: () {
                 setState(() {
                   mostrarNotificacion(2);
                 });
               },
-              icon: Icon(Icons.access_alarm, color: Color(0xFF035600), size: 50,),
+              icon: Icon(Icons.access_alarm, color: Colors.pinkAccent, size: 50,),
             ),
           ],
         ),
@@ -104,7 +106,7 @@ int checkNotification = 0;
     //%20 es el espacio
     //Lamado a la    Parámetros a enviar
     //funcion
-    const uri = 'sms:+4448284676?body=hello%20there';
+    const uri = 'sms:+4448284676?body=%20there';
     if (await canLaunch(uri)) {
       await launch(uri);
     }
