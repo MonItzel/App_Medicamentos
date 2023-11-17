@@ -103,7 +103,7 @@ class _ProfilePage extends State<ProfilePage> {
             ),
             SizedBox(height: 20.0,),
             Text(
-              'Cuidador',
+              'Cuidador: ' + cuidadorController.text,
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
@@ -169,7 +169,7 @@ class _ProfilePage extends State<ProfilePage> {
         calleController.text == "" &&
         coloniaController.text == "" &&
         numExteriorController.text == "" &&
-        patologiaController.text == ""){
+        cuidadorController.text == ""){
       Database database = await openDatabase(
           join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
@@ -191,9 +191,9 @@ class _ProfilePage extends State<ProfilePage> {
       calleController.text = map1[0]['calle'].toString();
       coloniaController.text = map1[0]['club'].toString();
       numExteriorController.text = map1[0]['numero_exterior'].toString();
-      patologiaController.text = map2[0]['nombre_padecimiento'].toString();
+      cuidadorController.text = map1[0]['cuidador_nombre'].toString() + "\n" + map1[0]['cuidador_telefono'].toString();
 
-      print(nombreController.text);
+      print(cuidadorController.text);
 
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
@@ -213,4 +213,4 @@ TextEditingController fechaNacController = TextEditingController();
 TextEditingController calleController = TextEditingController();
 TextEditingController coloniaController = TextEditingController();
 TextEditingController numExteriorController = TextEditingController();
-TextEditingController patologiaController = TextEditingController();
+TextEditingController cuidadorController = TextEditingController();
