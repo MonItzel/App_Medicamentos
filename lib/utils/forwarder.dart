@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';

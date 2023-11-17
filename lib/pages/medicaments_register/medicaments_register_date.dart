@@ -109,6 +109,8 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   void RegisterMedicament() async {
     widget.medicament.inicioToma  = medicamentDate.toString();
 
+    homePageCards = [];
+
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
@@ -117,12 +119,12 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
       var medicamento = widget.medicament.toMap();
 
       var id1 = txn.insert('Medicamento', medicamento);
-
-      final List<Map<String, dynamic>> map1 = await database.rawQuery(
-        'SELECT * FROM Medicamento',
-      );
-
-      print("map1: " + map1.length.toString());
     });
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+      'SELECT * FROM Medicamento',
+    );
+
+    print("Medicamentos registrados: " + map1.length.toString());
   }
 }
