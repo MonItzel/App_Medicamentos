@@ -3,7 +3,7 @@ import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
-import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/pages/register/carer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
@@ -238,7 +238,7 @@ class _Pathologies extends State <Pathologies> {
                         Navigator.pushAndRemoveUntil <dynamic>(
                           context,
                           MaterialPageRoute <dynamic>(
-                              builder: (BuildContext context) => HomePage()
+                              builder: (BuildContext context) => CarerPage()
                           ),
                               (route) => false,
                         );
