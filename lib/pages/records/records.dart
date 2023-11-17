@@ -16,7 +16,7 @@ class RecordsPage extends StatefulWidget{
 }
 
 class _RecordsPage extends State <RecordsPage>{
-  int _currentIndex = 0;
+  int _currentIndex = 3;
 
   @override
   Widget build(BuildContext context){
