@@ -5,6 +5,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../calendar/calendar.dart';
+import '../records/records.dart';
+
 class AppointmentsDatePage extends StatefulWidget {
   const AppointmentsDatePage({super.key, required this.appointment});
 
@@ -108,6 +111,10 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
 
   void RegisterAppointment() async {
     widget.appointment.fecha  = appointmentDate.toString();
+
+    homePageCards.clear();
+    recordsPageCards.clear();
+    calendarPageCards.clear();
 
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);

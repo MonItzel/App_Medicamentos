@@ -1,4 +1,6 @@
+import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -109,7 +111,9 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   void RegisterMedicament() async {
     widget.medicament.inicioToma  = medicamentDate.toString();
 
-    homePageCards = [];
+    homePageCards.clear();
+    recordsPageCards.clear();
+    calendarPageCards.clear();
 
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
