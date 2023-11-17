@@ -11,11 +11,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, this.medicamentList, this.medicamentos});
-
-  final List<Medicament>? medicamentList;
-
-  final List<Map<String, dynamic>>? medicamentos;
+  const HomePage({super.key});
 
   @override
   State<StatefulWidget> createState() {
