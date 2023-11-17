@@ -1,6 +1,6 @@
-import 'dart:ffi' as ffi;
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:app_medicamentos/pages/profile/edit_profile.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
@@ -110,6 +110,28 @@ class _ProfilePage extends State<ProfilePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            SizedBox(height: 20.0,),
+            Padding(
+              padding: const EdgeInsets.only(right: 5, bottom: 50),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton.small(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil <dynamic>(
+                      context,
+                      MaterialPageRoute <dynamic>(
+                          builder: (BuildContext context) => const EditProfile()
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  backgroundColor: Color(0xFF09184D),
+                  child: Icon(
+                    Icons.edit
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

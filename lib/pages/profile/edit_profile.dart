@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/pages/profile/profile_page.dart';
 
-class NameRegister extends StatefulWidget {
-  const NameRegister({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _NameRegister();
+    return _EditProfile();
   }
 }
 
-class _NameRegister extends State <NameRegister> {
+class _EditProfile extends State <EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +32,7 @@ class _NameRegister extends State <NameRegister> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => HomePage()
+                    builder: (BuildContext context) => ProfilePage()
                 ),
                     (route) => false,
               );
