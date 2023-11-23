@@ -3,6 +3,7 @@ import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/utils/validaciones.dart';
+import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 
 class NameRegister extends StatefulWidget {
   const NameRegister({super.key});
@@ -127,16 +128,7 @@ class _NameRegister extends State <NameRegister> {
                   style: const TextStyle(height: 1.5),
                   onChanged: (text) {
                     setState(() {
-                      if (text.trim().isNotEmpty) {
-                        // Dividir el texto por espacios y capitalizar la primera letra de cada palabra
-                        List<String> words = text.split(' ');
-                        for (int i = 0; i < words.length; i++) {
-                          words[i] = words[i][0].toUpperCase() + words[i].substring(1);
-                        }
-                        // Unir las palabras de nuevo con espacios y asignar al controlador
-                        nombreController.text = words.join(' ');
-                        _validateU = false;
-                      }
+                      convertoUpperCase(text, nombreController, _validateU);
                     });
                   },
                 ),
@@ -198,14 +190,7 @@ class _NameRegister extends State <NameRegister> {
                   style: const TextStyle(height: 1.5),
                   onChanged: (text) {
                     setState(() {
-                      // Verificar si el texto no está vacío
-                      if (text.trim().isNotEmpty) {
-                        // Convertir la primera letra a mayúscula
-                        text = text[0].toUpperCase() + text.substring(1);
-                        // Asignar el texto al controlador
-                        apellidoPController.text = text;
-                        _validateApp = false;
-                      }
+                      convertoUpperCase(text, apellidoPController, _validateApp);
                     });
                   },
                 ),
@@ -263,13 +248,7 @@ class _NameRegister extends State <NameRegister> {
                 style: const TextStyle(height: 1.5),
                 onChanged: (text) {
                   setState(() {
-                    if (text.isNotEmpty) {
-                      // Convertir la primera letra a mayúscula
-                      text = text[0].toUpperCase() + text.substring(1);
-
-                      // Actualizar el controlador con el texto modificado
-                      apellidoMController.text = text;
-                    }
+                    convertoUpperCase(text, apellidoMController, 0);
                   });
                 },
               ),

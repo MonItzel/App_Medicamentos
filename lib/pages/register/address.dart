@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:app_medicamentos/pages/register/pathologies.dart';
-
+import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import '../../models/user_model.dart';
 
 class Address extends StatefulWidget {
@@ -139,14 +139,7 @@ class _Address extends State <Address> {
                 ),
                 onChanged: (text) {
                   setState(() {
-                    // Verificar si el texto no está vacío
-                    if (text.trim().isNotEmpty) {
-                      // Convertir la primera letra a mayúscula
-                      text = text[0].toUpperCase() + text.substring(1);
-                      // Asignar el texto al controlador
-                      calleController.text = text;
-
-                    }
+                    convertFirstWordUpperCase(text, calleController);
                   });
                 },
               ),
@@ -202,13 +195,7 @@ class _Address extends State <Address> {
                 ),
                 onChanged: (text) {
                   setState(() {
-                    // Verificar si el texto no está vacío
-                    if (text.trim().isNotEmpty) {
-                      // Convertir la primera letra a mayúscula
-                      text = text[0].toUpperCase() + text.substring(1);
-                      // Asignar el texto al controlador
-                      coloniaController.text = text;
-                    }
+                    convertFirstWordUpperCase(text, coloniaController);
                   });
                 },
               ),
@@ -264,13 +251,7 @@ class _Address extends State <Address> {
                 ),
                 onChanged: (text) {
                   setState(() {
-                    // Verificar si el texto no está vacío
-                    if (text.trim().isNotEmpty) {
-                      // Convertir la primera letra a mayúscula
-                      text = text[0].toUpperCase() + text.substring(1);
-                      // Asignar el texto al controlador
-                      numExteriorController.text = text;
-                    }
+                    convertFirstWordUpperCase(text, numExteriorController);
                   });
                 },
               ),

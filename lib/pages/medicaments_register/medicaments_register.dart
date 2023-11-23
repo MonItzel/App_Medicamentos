@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register_date.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
+import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 
 enum Frequency { horas, dias, semanas, meses  }
 
@@ -113,6 +114,12 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                     filled: true,
                     fillColor: Colors.white,
                   ),
+
+                  onChanged: (text) {
+                    setState(() {
+                      convertFirstWordUpperCase(text, nombreController);
+                    });
+                  },
                 ),
               ),
               SizedBox(height: 20.0,),

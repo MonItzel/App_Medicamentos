@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/appointment_register/appointments_date.dart';
 import 'package:app_medicamentos/models/appointment_model.dart';
-
+import 'package:app_medicamentos/utils/convert_Uppercase.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 
 class AppointmentsPage extends StatefulWidget {
@@ -15,6 +16,9 @@ class AppointmentsPage extends StatefulWidget {
 }
 
 class _AppointmentsPage extends State <AppointmentsPage> {
+
+  var maskFormatter = MaskTextInputFormatter(mask: '### ### ####', filter: {"#": RegExp(r'[0-9]')});
+
   final  Appointment appointment = Appointment();
 
   @override
@@ -104,6 +108,11 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   filled: true,
                   fillColor: Colors.white,
                 ),
+                onChanged: (text) {
+                  setState(() {
+                    convertoUpperCase(text, nombreMedicoController, 0);
+                  });
+                },
               ),
             ),
             SizedBox(height: 20.0,),
@@ -154,6 +163,11 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   filled: true,
                   fillColor: Colors.white,
                 ),
+                onChanged: (text) {
+                  setState(() {
+                    convertFirstWordUpperCase(text, motivoController);
+                  });
+                },
               ),
             ),
             SizedBox(height: 20.0,),
@@ -204,6 +218,11 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   filled: true,
                   fillColor: Colors.white,
                 ),
+                onChanged: (text) {
+                  setState(() {
+                    convertFirstWordUpperCase(text, lugarController);
+                  });
+                },
               ),
             ),
             SizedBox(height: 20.0,),
@@ -240,6 +259,8 @@ class _AppointmentsPage extends State <AppointmentsPage> {
               ),
               child: TextFormField(
                 controller: telefonoMedicoController,
+                keyboardType: TextInputType.phone,
+                inputFormatters: [maskFormatter],
                 obscureText: false,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
@@ -298,7 +319,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
     appointment.nombre_medico = nombreMedicoController.text;
     appointment.motivo = motivoController.text;
     appointment.ubicacion = lugarController.text;
-    appointment.telefono_medico = telefonoMedicoController.text;
+    appointment.telefono_medico = telefonoMedicoController.text.replaceAll(' ', '');
   }
 }
 

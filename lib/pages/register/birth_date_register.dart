@@ -75,36 +75,56 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               todayHighlightColor: Color(0xFF09184D),
               selectionColor: Color(0xFF09184D),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Fecha de nacimiento',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Fecha de nacimiento',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
-            TextFormField(
-              controller: fechaController,
-              obscureText: false,
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid
-
+            Padding(
+              padding: const EdgeInsets.only(top: 10, left: 8.0, right: 14.0),
+              child: Container(
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
                     )
+                  ],
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                hintText: '',
+                child: TextFormField(
+                  controller: fechaController,
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 1,
+                            style: BorderStyle.solid
+
+                        )
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: '',
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 20.0,),

@@ -7,6 +7,7 @@ import 'package:app_medicamentos/pages/register/carer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 
 
 class Pathologies extends StatefulWidget {
@@ -142,11 +143,6 @@ class _Pathologies extends State <Pathologies> {
                         DropDownValueModel(name: 'Hipertensión arterial sistemática', value: "Hipertensión arterial sistemática", /* Muestra un dialog* toolTipMsg: "DropDownButton is a widget that we can use to select one unique value from a set of values"*/),
                         DropDownValueModel(name: 'Osteoporosis', value: "Osteoporosis"),
                         DropDownValueModel(name: 'Parkinson', value: "Parkinson"),
-                        /*
-                        DropDownValueModel(name: 'name10', value: "value10"),
-                        DropDownValueModel(name: 'name11', value: "value11"),
-
-                        */
                       ],
                       onChanged: (val) {
                         setState(() {
@@ -165,7 +161,7 @@ class _Pathologies extends State <Pathologies> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
+                    padding: const EdgeInsets.only(left: 7.0),
                     child: Text(
                       'Otras patologías(s)',
                       textAlign: TextAlign.left,
@@ -177,51 +173,46 @@ class _Pathologies extends State <Pathologies> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0,),
-                Container(
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: TextFormField(
-                    controller: otraspatController,
-                    obscureText: false,
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                              color: Colors.white,
-                              width: 1,
-                              style: BorderStyle.solid
-
-                          )
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, left: 7.0, right: 12),
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      filled: true,
-                      fillColor: Colors.white,
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x3F000000),
+                          blurRadius: 4,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        )
+                      ],
                     ),
-                    onChanged: (text) {
-                      setState(() {
-                        // Verificar si el texto no está vacío
-                        if (text.trim().isNotEmpty) {
-                          // Convertir la primera letra a mayúscula
-                          text = text[0].toUpperCase() + text.substring(1);
-                          // Asignar el texto al controlador
-                          otraspatController.text = text;
+                    child: TextFormField(
+                      controller: otraspatController,
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                                color: Colors.white,
+                                width: 1,
+                                style: BorderStyle.solid
 
-                        }
-                      });
-                    },
+                            )
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      onChanged: (text) {
+                        setState(() {
+                          convertFirstWordUpperCase(text, otraspatController);
+                        });
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20,),
