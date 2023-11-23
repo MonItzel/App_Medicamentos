@@ -8,6 +8,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 
+import '../../models/reminder_model.dart';
+
 class MedicamentDateRegister extends StatefulWidget {
   const MedicamentDateRegister({super.key, required this.medicament});
 
@@ -109,11 +111,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   }
 
   void RegisterMedicament() async {
-    widget.medicament.inicioToma  = medicamentDate.toString();
-
-    homePageCards.clear();
-    recordsPageCards.clear();
-    calendarPageCards.clear();
+    widget.medicament.inicioToma  = medicamentDate.toString().split(" ")[0] + " 12:00:00";
 
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -129,6 +127,23 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
       'SELECT * FROM Medicamento',
     );
 
-    print("Medicamentos registrados: " + map1.length.toString());
+    for(int i = 0; i < map1.length; i++){
+      print(map1[i]["id_medicamento"].toString() + " - " + map1[i]["nombre"].toString());
+    }
+
+    final List<Map<String, dynamic>> maxID = await database.rawQuery(
+      'SELECT MAX(id_medicamento) AS MaxID FROM Medicamento',
+    );
+
+    print(maxID[0]['MaxID'].toString());
+
+    widget.medicament.id_medicamento = int.parse(maxID[0]['MaxID'].toString());
+    Reminder reminder = Reminder(tipo: "M", id_medicamento: widget.medicament.id_medicamento, fecha_hora: widget.medicament.inicioToma);
+    reminder.InsertReminder();
+    reminder.CreateMedicamentReminders(widget.medicament);
+
+    homePageCards.clear();
+    recordsPageCards.clear();
+    calendarPageCards.clear();
   }
 }

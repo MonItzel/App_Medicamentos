@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/models/reminder_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
@@ -181,10 +182,10 @@ class _HomePage extends State<HomePage> {
 
         DateTime now = new DateTime.now();
         DateTime date = new DateTime(now.year, now.month, now.day);
-        print("SELECT * FROM Medicamento LIKE '" + date.toString().split(" ")[0] + "%'");
+        print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'");
 
         final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
-          "SELECT * FROM Medicamento WHERE inicioToma LIKE '" + date.toString().split(" ")[0] + "%'",
+          "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
         );
         print("map: " + medicamentos.length.toString());
         print("cards: " + homePageCards.length.toString());
@@ -206,7 +207,7 @@ class _HomePage extends State<HomePage> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Tipo de Medicamento'),
+                    Text('Hora: ' + medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
                     Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
                   ],
                 ),
@@ -218,6 +219,52 @@ class _HomePage extends State<HomePage> {
             )
             );
           }
+
+          final List<Map<String, dynamic>> citas = await database.rawQuery(
+            "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
+          );
+          print("map: " + citas.length.toString());
+          print("cards: " + homePageCards.length.toString());
+
+          if(citas.length > 0) {
+            for (int i = 0; i < citas.length; i++) {
+              homePageCards.add(Card(
+                elevation: 3, // Elevación para dar profundidad al card
+                margin: EdgeInsets.all(16), // Margen alrededor del card
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      15), // Borde redondeado con radio de 15
+                ),
+                child: ListTile(
+                  leading: Icon(Icons.medical_services, size: 40),
+                  // Icono de medicina a la izquierda
+                  title: Text(
+                    //citas[i]['motivo'].toString(),
+                    'Cita Médica',
+                    //Titulo
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Hora: ' + citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
+                      Text("Ubicacion: " +
+                          citas[i]['ubicacion'].toString()),
+                      //Dosis del medicamento
+                    ],
+                  ),
+                  trailing: Text(
+                    "Telefono: " +
+                        citas[i]['telefono_medico'].toString().split(
+                            " ")[0], //Fecha de inicio
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+              );
+            }
+          }
+
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             MaterialPageRoute <dynamic>(

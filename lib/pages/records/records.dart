@@ -185,8 +185,6 @@ class _RecordsPage extends State <RecordsPage>{
         final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
           "SELECT * FROM Medicamento",
         );
-        print("map: " + medicamentos.length.toString());
-        print("cards: " + recordsPageCards.length.toString());
 
         if(medicamentos.length > 0){
           for(int i = 0; i < medicamentos.length; i++){
@@ -205,7 +203,7 @@ class _RecordsPage extends State <RecordsPage>{
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Tipo de Medicamento'),
+                    Text('Cada ' + medicamentos[i]['frecuenciaToma'].toString() + ' ' + medicamentos[i]['frecuenciaTipo'].toString() + 's'),
                     Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
                   ],
                 ),
@@ -217,26 +215,65 @@ class _RecordsPage extends State <RecordsPage>{
             )
             );
           }
-          Navigator.pushAndRemoveUntil <dynamic>(
-            context,
-            MaterialPageRoute <dynamic>(
-                builder: (BuildContext context) => const RecordsPage()
-            ),
-                (route) => false,
-          );
-        }else{
-          recordsPageCards.add(Text(
-            'Aún no hay registros de citas ni medicamentos',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xFF6A6A6A),
-              fontSize: 22,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w700,
-              height: 0,
-            ),
-          ),);
         }
+
+        print("medicamentos: " + medicamentos.length.toString());
+        print("cards: " + recordsPageCards.length.toString());
+
+
+        final List<Map<String, dynamic>> citas = await database.rawQuery(
+          "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita",
+        );
+
+        if(citas.length > 0) {
+          for(int i = 0; i < citas.length; i++){
+            recordsPageCards.add(Card(
+              elevation: 3, // Elevación para dar profundidad al card
+              margin: EdgeInsets.all(16), // Margen alrededor del card
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    15), // Borde redondeado con radio de 15
+              ),
+              child: ListTile(
+                leading: Icon(Icons.medical_services, size: 40),
+                // Icono de medicina a la izquierda
+                title: Text(
+                  //citas[i]['motivo'].toString(),
+                  'Cita Médica',
+                  //Titulo
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Hora: ' + citas[i]['fecha_hora']
+                        .toString().split(" ")[1].split(".")[0]),
+                    Text("Ubicacion: " +
+                        citas[i]['ubicacion'].toString()),
+                    //Dosis del medicamento
+                  ],
+                ),
+                trailing: Text(
+                  "Telefono: " +
+                      citas[i]['telefono_medico'].toString(), //Fecha de inicio
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+            );
+          }
+        }
+
+        print("citas: " + citas.length.toString());
+        print("cards: " + homePageCards.length.toString());
+
+        Navigator.pushAndRemoveUntil <dynamic>(
+          context,
+          MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) => const RecordsPage()
+          ),
+              (route) => false,
+        );
       }
     }catch(exception){
       print(exception);

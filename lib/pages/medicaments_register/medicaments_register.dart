@@ -409,6 +409,22 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
   void SetMedicamento(){
     medicament.nombre = nombreController.text;
     medicament.dosis = dosisController.text;
+
+    switch(_frequency){
+      case Frequency.horas:
+        medicament.frecuenciaTipo = "Hora";
+        medicament.frecuenciaToma = int.parse(freqHour.text);
+      case Frequency.dias:
+        medicament.frecuenciaTipo = "Dia";
+        medicament.frecuenciaToma = int.parse(freqDay.text);
+      case Frequency.semanas:
+        medicament.frecuenciaTipo = "Semana";
+        medicament.frecuenciaToma = int.parse(freqWeek.text);
+      case Frequency.meses:
+        medicament.frecuenciaTipo = "Mes";
+        medicament.frecuenciaToma = int.parse(freqMonth.text);
+      case null:
+    }
   }
 
 }

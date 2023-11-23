@@ -6,6 +6,7 @@ import 'package:app_medicamentos/pages/medicaments_register/medicaments_register
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import '../models/reminder_model.dart';
 import '../pages/start_page.dart';
 
 class Forwarder extends StatefulWidget {
@@ -38,6 +39,9 @@ class _Forwarder extends State <Forwarder> {
       if (map1.length > 0) {
         print(map1[0]['nombre'].toString());
 
+        Reminder reminder = Reminder();
+        await reminder.CreateMedicamentsReminders();
+
         Navigator.pushAndRemoveUntil <dynamic>(
           context,
           MaterialPageRoute <dynamic>(
@@ -47,6 +51,7 @@ class _Forwarder extends State <Forwarder> {
         );
       }
     }catch(exception){
+      print(exception);
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
         MaterialPageRoute <dynamic>(

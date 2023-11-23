@@ -280,70 +280,86 @@ class _Pathologies extends State <Pathologies> {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    await database.transaction((txn) async {
+    try {
+      await database.transaction((txn) async {
+        String sql =
+            'CREATE TABLE Usuario (id_usuario INTEGER PRIMARY KEY, '
+            'nombre TEXT, '
+            'apellidoP TEXT,  '
+            'apellidoM TEXT,  '
+            'fechaNac REAL,  '
+            'telefono TEXT, '
+            'calle TEXT, '
+            'club TEXT, '
+            'numero_exterior TEXT, '
+            'cuidador_activo INTEGER, '
+            'cuidador_nombre TEXT, '
+            'cuidador_telefono TEXT); ';
+        txn.rawQuery(sql);
 
-      String sql=
-          'CREATE TABLE Usuario (id_usuario INTEGER PRIMARY KEY, '
-          'nombre TEXT, '
-          'apellidoP TEXT,  '
-          'apellidoM TEXT,  '
-          'fechaNac REAL,  '
-          'telefono TEXT, '
-          'calle TEXT, '
-          'club TEXT, '
-          'numero_exterior TEXT, '
-          'cuidador_activo INTEGER, '
-          'cuidador_nombre TEXT, '
-          'cuidador_telefono TEXT); ';
-      txn.rawQuery(sql);
+        sql =
+        'CREATE TABLE Padecimiento (id_padecimiento INTEGER PRIMARY KEY, '
+            'nombre_padecimiento TEXT); ';
+        txn.rawQuery(sql);
 
-       sql=
-          'CREATE TABLE Padecimiento (id_padecimiento INTEGER PRIMARY KEY, '
-          'nombre_padecimiento TEXT); ';
-      txn.rawQuery(sql);
+        sql = 'CREATE TABLE Medicamento (id_medicamento INTEGER PRIMARY KEY, '
+            'nombre TEXT, '
+            'descripcion TEXT,  '
+            'dosis TEXT,  '
+            'inicioToma REAL,  '
+            'finToma REAL,'
+            'frecuenciaTipo TEXT,  '
+            'frecuenciaToma INTEGER); ';
+        txn.rawQuery(sql);
 
-      sql =  'CREATE TABLE Medicamento (id_medicamento INTEGER PRIMARY KEY, '
-          'nombre TEXT, '
-          'descripcion TEXT,  '
-          'dosis TEXT,  '
-          'inicioToma REAL,  '
-          'finToma REAL, '
-          'frecuenciaToma INTEGER); ';
-      txn.rawQuery(sql);
+        sql = 'CREATE TABLE Cita (id_cita INTEGER PRIMARY KEY, '
+            'nombre_medico TEXT, '
+            'motivo TEXT,  '
+            'especialidad_medico TEXT,  '
+            'ubicacion TEXT,  '
+            'telefono_medico TEXT,  '
+            'fecha TEXT); ';
+        txn.rawQuery(sql);
 
-      sql = 'CREATE TABLE Cita (id_cita INTEGER PRIMARY KEY, '
-          'nombre_medico TEXT, '
-          'motivo TEXT,  '
-          'especialidad_medico TEXT,  '
-          'ubicacion TEXT,  '
-          'telefono_medico TEXT,  '
-          'fecha TEXT); ';
-      txn.rawQuery(sql);
+        sql = 'CREATE TABLE Recordatorio (id_recordatorio INTEGER PRIMARY KEY, '
+            'tipo TEXT, '
+            'id_medicamento INTEGER,  '
+            'id_cita INTEGER, '
+            'fecha_hora TEXT);  ';
+        txn.rawQuery(sql);
 
-      sql = 'CREATE TABLE Recordatorio (id_recordatorio INTEGER PRIMARY KEY, '
-          'tipo TEXT, '
-          'id_medicamento INTEGER,  '
-          'id_cita);  ';
-      txn.rawQuery(sql);
+        sql =
+        'CREATE TABLE RecordatotioRegistro (id_registro INTEGER PRIMARY KEY, '
+            'fecha TEXT); ';
+        txn.rawQuery(sql);
 
-      for(int i=0; i<patologias.length; i++) {
-        var padecimiento = {
-          'nombre_padecimiento': patologias,
+        for (int i = 0; i < patologias.length; i++) {
+          var padecimiento = {
+            'nombre_padecimiento': patologias[i].toString(),
+          };
+
+          var id2 = txn.insert('Padecimiento', padecimiento);
+
+          print(padecimiento["nombre_padecimiento"].toString() + " insertado.");
+        }
+
+        var otroPadecimiento = {
+          'nombre_padecimiento': otraspatController.text,
         };
 
-        var id2 = txn.insert('Padecimiento', padecimiento);
+        var id2 = txn.insert('Padecimiento', otroPadecimiento);
+        print(
+            otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
+      });
+    }catch(exception) {
+      print(exception);
+    }
 
-        print(padecimiento["nombre_padecimiento"].toString() + " insertado.");
-      }
 
-      var otroPadecimiento = {
-        'nombre_padecimiento': otraspatController.text,
-      };
-
-      var id2 = txn.insert('Padecimiento', otroPadecimiento);
-
-      print(otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
-    });
+    final List<Map<String, dynamic>> r = await database.rawQuery(
+      "INSERT INTO RecordatotioRegistro (fecha) VALUES ('" + DateTime.now().toString().split(" ")[0] + "')",
+    );
+    print("INSERT INTO RecordatotioRegistro (fecha) VALUES ('" + DateTime.now().toString().split(" ")[0] + "')");
   }
 }
 

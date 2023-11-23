@@ -199,11 +199,10 @@ class _CalendarPage extends State <CalendarPage>{
       Database database = await openDatabase(
           Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-      print("SELECT * FROM Medicamento LIKE '" + date.toString().split(" ")[0] + "%'");
-
       final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
-        "SELECT * FROM Medicamento WHERE inicioToma LIKE '" + date.toString().split(" ")[0] + "%'",
+        "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
       );
+      print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'");
       print("map: " + medicamentos.length.toString());
 
       if(medicamentos.length > 0){
@@ -223,7 +222,7 @@ class _CalendarPage extends State <CalendarPage>{
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Tipo de Medicamento'),
+                  Text('Hora: ' + medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
                   Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
                 ],
               ),
@@ -235,14 +234,58 @@ class _CalendarPage extends State <CalendarPage>{
           )
           );
         }
-        Navigator.pushAndRemoveUntil <dynamic>(
-          context,
-          MaterialPageRoute <dynamic>(
-              builder: (BuildContext context) => const CalendarPage()
-          ),
-              (route) => false,
-        );
       }
+
+      final List<Map<String, dynamic>> citas = await database.rawQuery(
+        "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
+      );
+      print("map: " + citas.length.toString());
+      print("cards: " + homePageCards.length.toString());
+
+      if(citas.length > 0) {
+        for (int i = 0; i < citas.length; i++) {
+          calendarPageCards.add(Card(
+            elevation: 3, // Elevación para dar profundidad al card
+            margin: EdgeInsets.all(16), // Margen alrededor del card
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  15), // Borde redondeado con radio de 15
+            ),
+            child: ListTile(
+              leading: Icon(Icons.medical_services, size: 40),
+              // Icono de medicina a la izquierda
+              title: Text(
+                //citas[i]['motivo'].toString(),
+                'Cita Médica',
+                //Titulo
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Hora: ' + citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
+                  Text("Ubicacion: " + citas[i]['ubicacion'].toString()),
+                ],
+              ),
+              trailing: Text(
+                "Telefono: " +
+                    citas[i]['telefono_medico'].toString().split(" ")[0], //Fecha de inicio
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+          );
+        }
+      }
+
+
+      Navigator.pushAndRemoveUntil <dynamic>(
+        context,
+        MaterialPageRoute <dynamic>(
+            builder: (BuildContext context) => const CalendarPage()
+        ),
+            (route) => false,
+      );
       print("cards: " + calendarPageCards.length.toString());
     }catch(exception){
       print(exception);

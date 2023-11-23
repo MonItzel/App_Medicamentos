@@ -1,4 +1,5 @@
 import 'package:app_medicamentos/models/appointment_model.dart';
+import 'package:app_medicamentos/models/reminder_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:sqflite/sqflite.dart';
@@ -113,10 +114,6 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
   void RegisterAppointment() async {
     widget.appointment.fecha  = appointmentDate.toString();
 
-    homePageCards.clear();
-    recordsPageCards.clear();
-    calendarPageCards.clear();
-
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
@@ -129,10 +126,16 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
       print(cita.toString());
     });
 
-    final List<Map<String, dynamic>> map1 = await database.rawQuery(
-      'SELECT * FROM Cita',
+    final List<Map<String, dynamic>> maxID = await database.rawQuery(
+      'SELECT MAX(id_cita) AS MaxID FROM Cita',
     );
 
-    print("Citas registradas: " + map1.length.toString());
+    widget.appointment.id_cita = int.parse(maxID[0]['MaxID'].toString());
+    Reminder reminder = Reminder();
+    reminder.CreateAppointmentReminders(widget.appointment);
+
+    homePageCards.clear();
+    recordsPageCards.clear();
+    calendarPageCards.clear();
   }
 }
