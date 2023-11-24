@@ -54,7 +54,7 @@ class _NameRegister extends State <NameRegister> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 50.0),
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,7 +163,7 @@ class _NameRegister extends State <NameRegister> {
 
 
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
               child: Container(
                 width: AppStyles.anchoBoton,
                 height: AppStyles.altoBoton,

@@ -51,7 +51,7 @@ class _Address extends State <Address> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30.0),
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +67,7 @@ class _Address extends State <Address> {
                 ),
               ),
             ),
-            SizedBox(height: 40.0),
+            SizedBox(height: 20.0),
 
             Align(
               alignment: Alignment.centerLeft,
@@ -168,7 +168,7 @@ class _Address extends State <Address> {
 
 
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: Container(
                 width: AppStyles.anchoBoton,
                 height: AppStyles.altoBoton,

@@ -156,7 +156,7 @@ class _CarerPage extends State <CarerPage> {
             ),
             SizedBox(height: 20.0,),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
               child: Container(
                 width: AppStyles.anchoBoton,
                 height: AppStyles.altoBoton,

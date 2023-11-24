@@ -54,9 +54,9 @@ class _BirthDateRegister extends State <BirthDateRegister> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Align(
@@ -113,7 +113,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             SizedBox(height: 20.0,),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 30),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: Container(
                 width: AppStyles.anchoBoton,
                 height: AppStyles.altoBoton,
