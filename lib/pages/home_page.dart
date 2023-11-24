@@ -217,7 +217,7 @@ class _HomePage extends State<HomePage> {
         print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'");
 
         final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
-          "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
+          "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
         );
         print("map: " + medicamentos.length.toString());
         print("cards: " + homePageCards.length.toString());
@@ -253,7 +253,7 @@ class _HomePage extends State<HomePage> {
           }
 
           final List<Map<String, dynamic>> citas = await database.rawQuery(
-            "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
+            "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
           );
           print("map: " + citas.length.toString());
           print("cards: " + homePageCards.length.toString());
