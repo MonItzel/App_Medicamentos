@@ -12,6 +12,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,14 +25,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   int _currentIndex = 0;
+  String formattedDate = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDate();
+  }
+
+  void _loadDate() async {
+    await initializeDateFormatting('es', null);
+    DateTime now = DateTime.now();
+    setState(() {
+      formattedDate = DateFormat.yMMMMd('es').format(now);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     CreateCards(context);
 
-    //Intl.defaultLocale = 'es';
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat.yMMMMd().format(now);
     return MaterialApp(
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
@@ -110,7 +123,6 @@ class _HomePage extends State<HomePage> {
       ),
     );
   }
-  //  void muestraButtonSheet(BuildContext context, int bandShow, String text){PENDIENTE}
 
   void muestraButtonSheet(){
     final int bandShow = 0;

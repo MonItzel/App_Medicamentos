@@ -8,6 +8,7 @@ import 'package:app_medicamentos/pages/profile/edit_profile.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
 void main() {
   runApp(const MyApp());
 }
