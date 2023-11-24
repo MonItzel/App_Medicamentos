@@ -9,6 +9,7 @@ import 'package:app_medicamentos/utils/button.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
+import 'package:app_medicamentos/constants.dart';
 
 class CalendarPage extends StatefulWidget{
   const CalendarPage({super.key});
@@ -31,21 +32,7 @@ class _CalendarPage extends State <CalendarPage>{
         child: AppBar(
           title: Text(
             'Calendario',
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => HomePage()
-                ),
-                    (route) => false,
-              );
-            },
+            style: AppStyles.encabezado1,
           ),
           actions: const [],
           backgroundColor: const Color(0xFFEDF2FA),

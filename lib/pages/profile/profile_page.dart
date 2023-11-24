@@ -8,6 +8,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:path/path.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:app_medicamentos/constants.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -39,34 +40,17 @@ class _ProfilePage extends State<ProfilePage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
             'Perfil',
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          leading: IconButton(
-            icon: const Icon(
-                Icons.arrow_back_rounded, color: Color(0xFF09184D)),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) =>
-                        HomePage()
-                ),
-                    (route) => false,
-              );
-            },
+            style: AppStyles.encabezado1,
           ),
           actions: const [],
-          backgroundColor: const Color(0xFFEDF2FA),
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          centerTitle: false,
           elevation: 0,
         ),
       ),

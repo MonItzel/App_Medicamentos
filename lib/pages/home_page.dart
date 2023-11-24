@@ -11,6 +11,7 @@ import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
+import 'package:app_medicamentos/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,27 +34,24 @@ class _HomePage extends State<HomePage> {
     String formattedDate = DateFormat.yMMMMd().format(now);
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(
-          backgroundColor: Colors.transparent, // Fondo transparente
-          elevation: 0, // Sin sombra
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           title: Row(
             children: [
-              Icon(Icons.today, color: Colors.black, size: 42), // Icono de calendario
+              Icon(Icons.today, color: Colors.black, size: 42),
               SizedBox(width: 16), // Espacio entre el icono y el texto
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hoy', // Etiqueta "Hoy"
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black
-                    ), // Texto en negro
+                    'Hoy',
+                    style: AppStyles.encabezado1,
                   ),
                   Text(
-                    formattedDate, // Fecha actual con el nombre del mes
-                    style: TextStyle(fontSize: 20, color: Colors.black), // Texto en negro
+                    formattedDate,
+                    style: AppStyles.encabezado2,
                   ),
                 ],
               ),
@@ -61,7 +59,7 @@ class _HomePage extends State<HomePage> {
           ),
         ),
         body: Container(
-          height: homePageCards.length * 120, // Establece la altura del Container a 200 píxeles
+          height: homePageCards.length * 120,
           child: new ListView(
             children: homePageCards,
           )
