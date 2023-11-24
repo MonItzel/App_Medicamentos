@@ -8,6 +8,7 @@ import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/utils/button.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
+import 'package:page_transition/page_transition.dart';
 
 class CalendarPage extends StatefulWidget{
   const CalendarPage({super.key});
@@ -95,15 +96,36 @@ class _CalendarPage extends State <CalendarPage>{
               _currentIndex = index;
             });
             if (index == 0) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: const HomePage(),
+                ),
+                    (route) => false,
+              );
             } else if (index == 1) {
-
+              //Pagina actual, no necesita navegacion
             } else if (index == 2) {
               muestraButtonSheet();
             } else if (index == 3) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RecordsPage()));//Registros
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: const RecordsPage(),
+                ),
+                    (route) => false,
+              );
             } else if (index == 4) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: const ProfilePage(),
+                ),
+                    (route) => false,
+              );
             }
           },
         ),

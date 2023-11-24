@@ -7,6 +7,7 @@ import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:path/path.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -167,15 +168,36 @@ class _ProfilePage extends State<ProfilePage> {
               _currentIndex = index;
             });
             if (index == 0) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: const HomePage(),
+                ),
+                    (route) => false,
+              );
             } else if (index == 1) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()));
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: const CalendarPage(),
+                ),
+                    (route) => false,
+              );
             } else if (index == 2) {
               //muestraButtonSheet();
             } else if (index == 3) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RecordsPage()));//Registros
+              Navigator.pushAndRemoveUntil(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: const RecordsPage(),
+                ),
+                    (route) => false,
+              );
             } else if (index == 4) {
-
+              //Pagina actual, no necesita navegacion
             }
           },
         ),

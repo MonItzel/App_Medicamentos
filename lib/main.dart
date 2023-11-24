@@ -22,10 +22,10 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Flutter Demo',
-      //home: HomePage(),
+      home: HomePage(),
       //home: StartPage(),
       //home: AppointmentsPage(),
-      home: Forwarder(),
+      //home: Forwarder(),
     );
   }
 
