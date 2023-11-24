@@ -26,7 +26,7 @@ class _CalendarPage extends State <CalendarPage>{
   Widget build(BuildContext context){
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEDF2FA),
+      backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
@@ -35,7 +35,7 @@ class _CalendarPage extends State <CalendarPage>{
             style: AppStyles.encabezado1,
           ),
           actions: const [],
-          backgroundColor: const Color(0xFFEDF2FA),
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           centerTitle: false,
           elevation: 0,
@@ -60,13 +60,7 @@ class _CalendarPage extends State <CalendarPage>{
                 const SizedBox(height: 20.0,),
                 const Text(
                   'Eventos de ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                    height: 0,
-                  ),
+                  style: AppStyles.encabezado2
                 )
               ]
                   + calendarPageCards

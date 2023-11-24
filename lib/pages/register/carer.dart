@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
+import 'package:app_medicamentos/constants.dart';
 
 
 class CarerPage extends StatefulWidget {
@@ -28,18 +28,16 @@ class _CarerPage extends State <CarerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEDF2FA),
+      backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
             'Registro de cuidador',
-            style: TextStyle(
-              color: Colors.black,
-            ),
+            style: AppStyles.encabezado1
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
+            icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
@@ -51,7 +49,7 @@ class _CarerPage extends State <CarerPage> {
             },
           ),
           actions: const [],
-          backgroundColor: const Color(0xFFEDF2FA),
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           centerTitle: false,
           elevation: 0,
@@ -59,165 +57,100 @@ class _CarerPage extends State <CarerPage> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 6),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: const Text(
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: const Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
                   'Nombre(s)',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                  ),
+                  style: AppStyles.texto1,
                 ),
               ),
             ),
+            const SizedBox(height: 10.0),
             Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                shadows: [
-                  const BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: TextFormField(
-                controller: nombreCuidadorController,
-                obscureText: false,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
-                          color: Colors.white,
-                          width: 1,
-                          style: BorderStyle.solid
-                      )
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                onChanged: (text) {
-                  setState(() {
-                    convertoUpperCase(text, nombreCuidadorController, 0);
-                  });
-                },
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 10, left: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Apellido(s)',
+              decoration: AppStyles.contenedorTextForm,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child:TextFormField(
+                  controller: nombreCuidadorController,
+                  obscureText: false,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                  ),
+                  decoration: AppStyles.textFieldEstilo,
+                  style: AppStyles.texto1,
+                  onChanged: (text) {
+                    setState(() {
+                      convertoUpperCase(text, nombreCuidadorController, 0);
+                    });
+                  },
                 ),
               ),
             ),
+            const SizedBox(height: 30.0),
+
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                    'Apellido(s)',
+                    textAlign: TextAlign.left,
+                    style: AppStyles.texto1
+                ),
+              ),
+            ),
+            const SizedBox(height: 10.0),
             Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                shadows: [
-                  const BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: TextFormField(
-                controller: apellidoCuidadorController,
-                obscureText: false,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
-                          color: Colors.white,
-                          width: 1,
-                          style: BorderStyle.solid
-
-                      )
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                onChanged: (text) {
-                  setState(() {
-                    convertoUpperCase(text, apellidoCuidadorController, 0);
-                  });
-                },
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 10.0, left: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Número de teléfono',
+              decoration: AppStyles.contenedorTextForm,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TextFormField(
+                  controller: apellidoCuidadorController,
+                  obscureText: false,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                  ),
+                  decoration: AppStyles.textFieldEstilo,
+                  style: AppStyles.texto1,
+                  onChanged: (text) {
+                    setState(() {
+                      convertoUpperCase(text, apellidoCuidadorController, 0);
+                    });
+                  },
                 ),
               ),
             ),
-            Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                shadows: [
-                  const BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: TextFormField(
-                controller: telefonoCuidadorController,
-                keyboardType: TextInputType.phone,
-                inputFormatters: [maskFormatter],
-                obscureText: false,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
-                          color: Colors.white,
-                          width: 1,
-                          style: BorderStyle.solid
+            const SizedBox(height: 30.0),
 
-                      )
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                    'Número de telefono',
+                    textAlign: TextAlign.left,
+                    style: AppStyles.texto1
+                ),
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Container(
+              decoration: AppStyles.contenedorTextForm,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TextFormField(
+                  controller: telefonoCuidadorController,
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [maskFormatter],
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: AppStyles.textFieldEstilo,
+                  style: AppStyles.texto1,
                 ),
               ),
             ),
@@ -225,8 +158,8 @@ class _CarerPage extends State <CarerPage> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Container(
-                width: 193,
-                height: 77,
+                width: AppStyles.anchoBoton,
+                height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
                     register();
@@ -238,17 +171,9 @@ class _CarerPage extends State <CarerPage> {
                           (route) => false,
                     );
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF0063C9),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )
-                  ),
+                  style: AppStyles.botonPrincipal,
                   child: Text("Siguiente",
-                    style: TextStyle(
-                        fontSize: 26
-                    ),
+                    style: AppStyles.textoBoton
                   ),
                 ),
               ),

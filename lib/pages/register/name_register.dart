@@ -4,6 +4,7 @@ import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/utils/validaciones.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
+import 'package:app_medicamentos/constants.dart';
 
 class NameRegister extends StatefulWidget {
   const NameRegister({super.key});
@@ -18,7 +19,6 @@ class _NameRegister extends State <NameRegister> {
 
   final User user = User();
 
-  //Declaración de variables para validar las entradas ingresadas por el usuario
   late bool _validateU = false;
   late bool _validateApp = false;
 
@@ -26,22 +26,16 @@ class _NameRegister extends State <NameRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Registro de paciente',
-              style: TextStyle(
-              color: Colors.black,
-              fontSize: 26,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w600,
-              height: 0,
-            ),
+            'Registro',
+              style: AppStyles.encabezado1
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
+            icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
@@ -53,9 +47,8 @@ class _NameRegister extends State <NameRegister> {
             },
           ),
           actions: const [],
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          centerTitle: false,
           elevation: 0,
         ),
       ),
@@ -66,6 +59,7 @@ class _NameRegister extends State <NameRegister> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -73,59 +67,23 @@ class _NameRegister extends State <NameRegister> {
                 child: Text(
                   'Nombre(s)',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                  ),
+                  style: AppStyles.texto1
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
+              decoration: AppStyles.contenedorTextForm,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 child: TextFormField(
                   controller: nombreController,
                   obscureText: false,
                   textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-
-                    filled: true,
-                    fillColor: Colors.white,
-                    errorText: _validateU ? 'Debe ingresar su nombre(s) \ncorrectamente' : null,
-
-                    errorStyle: TextStyle(fontSize: 20, color: Color(0xFFFF1744), fontWeight: FontWeight.bold),
-
-                    contentPadding: const EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 10.0,
-                      left: 15.0,
-                      right: 15.0,
-                    ),
+                  decoration: AppStyles.textFieldEstilo.copyWith(
+                    errorText: _validateApp ? 'Por favor, ingrese su(s) nombre(s)' : null,
                   ),
-                  style: const TextStyle(height: 1.5),
+                  style: AppStyles.texto1,
                   onChanged: (text) {
                     setState(() {
                       convertoUpperCase(text, nombreController, _validateU);
@@ -134,7 +92,9 @@ class _NameRegister extends State <NameRegister> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            SizedBox(height: 30.0),
+
+
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -142,52 +102,23 @@ class _NameRegister extends State <NameRegister> {
                 child: Text(
                   'Apellido paterno',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                    //fontWeight: FontWeight.bold,
-                  ),
+                  style: AppStyles.texto1
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
+              decoration: AppStyles.contenedorTextForm,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 child: TextFormField(
                   controller: apellidoPController,
                   obscureText: false,
                   textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                            color: Colors.white,
-                            width: 1,
-                            style: BorderStyle.solid
-
-                        )
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    errorText: _validateApp ? 'Debe ingresar su apellido paterno \ncorrectamente' : null,
-                    errorStyle: TextStyle(fontSize: 20, color: Color(0xFFFF1744), fontWeight: FontWeight.bold),
+                  decoration: AppStyles.textFieldEstilo.copyWith(
+                    errorText: _validateApp ? 'Por favor, ingrese su apellido' : null,
                   ),
-                  style: const TextStyle(height: 1.5),
+                  style: AppStyles.texto1,
                   onChanged: (text) {
                     setState(() {
                       convertoUpperCase(text, apellidoPController, _validateApp);
@@ -196,68 +127,46 @@ class _NameRegister extends State <NameRegister> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            SizedBox(height: 30.0),
+
+
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Text(
-                  'Apellido materno',
+                  'Apellido materno (opcional)',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                    /*fontWeight: FontWeight.bold,*/
-                  ),
+                  style: AppStyles.texto1
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Container(
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+              decoration: AppStyles.contenedorTextForm,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TextFormField(
+                  controller: apellidoMController,
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: AppStyles.textFieldEstilo,
+                  style: AppStyles.texto1,
+                  onChanged: (text) {
+                    setState(() {
+                      convertoUpperCase(text, apellidoMController, 0);
+                    });
+                  },
                 ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: TextFormField(
-                controller: apellidoMController,
-                obscureText: false,
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
-                          color: Colors.white,
-                          width: 1,
-                          style: BorderStyle.solid
-
-                      )
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                style: const TextStyle(height: 1.5),
-                onChanged: (text) {
-                  setState(() {
-                    convertoUpperCase(text, apellidoMController, 0);
-                  });
-                },
               ),
             ),
+
+
             Padding(
               padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Container(
-                width: 193,
-                height: 77,
+                width: AppStyles.anchoBoton,
+                height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
                     SetUser();
@@ -281,20 +190,11 @@ class _NameRegister extends State <NameRegister> {
                             ),
                                 (route) => false);
                       }
-                      //  );
                     });
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF0063C9),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )
-                  ),
+                  style: AppStyles.botonPrincipal,
                   child: Text("Siguiente",
-                    style: TextStyle(
-                        fontSize: 26
-                    ),
+                    style: AppStyles.textoBoton
                   ),
                 ),
               ),

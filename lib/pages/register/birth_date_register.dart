@@ -1,10 +1,10 @@
-//import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../models/user_model.dart';
+import 'package:app_medicamentos/constants.dart';
 
 class BirthDateRegister extends StatefulWidget {
   const BirthDateRegister({required User this.user});
@@ -25,22 +25,16 @@ class _BirthDateRegister extends State <BirthDateRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEDF2FA),
+      backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Registro de paciente',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 26,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w600,
-              height: 0,
-            ),
+            'Registro',
+            style: AppStyles.encabezado1
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
+            icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
@@ -52,7 +46,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             },
           ),
           actions: const [],
-          backgroundColor: const Color(0xFFEDF2FA),
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           centerTitle: false,
           elevation: 0,
@@ -65,6 +59,18 @@ class _BirthDateRegister extends State <BirthDateRegister> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                    'Seleccione su fecha de nacimiento',
+                    textAlign: TextAlign.left,
+                    style: AppStyles.texto1
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
             SfDateRangePicker(
               selectionMode: DateRangePickerSelectionMode.single,
               showNavigationArrow: true,
@@ -72,68 +78,45 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                 fechaNac = args.value.toString().split(' ')[0];
                 fechaController.text = fechaNac;
               },
-              todayHighlightColor: Color(0xFF09184D),
-              selectionColor: Color(0xFF09184D),
+              todayHighlightColor: AppStyles.secondaryBlue,
+              selectionColor: AppStyles.primaryBlue,
+              backgroundColor: Colors.white,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
+            SizedBox(height: 30.0),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
                 child: Text(
-                  'Fecha de nacimiento',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                  ),
+                    'Fecha seleccionada',
+                    textAlign: TextAlign.left,
+                    style: AppStyles.texto1
                 ),
               ),
             ),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(top: 10, left: 8.0, right: 14.0),
               child: Container(
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
+                decoration: AppStyles.contenedorTextForm,
                 child: TextFormField(
                   controller: fechaController,
                   obscureText: false,
                   textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                            color: Colors.white,
-                            width: 1,
-                            style: BorderStyle.solid
-
-                        )
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: '',
-                  ),
+                  decoration: AppStyles.textFieldEstilo,
+                  style: AppStyles.texto1,
+                  enabled: false,
                 ),
               ),
             ),
             SizedBox(height: 20.0,),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 30),
               child: Container(
-                width: 193,
-                height: 77,
+                width: AppStyles.anchoBoton,
+                height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
                     SetUser();
@@ -145,17 +128,9 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                           (route) => false,
                     );
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF0063C9),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )
-                  ),
+                  style: AppStyles.botonPrincipal,
                   child: Text("Siguiente",
-                    style: TextStyle(
-                        fontSize: 26
-                    ),
+                    style: AppStyles.textoBoton
                   ),
                 ),
               ),
