@@ -74,7 +74,32 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
               selectionColor: Color(0xFF09184D),
             ),
             SizedBox(height: 20.0,),
+            TextField(
+              controller: timeinput, //editing controller of this TextField
+              decoration: InputDecoration(
+                  icon: Icon(Icons.timer), //icon of text field
+                  labelText: "Hora" //label text of field
+              ),
+              readOnly: true,  //set it true, so that user will not able to edit text
+              onTap: () async {
+                TimeOfDay? pickedTime =  await showTimePicker(
+                  initialTime: TimeOfDay.now(),
+                  context: context,
+                );
 
+                if(pickedTime != null ){
+                  print(pickedTime.format(context));   //output 10:51 PM
+
+                  String time = pickedTime.toString().split("(")[1];
+                  time = time.split(")")[0];
+                  setState(() {
+                    timeinput.text = time; //set the value of text field.
+                  });
+                }else{
+                  print("Time is not selected");
+                }
+              },
+            ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Container(
@@ -109,7 +134,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
 
   Future<int> RegisterAppointment() async {
     try{
-      widget.appointment.fecha  = appointmentDate.toString();
+      widget.appointment.fecha  = appointmentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
 
       Database database = await openDatabase(
           join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -141,7 +166,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
     }
   }
 
-
+  TextEditingController timeinput = new TextEditingController();
 }
 
 
