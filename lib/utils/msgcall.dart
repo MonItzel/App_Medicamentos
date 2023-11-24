@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 /* //////////////////////Notification/////////////////////// */
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:app_medicamentos/pages/profile/profile_page.dart';
 
 
 class Message extends StatefulWidget {
@@ -32,6 +33,32 @@ class _MessageState extends State<Message> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: AppBar(
+          title: Text(
+            '',
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil <dynamic>(
+                context,
+                MaterialPageRoute <dynamic>(
+                    builder: (BuildContext context) => ProfilePage()
+                ),
+                    (route) => false,
+              );
+            },
+          ),
+          actions: const [],
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          centerTitle: false,
+          elevation: 0,
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
