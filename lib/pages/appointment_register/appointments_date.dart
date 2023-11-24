@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../calendar/calendar.dart';
 import '../records/records.dart';
+import 'package:app_medicamentos/utils/buttonSheet.dart';
 
 class AppointmentsDatePage extends StatefulWidget {
   const AppointmentsDatePage({super.key, required this.appointment});
@@ -80,15 +81,10 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
                 width: 193,
                 height: 77,
                 child: ElevatedButton(
-                  onPressed: () {
-                    RegisterAppointment();
-                    Navigator.pushAndRemoveUntil <dynamic>(
-                      context,
-                      MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => HomePage()
-                      ),
-                          (route) => false,
-                    );
+                  onPressed: () async {
+                    int result = await RegisterAppointment();
+                    muestraButtonSheet(context, result);
+
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF0063C9),
@@ -111,31 +107,48 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
     );
   }
 
-  void RegisterAppointment() async {
-    widget.appointment.fecha  = appointmentDate.toString();
+  Future<int> RegisterAppointment() async {
+    try{
+      widget.appointment.fecha  = appointmentDate.toString();
 
-    Database database = await openDatabase(
-        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+      Database database = await openDatabase(
+          join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    await database.transaction((txn) async {
+      await database.transaction((txn) async {
 
-      var cita = widget.appointment.toMap();
+        var cita = widget.appointment.toMap();
 
-      var id1 = txn.insert('Cita', cita);
+        var id1 = txn.insert('Cita', cita);
 
-      print(cita.toString());
-    });
+        print(cita.toString());
+      });
 
-    final List<Map<String, dynamic>> maxID = await database.rawQuery(
-      'SELECT MAX(id_cita) AS MaxID FROM Cita',
-    );
+      final List<Map<String, dynamic>> maxID = await database.rawQuery(
+        'SELECT MAX(id_cita) AS MaxID FROM Cita',
+      );
 
-    widget.appointment.id_cita = int.parse(maxID[0]['MaxID'].toString());
-    Reminder reminder = Reminder();
-    reminder.CreateAppointmentReminders(widget.appointment);
+      widget.appointment.id_cita = int.parse(maxID[0]['MaxID'].toString());
+      Reminder reminder = Reminder();
+      reminder.CreateAppointmentReminders(widget.appointment);
 
-    homePageCards.clear();
-    recordsPageCards.clear();
-    calendarPageCards.clear();
+      homePageCards.clear();
+      recordsPageCards.clear();
+      calendarPageCards.clear();
+      return 3;
+  }catch(e){
+      print("Error en RegisterAppointment: $e");
+      return 4;
+    }
   }
+
+
 }
+
+
+
+
+
+
+
+
+

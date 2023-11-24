@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/appointment_register/appointments.dart';
-
+import 'package:app_medicamentos/pages/home_page.dart';
 
 class Button extends StatelessWidget {
   final int color;
@@ -44,7 +44,13 @@ class Button extends StatelessWidget {
           );
         }
         else if (ruta == 2){
-          Navigator.of(context).pop();
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) => HomePage()
+            ),
+                (route) => false,
+          );
         }
 
       },
