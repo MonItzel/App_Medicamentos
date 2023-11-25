@@ -9,6 +9,7 @@ import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:path/path.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -139,7 +140,24 @@ class _ProfilePage extends State<ProfilePage> {
                   ),
                 ),
               ),
-            )
+            ),
+
+            Container(
+              margin: const EdgeInsets.all(25),
+              child: TextButton(
+                child: const Text(
+                  'Create alarm',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: () {
+                  FlutterAlarmClock.createAlarm(
+                      hour: 16,
+                      minutes: 08,
+                      title: 'Hora de tomar sus medicamentos'
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

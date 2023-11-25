@@ -2,6 +2,7 @@ import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 
 class Reminder{
   int? id_recordatorio;
@@ -95,16 +96,25 @@ class Reminder{
       count ++;
       switch(medicament.frecuenciaTipo){
         case "Hora":
-          fechaHora = DateTime(fechaHora.year, fechaHora.month, fechaHora.day, fechaHora.hour + int.parse(medicament.frecuenciaToma.toString()));
+          fechaHora = DateTime(fechaHora.year, fechaHora.month, fechaHora.day, fechaHora.hour + int.parse(medicament.frecuenciaToma.toString()), fechaHora.minute);
         case "Dia":
-          fechaHora = DateTime(fechaHora.year, fechaHora.month, fechaHora.day + int.parse(medicament.frecuenciaToma.toString()), fechaHora.hour);
+          fechaHora = DateTime(fechaHora.year, fechaHora.month, fechaHora.day + int.parse(medicament.frecuenciaToma.toString()), fechaHora.hour, fechaHora.minute);
         case "Semana":
-          fechaHora = DateTime(fechaHora.year, fechaHora.month, fechaHora.day + (int.parse(medicament.frecuenciaToma.toString()) * 7), fechaHora.hour);
+          fechaHora = DateTime(fechaHora.year, fechaHora.month, fechaHora.day + (int.parse(medicament.frecuenciaToma.toString()) * 7), fechaHora.hour, fechaHora.minute);
         case "Mes":
-          fechaHora = DateTime(fechaHora.year, fechaHora.month  + int.parse(medicament.frecuenciaToma.toString()), fechaHora.day, fechaHora.hour);
+          fechaHora = DateTime(fechaHora.year, fechaHora.month  + int.parse(medicament.frecuenciaToma.toString()), fechaHora.day, fechaHora.hour, fechaHora.minute);
       }
 
       Reminder reminder = Reminder(tipo: "M", id_medicamento: medicament.id_medicamento, fecha_hora: fechaHora.toString());
+
+      String HoraAlarma = fechaHora.toString().split(" ")[1].split(":")[0];
+      String MinutoAlarma = fechaHora.toString().split(" ")[1].split(":")[1];
+      FlutterAlarmClock.createAlarm(
+          hour: int.parse(HoraAlarma),
+          minutes: int.parse(MinutoAlarma),
+          title: 'Hora de tomar sus medicamentos:' + medicament.nombre.toString(),
+      );
+
       reminder.InsertReminder();
     }
     print("Recordatorios de " + medicament.nombre.toString() + ": " + count.toString());
@@ -115,6 +125,13 @@ class Reminder{
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
     Reminder reminder = Reminder(tipo: "C", id_cita: appointment.id_cita, fecha_hora: appointment.fecha);
+    String HoraAlarma = appointment.fecha.toString().split(" ")[1].split(":")[0];
+    String MinutoAlarma = appointment.fecha.toString().split(" ")[1].split(":")[1];
+    FlutterAlarmClock.createAlarm(
+        hour: int.parse(HoraAlarma),
+        minutes: int.parse(MinutoAlarma),
+        title: 'Hora de asistir a su cita medica'
+    );
     reminder.InsertReminder();
 
     print(appointment.id_cita.toString() +" Recordatorio de cita con " + appointment.nombre_medico.toString() + " el dia " + appointment.fecha.toString());
