@@ -59,8 +59,8 @@ class _CalendarPage extends State <CalendarPage>{
                 ),
                 const SizedBox(height: 20.0,),
                 const Text(
-                  'Eventos de ',
-                  style: AppStyles.encabezado2
+                  'Eventos de ' ,
+                  style: AppStyles.encabezado2,
                 )
               ]
                   + calendarPageCards
@@ -205,7 +205,7 @@ class _CalendarPage extends State <CalendarPage>{
       final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
         "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
       );
-      print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'");
+      print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC");
       print("map: " + medicamentos.length.toString());
 
       if(medicamentos.length > 0){
@@ -240,7 +240,7 @@ class _CalendarPage extends State <CalendarPage>{
       }
 
       final List<Map<String, dynamic>> citas = await database.rawQuery(
-        "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
+        "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
       );
       print("map: " + citas.length.toString());
       print("cards: " + homePageCards.length.toString());
@@ -297,3 +297,4 @@ class _CalendarPage extends State <CalendarPage>{
 }
 
 List<Widget> calendarPageCards = [];
+String date = DateTime.now().toString().split(" ")[0];

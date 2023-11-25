@@ -3,6 +3,7 @@ import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -76,6 +77,32 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
               todayHighlightColor: Color(0xFF09184D),
               selectionColor: Color(0xFF09184D),
             ),
+          TextField(
+            controller: timeinput, //editing controller of this TextField
+            decoration: InputDecoration(
+                icon: Icon(Icons.timer), //icon of text field
+                labelText: "Hora" //label text of field
+            ),
+            readOnly: true,  //set it true, so that user will not able to edit text
+            onTap: () async {
+              TimeOfDay? pickedTime =  await showTimePicker(
+                initialTime: TimeOfDay.now(),
+                context: context,
+              );
+
+              if(pickedTime != null ){
+                print(pickedTime.format(context));   //output 10:51 PM
+
+                String time = pickedTime.toString().split("(")[1];
+                time = time.split(")")[0];
+                setState(() {
+                  timeinput.text = time; //set the value of text field.
+                });
+              }else{
+                print("Time is not selected");
+              }
+            },
+          ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
               child: Container(
@@ -110,7 +137,9 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   Future<int> RegisterMedicament() async {
     try {
       widget.medicament.inicioToma =
-          medicamentDate.toString().split(" ")[0] + " 12:00:00";
+          medicamentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
+
+      print(widget.medicament.inicioToma);
 
       Database database = await openDatabase(
           join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -153,4 +182,6 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
       return 2;
     }
   }
+
+  TextEditingController timeinput = new TextEditingController();
 }
