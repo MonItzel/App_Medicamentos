@@ -1,3 +1,5 @@
+import 'package:app_medicamentos/models/medicament_model.dart';
+import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
@@ -224,6 +226,7 @@ class _RecordsPage extends State <RecordsPage>{
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton.small(
+                        heroTag: "DeleteM" + medicamentos[i]['id_medicamento'].toString(),
                         onPressed: () {
                           DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
                           Navigator.pushAndRemoveUntil <dynamic>(
@@ -241,6 +244,23 @@ class _RecordsPage extends State <RecordsPage>{
                       ),
                     ),
                   ),
+                  /*SizedBox(height: 1.0, width: 1.0,),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5, bottom: 0),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: FloatingActionButton.small(
+                        heroTag: "EditM" + medicamentos[i]['id_medicamento'].toString(),
+                        onPressed: () {
+                          EditMedicament(medicamentos[i]['id_medicamento'].toString(), context);
+                        },
+                        backgroundColor: Color(0xFF09184D),
+                        child: Icon(
+                            Icons.edit
+                        ),
+                      ),
+                    ),
+                  ),*/
                 ],
               )
             )
@@ -298,6 +318,7 @@ class _RecordsPage extends State <RecordsPage>{
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton.small(
+                        heroTag: "DeleteC" + medicamentos[i]['id_medicamento'].toString(),
                         onPressed: () {
                           DeleteAppointment(citas[i]['id_cita'].toString());
                           Navigator.pushAndRemoveUntil <dynamic>(
@@ -315,6 +336,23 @@ class _RecordsPage extends State <RecordsPage>{
                       ),
                     ),
                   ),
+                  /*SizedBox(height: 1.0, width: 1.0,),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5, bottom: 0),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: FloatingActionButton.small(
+                        heroTag: "EditC" + medicamentos[i]['id_medicamento'].toString(),
+                        onPressed: () {
+                          DeleteAppointment(citas[i]['id_cita'].toString());
+                        },
+                        backgroundColor: Color(0xFF09184D),
+                        child: Icon(
+                            Icons.edit
+                        ),
+                      ),
+                    ),
+                  ),*/
                 ]
               )
             )
@@ -346,13 +384,17 @@ class _RecordsPage extends State <RecordsPage>{
         Database database = await openDatabase(
             Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-        final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
+        final List<Map<String, dynamic>> citas = await database.rawQuery(
           "DELETE FROM Cita WHERE id_cita = " + id,
+        );
+        final List<Map<String, dynamic>> rCitas = await database.rawQuery(
+          "DELETE FROM Recordatorio WHERE id_cita = " + id,
         );
 
         homePageCards.clear();
         calendarPageCards.clear();
         recordsPageCards.clear();
+
       }catch(exception){
         print(exception);
       }
@@ -368,6 +410,46 @@ class _RecordsPage extends State <RecordsPage>{
       final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
         "DELETE FROM Medicamento WHERE id_medicamento = " + id,
       );
+      final List<Map<String, dynamic>> rMedicamentos = await database.rawQuery(
+        "DELETE FROM Recordatorio WHERE id_medicamento = " + id,
+      );
+
+      homePageCards.clear();
+      calendarPageCards.clear();
+      recordsPageCards.clear();
+    }catch(exception){
+      print(exception);
+    }
+  }
+
+  Future<void> EditMedicament(String id, BuildContext context) async {
+    print("id_medicamento " + id);
+    try{
+      calendarPageCards.clear();
+      Database database = await openDatabase(
+          Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+      final List<Map<String, dynamic>> medicamento = await database.rawQuery(
+        "SELECT * FROM Medicamento WHERE id_medicamento = " + id,
+      );
+
+      if(medicamento.length > 0){
+        currentMedicament = Medicament(id_medicamento: int.parse(medicamento[0]['id_medicamento'].toString()),
+            nombre: medicamento[0]['nombre'].toString(),
+            dosis: medicamento[0]['dosis'].toString(),
+            inicioToma: medicamento[0]['inicioToma'].toString(),
+            frecuenciaTipo: medicamento[0]['frecuenciaTipo'].toString(),
+            frecuenciaToma: int.parse(medicamento[0]['frecuenciaToma'].toString())
+        );
+
+        Navigator.pushAndRemoveUntil <dynamic>(
+          context,
+          MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) => const MedicamentNameRegister()
+          ),
+              (route) => false,
+        );
+      }
 
       homePageCards.clear();
       calendarPageCards.clear();
@@ -380,3 +462,4 @@ class _RecordsPage extends State <RecordsPage>{
 }
 
 List<Widget> recordsPageCards = [];
+Medicament currentMedicament = Medicament();
