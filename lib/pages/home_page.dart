@@ -225,28 +225,35 @@ class _HomePage extends State<HomePage> {
 
         if(medicamentos.length > 0){
           for(int i = 0; i < medicamentos.length; i++){
+            String horaOriginal = medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
+            // Analiza la hora original en un objeto DateTime
+            DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
+            // Formatea la hora en formato de 12 horas sin segundos
+            String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
             homePageCards.add(Card(
-              elevation: 3, // Elevación para dar profundidad al card
-              margin: EdgeInsets.all(16), // Margen alrededor del card
+              elevation: 3,
+              margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15), // Borde redondeado con radio de 15
+                borderRadius: BorderRadius.circular(16),
               ),
               child: ListTile(
-                leading: Icon(Icons.medication_liquid, size: 40), // Icono de medicina a la izquierda
+                leading: Icon(Icons.medication_liquid, size: 44),
                 title: Text(
-                  medicamentos[i]['nombre'].toString(), //Nombre del medicamento
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  medicamentos[i]['nombre'].toString(),
+                  style: AppStyles.tituloCard,
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Hora: ' + medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
-                    Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
+                    Text(
+                      medicamentos[i]['dosis'].toString(),
+                      style: AppStyles.dosisCard,
+                    ),
                   ],
                 ),
                 trailing: Text(
-                  "Inicio: " + medicamentos[i]['inicioToma'].toString().split(" ")[0], //Fecha de inicio
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  horaFormateada,
+                  style: AppStyles.dosisCard,
                 ),
               ),
             )
@@ -263,7 +270,7 @@ class _HomePage extends State<HomePage> {
             for (int i = 0; i < citas.length; i++) {
               homePageCards.add(Card(
                 elevation: 3, // Elevación para dar profundidad al card
-                margin: EdgeInsets.all(16), // Margen alrededor del card
+                margin: EdgeInsets.fromLTRB(16, 8, 16, 8), // Margen alrededor del card
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                       15), // Borde redondeado con radio de 15

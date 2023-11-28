@@ -9,6 +9,7 @@ class AppStyles {
   //COLORES
   static const Color primaryBlue = Color(0xFF0063C9);
   static const Color secondaryBlue = Color(0xFF09184D);
+  static const Color primaryGrey = Color(0xFF808085);
   static const Color primaryBackground = Color(0xFFEDF2FA);
   static const Color errorColor = Color(0xFFFF1744);
   static const Color sombraForm = Color(0x3F000000);
@@ -33,6 +34,20 @@ class AppStyles {
     fontSize: 22.0,
     fontWeight: FontWeight.normal,
     color: Colors.black,
+  );
+
+  static const TextStyle tituloCard = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 22.0,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+
+  static const TextStyle dosisCard = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20.0,
+    fontWeight: FontWeight.normal,
+    color: primaryGrey,
   );
 
   static const TextStyle textoError = TextStyle(
