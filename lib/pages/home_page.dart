@@ -305,13 +305,14 @@ class _HomePage extends State<HomePage> {
             }
           }
 
-          Navigator.pushAndRemoveUntil <dynamic>(
-            context,
-            MaterialPageRoute <dynamic>(
-                builder: (BuildContext context) => const HomePage()
-            ),
-                (route) => false,
-          );
+          if(medicamentos.length > 0 || citas.length > 0)
+            Navigator.pushAndRemoveUntil <dynamic>(
+              context,
+              MaterialPageRoute <dynamic>(
+                  builder: (BuildContext context) => const HomePage()
+              ),
+                  (route) => false,
+            );
         }
       }
     }catch(exception){

@@ -41,6 +41,7 @@ class _Forwarder extends State <Forwarder> {
 
         Reminder reminder = Reminder();
         await reminder.CreateMedicamentsReminders();
+        await reminder.SetAlarms();
 
         Navigator.pushAndRemoveUntil <dynamic>(
           context,
