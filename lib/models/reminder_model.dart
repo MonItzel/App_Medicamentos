@@ -43,6 +43,52 @@ class Reminder{
     });
   }
 
+  SetAlarms() async {
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    print("SELECT DISTINCT(fecha_hora) FROM Recordatorio WHERE fecha_hora like '" + DateTime.now().toString().split(" ")[0] + "%'");
+
+    final List<Map<String, dynamic>> horas = await database.rawQuery(
+    "SELECT DISTINCT(fecha_hora) AS fecha_hora FROM Recordatorio WHERE fecha_hora like '" + DateTime.now().toString().split(" ")[0] + "%'",
+    );
+
+    String mensaje = "";
+    for(int i = 0; i < horas.length; i++){
+      mensaje = "";
+      final List<Map<String, dynamic>> mRecordatorios = await database.rawQuery(
+        "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + horas[i]["fecha_hora"] + "%'",
+      );
+      if(mRecordatorios.length > 0)
+        mensaje += "Medicamentos: ";
+      for(int j = 0; j < mRecordatorios.length; j++){
+        mensaje += mRecordatorios[j]["nombre"].toString() + ", ";
+      }
+      if(mRecordatorios.length > 0)
+        mensaje = mensaje.substring(0, mensaje.length - 2) + "\n";
+
+      final List<Map<String, dynamic>> cRecordatorios = await database.rawQuery(
+        "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + horas[i]["fecha_hora"] + "%'",
+      );
+      if(cRecordatorios.length > 0)
+        mensaje += "Citas: ";
+      for(int j = 0; j < cRecordatorios.length; j++){
+        mensaje += cRecordatorios[j]["motivo"].toString() + ", ";
+      }
+      if(cRecordatorios.length > 0)
+        mensaje = mensaje.substring(0, mensaje.length - 2);
+
+      String HoraAlarma = horas[i]["fecha_hora"].toString().split(" ")[1].split(":")[0];
+      String MinutoAlarma = horas[i]["fecha_hora"].toString().split(" ")[1].split(":")[1];
+      FlutterAlarmClock.createAlarm(
+        hour: int.parse(HoraAlarma),
+        minutes: int.parse(MinutoAlarma),
+        title: mensaje,
+      );
+    }
+  }
+
+
   CreateMedicamentsReminders() async{
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -107,13 +153,13 @@ class Reminder{
 
       Reminder reminder = Reminder(tipo: "M", id_medicamento: medicament.id_medicamento, fecha_hora: fechaHora.toString());
 
-      String HoraAlarma = fechaHora.toString().split(" ")[1].split(":")[0];
+      /*String HoraAlarma = fechaHora.toString().split(" ")[1].split(":")[0];
       String MinutoAlarma = fechaHora.toString().split(" ")[1].split(":")[1];
       FlutterAlarmClock.createAlarm(
           hour: int.parse(HoraAlarma),
           minutes: int.parse(MinutoAlarma),
           title: 'Hora de tomar sus medicamentos:' + medicament.nombre.toString(),
-      );
+      );*/
 
       reminder.InsertReminder();
     }
@@ -125,13 +171,14 @@ class Reminder{
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
     Reminder reminder = Reminder(tipo: "C", id_cita: appointment.id_cita, fecha_hora: appointment.fecha);
-    String HoraAlarma = appointment.fecha.toString().split(" ")[1].split(":")[0];
+
+    /*String HoraAlarma = appointment.fecha.toString().split(" ")[1].split(":")[0];
     String MinutoAlarma = appointment.fecha.toString().split(" ")[1].split(":")[1];
     FlutterAlarmClock.createAlarm(
         hour: int.parse(HoraAlarma),
         minutes: int.parse(MinutoAlarma),
         title: 'Hora de asistir a su cita medica'
-    );
+    );*/
     reminder.InsertReminder();
 
     print(appointment.id_cita.toString() +" Recordatorio de cita con " + appointment.nombre_medico.toString() + " el dia " + appointment.fecha.toString());
