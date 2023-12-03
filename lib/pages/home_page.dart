@@ -230,33 +230,46 @@ class _HomePage extends State<HomePage> {
             DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
             // Formatea la hora en formato de 12 horas sin segundos
             String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
-            homePageCards.add(Card(
-              elevation: 3,
-              margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.medication_liquid, size: 44),
-                title: Text(
-                  medicamentos[i]['nombre'].toString(),
-                  style: AppStyles.tituloCard,
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      medicamentos[i]['dosis'].toString(),
-                      style: AppStyles.dosisCard,
+            homePageCards.add(
+              SizedBox(
+                height: 120.0,
+                child: Card(
+                  elevation: 3,
+                  margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.medication_liquid, size: 44),
+                      title: Text(
+                        medicamentos[i]['nombre'].toString(),
+                        style: AppStyles.tituloCard,
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            medicamentos[i]['dosis'].toString(),
+                            style: AppStyles.dosisCard,
+                          ),
+                          Text(
+                            'Cada ' + medicamentos[i]['frecuenciaToma'].toString() + ' ' + medicamentos[i]['frecuenciaTipo'].toString() + 's',
+                            style: AppStyles.dosisCard,
+                          ),
+                        ],
+                      ),
+                      trailing: Text(
+                        horaFormateada,
+                        style: AppStyles.dosisCard,
+                      ),
                     ),
-                  ],
-                ),
-                trailing: Text(
-                  horaFormateada,
-                  style: AppStyles.dosisCard,
+                  ),
                 ),
               ),
-            )
+
             );
           }
 
@@ -269,11 +282,10 @@ class _HomePage extends State<HomePage> {
           if(citas.length > 0) {
             for (int i = 0; i < citas.length; i++) {
               homePageCards.add(Card(
-                elevation: 3, // Elevación para dar profundidad al card
-                margin: EdgeInsets.fromLTRB(16, 8, 16, 8), // Margen alrededor del card
+                elevation: 3,
+                margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      15), // Borde redondeado con radio de 15
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: ListTile(
                   leading: Icon(Icons.medical_services, size: 40),
