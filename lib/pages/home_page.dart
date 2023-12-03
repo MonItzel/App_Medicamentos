@@ -27,7 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _currentIndex = 0;
   String formattedDate = '';
-
+  int resCreateNote = 0;
   @override
   void initState() {
     super.initState();
@@ -46,28 +46,55 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     CreateCards(context);
 
+   CreateNote(context).then((result) {
+      setState(() {
+        resCreateNote = result;
+      });
+    });
+
+    double titleSpacing = resCreateNote == 1 ? 0.0 : 0.0;
+    double toolbarHeight = resCreateNote == 1 ? 140.0 : 80.0;
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(
+/*
+          titleSpacing: 0.0,
+          toolbarHeight: 140.0,
+*/
+
+          titleSpacing: titleSpacing,
+          toolbarHeight: toolbarHeight,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Row(
+          title: Column(
             children: [
-              Icon(Icons.today, color: Colors.black, size: 42),
-              SizedBox(width: 16), // Espacio entre el icono y el texto
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hoy',
-                    style: AppStyles.encabezado1,
-                  ),
-                  Text(
-                    formattedDate,
-                    style: AppStyles.encabezado2,
-                  ),
-                ],
+              if (resCreateNote == 1)
+
+              showTextEmergyCall(),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 15, left: 15),
+                child: Row(
+                  children: [
+                    Icon(Icons.today, color: Colors.black, size: 42),
+                    SizedBox(width: 16), // Espacio entre el icono y el texto
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hoy',
+                          style: AppStyles.encabezado1,
+                        ),
+                        Text(
+                          formattedDate,
+                          style: AppStyles.encabezado2,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -213,6 +240,7 @@ class _HomePage extends State<HomePage> {
         Database database = await openDatabase(
             Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
+
         DateTime now = new DateTime.now();
         DateTime date = new DateTime(now.year, now.month, now.day);
         print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'");
@@ -333,4 +361,68 @@ class _HomePage extends State<HomePage> {
   }
 }
 
+
 List<Widget> homePageCards = [];
+
+Future<int> CreateNote(var context) async {
+  try {
+    Database database = await openDatabase(
+        Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> result = await database.query(
+      'Usuario',
+      columns: ['cuidador_telefono'],
+      where: 'cuidador_telefono IS NOT NULL AND TRIM(cuidador_telefono) != ?',
+      whereArgs: [''],
+    );
+
+    // Imprimir los resultados de la consulta
+    print('Resultados de la consulta: $result');
+
+    // Verificar si la lista de resultados no está vacía
+    if (result.isNotEmpty) {
+      print('Tiene cuidador activo');
+
+      return 1;
+    } else {
+      print('No tiene cuidador activo');
+      return 0;
+    }
+  } catch (e) {
+    print('Error al verificar cuidador activo: $e');
+    return 0;
+  }
+}
+
+
+Widget showTextEmergyCall(){
+  return Container(
+    height: 70,
+    color: Color(0xFFFFE9B6),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text('En caso de emergencia llamar ',
+          style: TextStyle(
+            color: Color(0xFF09184D),
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+            fontFamily: 'Roboto',),),
+        FloatingActionButton.small(
+          onPressed: () {
+            //_callMe();
+          },
+          backgroundColor: Color(0xFF09184D),
+          child: Icon(
+            Icons.call,
+            size: 28.0,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
+
