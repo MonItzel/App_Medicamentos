@@ -50,6 +50,7 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //Al ingresar se crean las cartas.
     CreateCards(context);
 
     double titleSpacing = resCreateNote == 1 ? 0.0 : 0.0;
@@ -102,6 +103,7 @@ class _HomePage extends State<HomePage> {
         body: Container(
           height: homePageCards.length * 120,
           child: new ListView(
+            //Lista de cartas del día actual.
             children: homePageCards,
           )
         ),
@@ -153,14 +155,14 @@ class _HomePage extends State<HomePage> {
   }
 
 
-
+  //Crea las cartas de los medicamentos y citas.
   Future<void> CreateCards(var context) async {
     try{
       if(homePageCards.length < 1){
         Database database = await openDatabase(
             Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-
+        //Selecciona la información de los recordatorios de medicamentos del día actual.
         DateTime now = new DateTime.now();
         DateTime date = new DateTime(now.year, now.month, now.day);
         print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'");
@@ -171,6 +173,7 @@ class _HomePage extends State<HomePage> {
         print("map: " + medicamentos.length.toString());
         print("cards: " + homePageCards.length.toString());
 
+        //Crea las cartas para cada recordatorio de medicamento.
         if(medicamentos.length > 0){
           for(int i = 0; i < medicamentos.length; i++){
             String horaOriginal = medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
@@ -221,12 +224,14 @@ class _HomePage extends State<HomePage> {
             );
           }
 
+          //Selecciona la información de los recordatorios de citas del día actual.
           final List<Map<String, dynamic>> citas = await database.rawQuery(
             "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
           );
           print("map: " + citas.length.toString());
           print("cards: " + homePageCards.length.toString());
 
+          //Crea las cartas para cada recordatorio de cita.
           if(citas.length > 0) {
             for (int i = 0; i < citas.length; i++) {
               homePageCards.add(Card(
@@ -265,6 +270,7 @@ class _HomePage extends State<HomePage> {
             }
           }
 
+          //Si se generaron cartas vuelve a generar la pantalla.
           if(medicamentos.length > 0 || citas.length > 0)
             Navigator.pushAndRemoveUntil <dynamic>(
               context,
