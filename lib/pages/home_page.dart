@@ -9,6 +9,9 @@ import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+String tel_cuidador = '';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -313,6 +316,9 @@ Future<int> CreateNote() async {
     // Verificar si la lista de resultados no está vacía
     if (result.isNotEmpty) {
       print('Tiene cuidador activo');
+      tel_cuidador = result[0]['cuidador_telefono'];
+      print('variable tel_cuidador');
+      print(tel_cuidador);
 
       return 1;
     } else {
@@ -349,7 +355,7 @@ Widget showTextEmergyCall(){
             fontFamily: 'Roboto',),),
         FloatingActionButton.small(
           onPressed: () {
-            //_callMe();
+            _callCarer(tel_cuidador);
           },
           backgroundColor: Color(0xFF09184D),
           child: Icon(
@@ -365,3 +371,16 @@ Widget showTextEmergyCall(){
 
 
 
+
+/*
+ * Función que se encarga de obtener el teléfono del
+ * cuidador y poder realizar luna llamada telefónica
+ * @param:
+ * tel_cuidador: variable que recibe el teléfono del cuidador
+ * return
+ * no regresa ningún valor
+ */
+_callCarer(tel_cuidador) async {
+  //$telefono variable
+  launch('tel: $tel_cuidador');
+}

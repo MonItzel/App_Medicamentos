@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-/*import 'package:app_medicamentos/utils/button.dart';
-import 'package:app_medicamentos/utils/texto.dart';*/
 import 'package:app_medicamentos/utils/buttonSheet.dart';
 import 'package:app_medicamentos/constants.dart';
 
