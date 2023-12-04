@@ -170,7 +170,43 @@ class _RecordsPage extends State <RecordsPage>{
                         const SizedBox(width: 0.0, height: 60.0,),
                         Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
                       ],
-                    )
+                    ),
+
+                  if (bandShow == 5)
+                    Column(
+                      children: [
+                        Text('Medicamento eliminado con éxito',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    ),
+
+                  if (bandShow == 6)
+                    Column(
+                      children: [
+                        Text('Error al eliminar medicamento',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    ),
+
+                  if (bandShow == 7)
+                    Column(
+                      children: [
+                        Text('Cita eliminada con éxito',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    ),
+
+                  if (bandShow == 8)
+                    Column(
+                      children: [
+                        Text('Error al eliminar la cita',),
+                        const SizedBox(width: 0.0, height: 60.0,),
+                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      ],
+                    ),
                 ],
               ) ,
             )
