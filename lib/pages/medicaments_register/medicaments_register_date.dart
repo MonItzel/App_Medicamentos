@@ -110,6 +110,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                 height: 77,
                 child: ElevatedButton(
                   onPressed: () async {
+                    //Al presionar le botón intenta insertar el medicamento y recordatorios.
                     int result = await RegisterMedicament();
                     muestraButtonSheet(context, result);
                   },
@@ -134,52 +135,74 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
     );
   }
 
+  //Completa la información del medicamento y lo inserta en la base de datos.
   Future<int> RegisterMedicament() async {
     try {
-      widget.medicament.inicioToma =
-          medicamentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
-
-      print(widget.medicament.inicioToma);
-
       Database database = await openDatabase(
           join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-      await database.transaction((txn) async {
-        var medicamento = widget.medicament.toMap();
+      //Si el objeto tiene un id intentará actualizar el medicamento con la información nueva.
+      if(widget.medicament.id_medicamento != null){
+        await database.transaction((txn) async {
+          var medicamento = widget.medicament.toMap();
 
-        var id1 = txn.insert('Medicamento', medicamento);
-      });
+          var id1 = txn.update('Medicamento', medicamento);
+        });
+        currentMedicament = Medicament();
+        homePageCards.clear();
+        calendarPageCards.clear();
+        recordsPageCards.clear();
+        //Si el medicamento fue actualizado retorna 5.
+        return 5;
+      }else{
+        //Si el objeto no tiene un id, intentará insertar el medicamento y sus recordatorios.
+        widget.medicament.inicioToma =
+            medicamentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
 
-      final List<Map<String, dynamic>> map1 = await database.rawQuery(
-        'SELECT * FROM Medicamento',
-      );
+        print(widget.medicament.inicioToma);
 
-      for (int i = 0; i < map1.length; i++) {
-        print(map1[i]["id_medicamento"].toString() + " - " +
-            map1[i]["nombre"].toString());
+        await database.transaction((txn) async {
+          var medicamento = widget.medicament.toMap();
+
+          var id1 = txn.insert('Medicamento', medicamento);
+        });
+
+        final List<Map<String, dynamic>> map1 = await database.rawQuery(
+          'SELECT * FROM Medicamento',
+        );
+
+        for (int i = 0; i < map1.length; i++) {
+          print(map1[i]["id_medicamento"].toString() + " - " +
+              map1[i]["nombre"].toString());
+        }
+
+        //Selecciona el id del medicamento registrado y generará los recordatorios con el modelo completo.
+        final List<Map<String, dynamic>> maxID = await database.rawQuery(
+          'SELECT MAX(id_medicamento) AS MaxID FROM Medicamento',
+        );
+
+        print(maxID[0]['MaxID'].toString());
+
+        widget.medicament.id_medicamento =
+            int.parse(maxID[0]['MaxID'].toString());
+        Reminder reminder = Reminder(tipo: "M",
+            id_medicamento: widget.medicament.id_medicamento,
+            fecha_hora: widget.medicament.inicioToma);
+        reminder.InsertReminder();
+        reminder.CreateMedicamentReminders(widget.medicament);
+
+        homePageCards.clear();
+        recordsPageCards.clear();
+        calendarPageCards.clear();
+
+        //Si el medicamento fue insertado retorna 1.
+        return 1;
       }
+      } catch (e) {
+        print("Error en RegisterAppointment: $e");
 
-      final List<Map<String, dynamic>> maxID = await database.rawQuery(
-        'SELECT MAX(id_medicamento) AS MaxID FROM Medicamento',
-      );
-
-      print(maxID[0]['MaxID'].toString());
-
-      widget.medicament.id_medicamento =
-          int.parse(maxID[0]['MaxID'].toString());
-      Reminder reminder = Reminder(tipo: "M",
-          id_medicamento: widget.medicament.id_medicamento,
-          fecha_hora: widget.medicament.inicioToma);
-      reminder.InsertReminder();
-      reminder.CreateMedicamentReminders(widget.medicament);
-
-      homePageCards.clear();
-      recordsPageCards.clear();
-      calendarPageCards.clear();
-      return 1;
-    } catch (e) {
-      print("Error en RegisterAppointment: $e");
-      return 2;
+        //Si fallo al insertar o actualizar el medicamento retorna 2.
+        return 2;
     }
   }
 

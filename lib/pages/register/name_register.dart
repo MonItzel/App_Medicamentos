@@ -17,6 +17,7 @@ class NameRegister extends StatefulWidget {
 
 class _NameRegister extends State <NameRegister> {
 
+  //Objeto usado para pasar la información a la siguiente pantalla.
   final User user = User();
 
   late bool _validateU = false;
@@ -169,6 +170,7 @@ class _NameRegister extends State <NameRegister> {
                 height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
+                    //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
                     SetUser();
                     setState(() {
                       //Verificar que el nombre completo cumpla las características de la expresión regular
@@ -205,6 +207,7 @@ class _NameRegister extends State <NameRegister> {
     );
   }
 
+  //Almacena los datos ingresados en esta pantalla en el objeto.
   void SetUser(){
     nombreController.text = nombreController.text.trim();
     apellidoMController.text = apellidoMController.text.trim();

@@ -1,3 +1,4 @@
+//Clase para las citas médicas. Contiene atributos con el mismo nombre que en las tablas de la base de datos.
 class Appointment{
   int? id_cita;
   String? nombre_medico;
@@ -17,6 +18,7 @@ class Appointment{
     this.fecha,
   });
 
+  //Regresa la información de la cita médica en forma de map, para facilitar su inserción, actualización o eliminación.
   Map<String, dynamic> toMap() {
     return {
       'id_cita': id_cita,

@@ -8,6 +8,7 @@ import 'package:app_medicamentos/constants.dart';
 class Address extends StatefulWidget {
   const Address({super.key, required User this.user});
 
+  //Objeto usado para pasar la inforamción a la siguiente pantalla.
   final User user;
 
 
@@ -174,6 +175,7 @@ class _Address extends State <Address> {
                 height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
+                    //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
                     SetUser();
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
@@ -196,6 +198,7 @@ class _Address extends State <Address> {
     );
   }
 
+  //Almacena los datos ingresados en esta pantalla en el objeto.
   void SetUser(){
     widget.user.calle = calleController.text;
     widget.user.club = coloniaController.text;

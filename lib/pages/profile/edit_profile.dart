@@ -120,6 +120,7 @@ class _EditProfile extends State <EditProfile> {
               height: 77,
               child: ElevatedButton(
                 onPressed: () {
+                  //Al presionar el botón actualizará el usuario.
                   UpdateProfile();
                   Navigator.pushAndRemoveUntil <dynamic>(
                     context,
@@ -149,10 +150,12 @@ class _EditProfile extends State <EditProfile> {
     );
   }
 
+  //Llena un objeto usuario y actualiza el único registro en la base de datos.
   void UpdateProfile() async {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
+    //Al haber un solo usuario basta con actualizar todos los registros con la información nueva.
     await database.transaction((txn) async {
 
       var usuario = {
@@ -165,6 +168,7 @@ class _EditProfile extends State <EditProfile> {
       print("Usuario actualizado: " + usuario.toString());
     });
 
+    //Vacía los textos de la pantalla del perfil para refrescar la información que se muestra.
     nombreController.text = "";
     apellidoPController.text = "";
     apellidoMController.text = "";

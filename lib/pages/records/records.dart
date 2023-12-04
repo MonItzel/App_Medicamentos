@@ -25,6 +25,7 @@ class _RecordsPage extends State <RecordsPage>{
 
   @override
   Widget build(BuildContext context){
+    //Al ingresar verifica si debe crear nuevas cartas.
     CreateCards(context);
 
     return Scaffold(
@@ -178,7 +179,7 @@ class _RecordsPage extends State <RecordsPage>{
     );
   }
 
-
+  //Si no hay cartas seleccioan la información y las crea.
   Future<void> CreateCards(BuildContext context) async {
     try{
       if(recordsPageCards.length < 1){
@@ -188,6 +189,7 @@ class _RecordsPage extends State <RecordsPage>{
         DateTime now = new DateTime.now();
         DateTime date = new DateTime(now.year, now.month, now.day);
 
+        //Selecciona todos los medicamentos registrados y genera sus cartas.
         final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
           "SELECT * FROM Medicamento",
         );
@@ -220,6 +222,7 @@ class _RecordsPage extends State <RecordsPage>{
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
+                  //Botón para eliminar este medicamento.
                   SizedBox(height: 1.0, width: 1.0,),
                   Padding(
                     padding: const EdgeInsets.only(right: 5, bottom: 0),
@@ -272,6 +275,7 @@ class _RecordsPage extends State <RecordsPage>{
         print("cards: " + recordsPageCards.length.toString());
 
 
+        //Selecciona todas las citas registradas y genera sus cartas.
         final List<Map<String, dynamic>> citas = await database.rawQuery(
           "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita",
         );
@@ -312,6 +316,7 @@ class _RecordsPage extends State <RecordsPage>{
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
+                  //Botón para eliminar esta cita.
                   SizedBox(height: 1.0, width: 1.0,),
                   Padding(
                     padding: const EdgeInsets.only(right: 5, bottom: 0),
@@ -363,6 +368,7 @@ class _RecordsPage extends State <RecordsPage>{
         print("citas: " + citas.length.toString());
         print("cards: " + homePageCards.length.toString());
 
+        //Cuando se crearon las cartas vuelve a generar la pantalla.
         if(medicamentos.length > 0 || citas.length > 0)
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
@@ -377,6 +383,7 @@ class _RecordsPage extends State <RecordsPage>{
     }
   }
 
+  //Intenta eliminar la cita y su recordatorio con el id que recibe.
   Future<void> DeleteAppointment(String id) async {
       print("id_cita " + id);
       try{
@@ -400,6 +407,7 @@ class _RecordsPage extends State <RecordsPage>{
       }
   }
 
+  //Intenta eliminar el medicamento y sus recordatorios con el id que recibe.
   Future<void> DeleteMedicament(String id) async {
     print("id_medicamento " + id);
     try{
@@ -422,6 +430,8 @@ class _RecordsPage extends State <RecordsPage>{
     }
   }
 
+  //Selecciona el medicamento con el id que recibe para su actualización.
+  //Aún no funciona.
   Future<void> EditMedicament(String id, BuildContext context) async {
     print("id_medicamento " + id);
     try{

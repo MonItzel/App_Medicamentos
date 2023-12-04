@@ -28,10 +28,16 @@ class _HomePage extends State<HomePage> {
   int _currentIndex = 0;
   String formattedDate = '';
 
+  int resCreateNote = 0;
   @override
   void initState() {
     super.initState();
     _loadDate();
+    CreateNote().then((result) {
+      setState(() {
+        resCreateNote = result;
+      });
+    });
   }
 
   void _loadDate() async {
@@ -44,30 +50,52 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //Al ingresar se crean las cartas.
     CreateCards(context);
+
+    double titleSpacing = resCreateNote == 1 ? 0.0 : 0.0;
+    double toolbarHeight = resCreateNote == 1 ? 140.0 : 80.0;
 
     return MaterialApp(
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(
+/*
+          titleSpacing: 0.0,
+          toolbarHeight: 140.0,
+*/
+
+          titleSpacing: titleSpacing,
+          toolbarHeight: toolbarHeight,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Row(
+          title: Column(
             children: [
-              Icon(Icons.today, color: Colors.black, size: 42),
-              SizedBox(width: 16), // Espacio entre el icono y el texto
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hoy',
-                    style: AppStyles.encabezado1,
-                  ),
-                  Text(
-                    formattedDate,
-                    style: AppStyles.encabezado2,
-                  ),
-                ],
+              if (resCreateNote == 1)
+
+              showTextEmergyCall(),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 15, left: 15),
+                child: Row(
+                  children: [
+                    Icon(Icons.today, color: Colors.black, size: 42),
+                    SizedBox(width: 16), // Espacio entre el icono y el texto
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hoy',
+                          style: AppStyles.encabezado1,
+                        ),
+                        Text(
+                          formattedDate,
+                          style: AppStyles.encabezado2,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -75,6 +103,7 @@ class _HomePage extends State<HomePage> {
         body: Container(
           height: homePageCards.length * 120,
           child: new ListView(
+            //Lista de cartas del día actual.
             children: homePageCards,
           )
         ),
@@ -98,7 +127,7 @@ class _HomePage extends State<HomePage> {
                   (route) => false,
                 );
               } else if (index == 2) {
-                muestraButtonSheet();
+                //muestraButtonSheet();
               } else if (index == 3) {
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -125,94 +154,15 @@ class _HomePage extends State<HomePage> {
     );
   }
 
-  void muestraButtonSheet(){
-    final int bandShow = 0;
-    // band: revisar que valor tiene para mostrar los widgets qe necesites
-    //final bool num = 0;
-    showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(12.0)
-          )
-      ),
-      context: context,
-      builder: (BuildContext context){
-        return SizedBox(
-            height: 350,
-            child: Center(
-              // child: bandShow == 1 ? Column(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (bandShow == 0)
-                    Column(
-                      children: [
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar medicamento',
-                          ruta: 0,
-                        ),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar cita médica',
-                          ruta: 1,
-                        )
-                      ],
-                    ),
 
-                  if (bandShow == 1)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Medicamento agregado con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 2)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Error al agregar medicamento',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 3)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Cita agregada con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 4)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Error al agregar cita',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    )
-                ],
-              ) ,
-            )
-        );
-      },
-    );
-  }
-
+  //Crea las cartas de los medicamentos y citas.
   Future<void> CreateCards(var context) async {
     try{
       if(homePageCards.length < 1){
         Database database = await openDatabase(
             Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
+        //Selecciona la información de los recordatorios de medicamentos del día actual.
         DateTime now = new DateTime.now();
         DateTime date = new DateTime(now.year, now.month, now.day);
         print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'");
@@ -223,6 +173,7 @@ class _HomePage extends State<HomePage> {
         print("map: " + medicamentos.length.toString());
         print("cards: " + homePageCards.length.toString());
 
+        //Crea las cartas para cada recordatorio de medicamento.
         if(medicamentos.length > 0){
           for(int i = 0; i < medicamentos.length; i++){
             String horaOriginal = medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
@@ -230,50 +181,64 @@ class _HomePage extends State<HomePage> {
             DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
             // Formatea la hora en formato de 12 horas sin segundos
             String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
-            homePageCards.add(Card(
-              elevation: 3,
-              margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.medication_liquid, size: 44),
-                title: Text(
-                  medicamentos[i]['nombre'].toString(),
-                  style: AppStyles.tituloCard,
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      medicamentos[i]['dosis'].toString(),
-                      style: AppStyles.dosisCard,
+            homePageCards.add(
+              SizedBox(
+                height: 120.0,
+                child: Card(
+                  elevation: 3,
+                  margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.medication_liquid, size: 44),
+                      title: Text(
+                        medicamentos[i]['nombre'].toString(),
+                        style: AppStyles.tituloCard,
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            medicamentos[i]['dosis'].toString(),
+                            style: AppStyles.dosisCard,
+                          ),
+                          Text(
+                            'Cada ' + medicamentos[i]['frecuenciaToma'].toString() + ' ' + medicamentos[i]['frecuenciaTipo'].toString() + 's',
+                            style: AppStyles.dosisCard,
+                          ),
+                        ],
+                      ),
+                      trailing: Text(
+                        horaFormateada,
+                        style: AppStyles.dosisCard,
+                      ),
                     ),
-                  ],
-                ),
-                trailing: Text(
-                  horaFormateada,
-                  style: AppStyles.dosisCard,
+                  ),
                 ),
               ),
-            )
+
             );
           }
 
+          //Selecciona la información de los recordatorios de citas del día actual.
           final List<Map<String, dynamic>> citas = await database.rawQuery(
             "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
           );
           print("map: " + citas.length.toString());
           print("cards: " + homePageCards.length.toString());
 
+          //Crea las cartas para cada recordatorio de cita.
           if(citas.length > 0) {
             for (int i = 0; i < citas.length; i++) {
               homePageCards.add(Card(
-                elevation: 3, // Elevación para dar profundidad al card
-                margin: EdgeInsets.fromLTRB(16, 8, 16, 8), // Margen alrededor del card
+                elevation: 3,
+                margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      15), // Borde redondeado con radio de 15
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: ListTile(
                   leading: Icon(Icons.medical_services, size: 40),
@@ -305,6 +270,7 @@ class _HomePage extends State<HomePage> {
             }
           }
 
+          //Si se generaron cartas vuelve a generar la pantalla.
           if(medicamentos.length > 0 || citas.length > 0)
             Navigator.pushAndRemoveUntil <dynamic>(
               context,
@@ -321,4 +287,86 @@ class _HomePage extends State<HomePage> {
   }
 }
 
+
 List<Widget> homePageCards = [];
+
+/*
+ * Función que se encarga de validar que el usuario asulto mayor
+ * haya registrado el número de teléfono del cuidaddor
+ * @param:
+ * no recibe ningún parámetro
+ * return
+ * 1 si se registro el número de teléfono del cuidador.
+ * 0 en caso que no se registró el número del cuidador o
+ * haya ocurrido un error al ejecutar la consulta.
+ */
+Future<int> CreateNote() async {
+  try {
+    Database database = await openDatabase(
+        Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> result = await database.query(
+      'Usuario',
+      columns: ['cuidador_telefono'],
+      where: 'cuidador_telefono IS NOT NULL AND TRIM(cuidador_telefono) != ?',
+      whereArgs: [''],
+    );
+
+    // Imprimir los resultados de la consulta
+    print('Resultados de la consulta: $result');
+
+    // Verificar si la lista de resultados no está vacía
+    if (result.isNotEmpty) {
+      print('Tiene cuidador activo');
+
+      return 1;
+    } else {
+      print('No tiene cuidador activo');
+      return 0;
+    }
+  } catch (e) {
+    print('Error al verificar cuidador activo: $e');
+    return 0;
+  }
+}
+
+/*
+ * Función que se encarga de mostrar la nota que contiene
+ * la información del contacto del cuidador.
+ * @param:
+ * no recibe ningún parámetro
+ * return
+ * Regresa un Container que contiene los widgets con la
+ * información.
+ */
+Widget showTextEmergyCall(){
+  return Container(
+    height: 70,
+    color: Color(0xFFFFE9B6),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text('En caso de emergencia llamar ',
+          style: TextStyle(
+            color: Color(0xFF09184D),
+            fontWeight: FontWeight.bold,
+            fontSize: 23,
+            fontFamily: 'Roboto',),),
+        FloatingActionButton.small(
+          onPressed: () {
+            //_callMe();
+          },
+          backgroundColor: Color(0xFF09184D),
+          child: Icon(
+            Icons.call,
+            size: 28.0,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
+

@@ -22,21 +22,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   int _currentIndex = 4;
-  List<String> user = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
   @override
   Widget build(BuildContext context) {
-    /*var user = [
-      widget.nombre,
-      widget.apellidoP,
-      widget.apellidoM,
-      widget.fechaNac.toString(),
-      widget.calle,
-      widget.colonia,
-      widget.numExterior,
-      widget.patologia,
-    ];*/
 
+    //Al ingresar verifica si debe seleccionar la información del usuario.
     select(context);
 
     return Scaffold(
@@ -207,8 +197,10 @@ class _ProfilePage extends State<ProfilePage> {
     );
   }
 
+  //Llena los campos de la pantalla con los datos del usuario.
   Future<void> select(var context) async {
 
+    //Si no hay se está mostrando información en la pantalla selecciona los datos del usuario.
     if(nombreController.text == "" &&
         apellidoPController.text == "" &&
         apellidoMController.text == "" &&
@@ -231,6 +223,7 @@ class _ProfilePage extends State<ProfilePage> {
       print("map2: " + map2.length.toString());
       print(map1[0]['nombre'].toString());
 
+      //Llena los TextEditingController con los datos del usuario y vuelve a generar la pantalla.
       nombreController.text = map1[0]['nombre'].toString();
       apellidoPController.text =  map1[0]['apellidoP'].toString();
       apellidoMController.text = map1[0]['apellidoM'].toString();

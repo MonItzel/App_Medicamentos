@@ -1,3 +1,5 @@
+//Clase creada para seleccionar al usuario antes de generar StartPage o HomePage.
+
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class _Forwarder extends State <Forwarder> {
     return Scaffold();
   }
 
+  //Selecciona la información del usuario y dependiendo del resultado lleva a otra pantalla.
   Future<void> select(var context) async {
 
     try {
@@ -36,13 +39,17 @@ class _Forwarder extends State <Forwarder> {
         'SELECT * FROM Usuario LIMIT 1',
       );
 
+      //Si ya hay un usuario registrado.
       if (map1.length > 0) {
         print(map1[0]['nombre'].toString());
 
         Reminder reminder = Reminder();
+        //Crea los recordatorios de los próximos 30 días si es tiempo.
         await reminder.CreateMedicamentsReminders();
+        //Crea las alarmas para el día actual.
         await reminder.SetAlarms();
 
+        //Lleva a la pantalla principal.
         Navigator.pushAndRemoveUntil <dynamic>(
           context,
           MaterialPageRoute <dynamic>(
@@ -52,6 +59,7 @@ class _Forwarder extends State <Forwarder> {
         );
       }
     }catch(exception){
+      //Si se arroja una exepción, no se han creado las tablas y lleva al registro.
       print(exception);
       Navigator.pushAndRemoveUntil <dynamic>(
         context,

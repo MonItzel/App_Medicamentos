@@ -9,6 +9,7 @@ import 'package:app_medicamentos/constants.dart';
 class BirthDateRegister extends StatefulWidget {
   const BirthDateRegister({required User this.user});
 
+  //Objeto usado para pasar la inforamción a la siguiente pantalla.
   final  User user;
 
   @override
@@ -119,6 +120,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                 height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
+                    //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
                     SetUser();
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
@@ -141,6 +143,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
     );
   }
 
+  //Almacena los datos ingresados en esta pantalla en el objeto.
   void SetUser(){
     widget.user.fechaNac = fechaNac.toString();
   }

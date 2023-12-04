@@ -19,6 +19,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
 
   var maskFormatter = MaskTextInputFormatter(mask: '### ### ####', filter: {"#": RegExp(r'[0-9]')});
 
+  //Objeto que se usará para pasar la información de la cita a la próxima pantalla.
   final  Appointment appointment = Appointment();
 
   @override
@@ -285,6 +286,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 height: 77,
                 child: ElevatedButton(
                   onPressed: () {
+                    //Al presionar el botón se llena el modelo de la cita y se pasa a la siguieten pantalla.
                     SetAppointment();
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
@@ -315,6 +317,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
     );
   }
 
+  //Llena la el modelo con la información ingresada en esta pantalla.
   void SetAppointment(){
     appointment.nombre_medico = nombreMedicoController.text;
     appointment.motivo = motivoController.text;

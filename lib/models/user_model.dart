@@ -1,3 +1,4 @@
+//Clase para el usuario. Contiene atributos con el mismo nombre que en las tablas de la base de datos.
 class User{
    int? id_usuario;
    String? nombre;
@@ -27,7 +28,8 @@ class User{
     this.cuidador_telefono
   });
 
-  Map<String, dynamic> toMap() {
+   //Regresa la información del usuario en forma de map, para facilitar su inserción, actualización o eliminación.
+   Map<String, dynamic> toMap() {
     return {
       'id_usuario': id_usuario,
       'nombre': nombre,
