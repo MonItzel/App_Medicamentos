@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/utils/buttonSheet.dart';
 import 'package:app_medicamentos/constants.dart';
 
+//Esta clase es para maquetar y retornar el navbar, permitiendo crear un navbar custom y que este se pueda utilizar en las vistas necesarias
 class CustomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -11,9 +12,12 @@ class CustomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int bandShow = 0;
+
+    //Se retorna el contenedor donde se encuentra el navbar
+    //Se recibe el como parametro un numero entero que indica en que vista se encuentra el usuario para que el icono en el navbar se muestre de un color diferente
     return Container(
-      color: AppStyles.primaryBlue, // Cambia el color de fondo
-      height: 55, // Ajusta la altura del contenedor para hacer la barra de navegación más grande
+      color: AppStyles.primaryBlue,
+      height: 55,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

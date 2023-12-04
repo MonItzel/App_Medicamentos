@@ -16,9 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //select(context);
 
-
     return MaterialApp(
       title: 'Flutter Demo',
+      //Forwarder es la funcion para verificar si existe algun usuario registrado en la app
+      //Si el usuario se ha registrado entre al HomePage, sino se muestra el formulario de registro
       home: Forwarder(),
     );
   }

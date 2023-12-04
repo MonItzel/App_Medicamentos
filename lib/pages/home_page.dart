@@ -193,6 +193,7 @@ class _HomePage extends State<HomePage> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Icon(Icons.medication_liquid, size: 44),
+                      //Nombre del medicamento
                       title: Text(
                         medicamentos[i]['nombre'].toString(),
                         style: AppStyles.tituloCard,
