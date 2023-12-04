@@ -12,6 +12,7 @@ import 'package:app_medicamentos/constants.dart';
 class CarerPage extends StatefulWidget {
   const CarerPage({super.key, required this.user});
 
+  //Objeto usado para almacenar los datos del usuario y registrarlo.
   final User user;
 
   @override
@@ -162,6 +163,7 @@ class _CarerPage extends State <CarerPage> {
                 height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
+                    //Al presionar el botón registra la usuario y va al HomePage.
                     register();
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
@@ -184,6 +186,7 @@ class _CarerPage extends State <CarerPage> {
     );
   }
 
+  //Registra la inforamción del usuario y cuidador en la base de datos.
   void register() async {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);

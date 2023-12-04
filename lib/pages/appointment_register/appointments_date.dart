@@ -13,6 +13,7 @@ import 'package:app_medicamentos/utils/buttonSheet.dart';
 class AppointmentsDatePage extends StatefulWidget {
   const AppointmentsDatePage({super.key, required this.appointment});
 
+  //Objeto que se usa para reibir la inforación de la cita, agregar datos y registrarla en esta pantalla.
   final Appointment appointment;
 
   @override
@@ -107,6 +108,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
                 height: 77,
                 child: ElevatedButton(
                   onPressed: () async {
+                    //Al presionar el botón intentará insertar.
                     int result = await RegisterAppointment();
                     muestraButtonSheet(context, result);
 
@@ -132,6 +134,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
     );
   }
 
+  //Intenta insertar la cita y regresa un resultado.
   Future<int> RegisterAppointment() async {
     try{
       widget.appointment.fecha  = appointmentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
@@ -139,6 +142,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
       Database database = await openDatabase(
           join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
+      //Se hace uso de objeto con la información de la cita para insertarla en la base de datos.
       await database.transaction((txn) async {
 
         var cita = widget.appointment.toMap();
@@ -148,6 +152,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
         print(cita.toString());
       });
 
+      //Selecciona el id de la cita que acaba de registrar y con el modelo completo registra el recordatorio.
       final List<Map<String, dynamic>> maxID = await database.rawQuery(
         'SELECT MAX(id_cita) AS MaxID FROM Cita',
       );
@@ -159,9 +164,12 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
       homePageCards.clear();
       recordsPageCards.clear();
       calendarPageCards.clear();
+
+      //Si tiene exito en los registros retorna 3.
       return 3;
   }catch(e){
       print("Error en RegisterAppointment: $e");
+      //Si se arroja alguna exepción retorna 4.
       return 4;
     }
   }

@@ -1,3 +1,4 @@
+//Clase para los medicamentos. Contiene atributos con el mismo nombre que en las tablas de la base de datos.
 class Medicament{
   int? id_medicamento;
   String? nombre;
@@ -19,6 +20,7 @@ class Medicament{
     this.frecuenciaToma,
   });
 
+  //Regresa la información del medicamento en forma de map, para facilitar su inserción, actualización o eliminación.
   Map<String, dynamic> toMap() {
     return {
       'id_medicamento': id_medicamento,

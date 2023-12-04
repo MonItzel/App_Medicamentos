@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register_date.dart';
@@ -7,7 +8,7 @@ import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 enum Frequency { horas, dias, semanas, meses  }
 
 class MedicamentNameRegister extends StatefulWidget {
-  const MedicamentNameRegister({super.key});
+  const MedicamentNameRegister({super.key,});
 
   @override
   State<StatefulWidget> createState() {
@@ -16,6 +17,7 @@ class MedicamentNameRegister extends StatefulWidget {
 }
 
 class _MedicamentNameRegister extends State <MedicamentNameRegister> {
+  //Objeto usado para pasar la información del medicamento de esta pantalla a la suiguiente.
   final Medicament medicament = Medicament();
   final  freqHour = TextEditingController();
   final  freqDay = TextEditingController();
@@ -28,6 +30,10 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
 
   @override
   Widget build(BuildContext context) {
+    if(nombreController.text == "" && dosisController.text == ""){
+      nombreController.text = medicament.nombre != null? medicament.nombre.toString() : "";
+      dosisController.text = medicament.dosis != null? medicament.dosis.toString() : "";
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFEDF2FA),
@@ -383,6 +389,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                   height: 77,
                   child: ElevatedButton(
                     onPressed: () {
+                      //Al presionar el botón se llena el objeto y se pasa a la siguiente pantalla.
                       SetMedicamento();
                       Navigator.pushAndRemoveUntil <dynamic>(
                         context,
@@ -413,6 +420,8 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
       ),
     );
   }
+
+  //Almacena los dato ingresados en esta pantalla.
   void SetMedicamento(){
     medicament.nombre = nombreController.text;
     medicament.dosis = dosisController.text;
@@ -433,7 +442,6 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
       case null:
     }
   }
-
+  TextEditingController nombreController = TextEditingController();
+  TextEditingController dosisController = TextEditingController();
 }
-TextEditingController nombreController = TextEditingController();
-TextEditingController dosisController = TextEditingController();

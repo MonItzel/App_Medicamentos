@@ -52,6 +52,7 @@ class _CalendarPage extends State <CalendarPage>{
                   selectionMode: DateRangePickerSelectionMode.single,
                   showNavigationArrow: true,
                   onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                    //Al seleccionar cualquier fecha, se generan las cartas correspondientes.
                     CreateCards(context, args.value.toString());
                   },
                   todayHighlightColor: Color(0xFF09184D),
@@ -63,6 +64,7 @@ class _CalendarPage extends State <CalendarPage>{
                   style: AppStyles.encabezado2,
                 )
               ]
+                  //Se genera el calendario y debajo de él las cartas.
                   + calendarPageCards
               ,
             )
@@ -196,18 +198,22 @@ class _CalendarPage extends State <CalendarPage>{
     );
   }
 
+  //Genera las cartas con los recordatorios del día seleccionado y vuelve a generar esta pantalla con los datos.
   Future<void> CreateCards(var context, String date) async {
     try{
+      //Elimina los elementos de la lista.
       calendarPageCards.clear();
       Database database = await openDatabase(
           Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
+      //Selecciona la información de los recordatorios y medicamentos de la fecha seleccionada.
       final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
         "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
       );
       print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC");
       print("map: " + medicamentos.length.toString());
 
+      //Si retorna al menos un medicamento, genera la carta con la su información y lo agrega a la lista.
       if(medicamentos.length > 0){
         for(int i = 0; i < medicamentos.length; i++){
           calendarPageCards.add(Card(
@@ -239,12 +245,14 @@ class _CalendarPage extends State <CalendarPage>{
         }
       }
 
+      //Selecciona la información de los recordatorios y citas de la fecha seleccionada.
       final List<Map<String, dynamic>> citas = await database.rawQuery(
         "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
       );
       print("map: " + citas.length.toString());
       print("cards: " + homePageCards.length.toString());
 
+      //Si retorna al menos una cita, genera la carta con la su información y lo agrega a la lista.
       if(citas.length > 0) {
         for (int i = 0; i < citas.length; i++) {
           calendarPageCards.add(Card(
@@ -282,6 +290,7 @@ class _CalendarPage extends State <CalendarPage>{
       }
 
 
+      //Una vez la lista está llena, genera de nuevo la pantalla con la lista llena.
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
         MaterialPageRoute <dynamic>(

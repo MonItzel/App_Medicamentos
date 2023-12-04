@@ -14,6 +14,7 @@ import 'package:app_medicamentos/constants.dart';
 class Pathologies extends StatefulWidget {
   const Pathologies({super.key, required User this.user});
 
+  //Objeto usado para almacenar los datos del usuario y registrarlo.
   final User user;
 
   @override
@@ -166,6 +167,7 @@ class _Pathologies extends State <Pathologies> {
                     child: ElevatedButton(
                       onPressed: () {
                         print(otraspatController.text);
+                        //Al presionar el botón registra las patologías seleccioandas.
                         register();
                         Navigator.pushAndRemoveUntil <dynamic>(
                           context,
@@ -200,6 +202,7 @@ class _Pathologies extends State <Pathologies> {
     patologias = val;
   }
 
+  //Crea las tablas en la base de datos y registra los padecimientos.
   void register() async {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -257,6 +260,7 @@ class _Pathologies extends State <Pathologies> {
             'fecha TEXT); ';
         txn.rawQuery(sql);
 
+        //Inserta los padecimientos de la lista y el padecimiento ingresado por el usuario.
         for (int i = 0; i < patologias.length; i++) {
           var padecimiento = {
             'nombre_padecimiento': patologias[i].toString(),
@@ -280,6 +284,7 @@ class _Pathologies extends State <Pathologies> {
     }
 
 
+    //Registra la fecha actual como la primera vez que de generaron recordatorios.
     final List<Map<String, dynamic>> r = await database.rawQuery(
       "INSERT INTO RecordatotioRegistro (fecha) VALUES ('" + DateTime.now().toString().split(" ")[0] + "')",
     );

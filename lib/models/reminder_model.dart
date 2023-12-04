@@ -1,3 +1,5 @@
+//Clase para los recordatorios. Contiene atributos con el mismo nombre que en las tablas de la base de datos.
+
 import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -19,6 +21,7 @@ class Reminder{
     this.fecha_hora,
   });
 
+  //Regresa la información del recordatorio en forma de map, para facilitar su inserción, actualización o eliminación.
   Map<String, dynamic> toMap() {
     return {
       'id_recordatorio': id_recordatorio,
@@ -29,6 +32,7 @@ class Reminder{
     };
   }
 
+  //Inserta el recordatoio en la base de datos.
   void InsertReminder() async{
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -43,12 +47,14 @@ class Reminder{
     });
   }
 
+  //Configura las alarmas para todos los recordatorios del día actual.
   SetAlarms() async {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
     print("SELECT DISTINCT(fecha_hora) FROM Recordatorio WHERE fecha_hora like '" + DateTime.now().toString().split(" ")[0] + "%'");
 
+    //Selecciona todos las fechas y horas distintas, para crear una sola alarma con los medicamentos o citas que coincidan en hora y minuto.
     final List<Map<String, dynamic>> horas = await database.rawQuery(
     "SELECT DISTINCT(fecha_hora) AS fecha_hora FROM Recordatorio WHERE fecha_hora like '" + DateTime.now().toString().split(" ")[0] + "%'",
     );
@@ -56,6 +62,7 @@ class Reminder{
     String mensaje = "";
     for(int i = 0; i < horas.length; i++){
       mensaje = "";
+      //Se seleccionan todos los medicamentos con la misma hora y minuto y genera el mensaje que se mostrará.
       final List<Map<String, dynamic>> mRecordatorios = await database.rawQuery(
         "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + horas[i]["fecha_hora"] + "%'",
       );
@@ -67,6 +74,7 @@ class Reminder{
       if(mRecordatorios.length > 0)
         mensaje = mensaje.substring(0, mensaje.length - 2) + "\n";
 
+      //Se seleccionan todos las citas con la misma hora y minuto y genera el mensaje que se mostrará.
       final List<Map<String, dynamic>> cRecordatorios = await database.rawQuery(
         "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + horas[i]["fecha_hora"] + "%'",
       );
@@ -78,6 +86,7 @@ class Reminder{
       if(cRecordatorios.length > 0)
         mensaje = mensaje.substring(0, mensaje.length - 2);
 
+      //Genera la alarma con el concentrado de medicamentos y citas.
       String HoraAlarma = horas[i]["fecha_hora"].toString().split(" ")[1].split(":")[0];
       String MinutoAlarma = horas[i]["fecha_hora"].toString().split(" ")[1].split(":")[1];
       FlutterAlarmClock.createAlarm(
@@ -88,7 +97,8 @@ class Reminder{
     }
   }
 
-
+  //Al ejecutarse revisa en la base de datos cuando fue la ultima vez que se insertarion recordatorios nuevos y si han pasado más de 30
+  //genera recordatoios para los próximos días y registra la fecha.
   CreateMedicamentsReminders() async{
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -100,11 +110,14 @@ class Reminder{
     for(int i = 0; i < registro.length; i++){
       print(registro[i]['fecha'].toString() + " 00:00:00");
     }
+
+    //Calcula los días que han transcurrido desde el último registro.
     DateTime now = DateTime.now();
     print("Dias restantes: " + (30 - DateTime.parse(registro[0]['fecha'].toString() + " 00:00:00").difference(DateTime(now.year, now.month, now.day)).inDays * -1).toString());
 
     if(DateTime.parse(registro[0]['fecha'].toString() + " 00:00:00").difference(DateTime(now.year, now.month, now.day)).inDays * -1 > 30){
 
+      //Selecciona todos los medicamentos registrados y genera los recordatorios de los próximos 30 días para cada uno.
       final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
         'SELECT * FROM Medicamento',
       );
@@ -120,10 +133,12 @@ class Reminder{
     }
   }
 
+  //Registra recordatorios para los próximos 30 días del medicamento que recibe.
   CreateMedicamentReminders(Medicament medicament) async{
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
+    //Selecciona el útimo recordatorio registrado para ese medicamento.
     final List<Map<String, dynamic>> lastReminder = await database.rawQuery(
       'SELECT * FROM Recordatorio WHERE id_medicamento =' + medicament.id_medicamento.toString() + ' ORDER BY fecha_hora DESC LIMIT 1',
     );
@@ -134,6 +149,7 @@ class Reminder{
       print(lastReminder[0]['id_recordatorio'].toString() + " - " + lastReminder[0]['id_medicamento'].toString() + " - " + lastReminder[0]['fecha_hora'].toString());
     }
 
+    //Inserta los recordatorios y vanaza en la fecha y hora dependiendo de la fecuencia y tipo de frecuencia del medicamento.
     int count = 0;
     DateTime lastFechaHora = DateTime.parse(lastReminder[0]['fecha_hora'].toString());
     DateTime fechaHora = lastFechaHora;
@@ -166,6 +182,7 @@ class Reminder{
     print("Recordatorios de " + medicament.nombre.toString() + ": " + count.toString());
   }
 
+  //Registra el recordatorio para una cita médica con la información que recibe.
   CreateAppointmentReminders(Appointment appointment) async{
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
