@@ -27,11 +27,17 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _currentIndex = 0;
   String formattedDate = '';
+
   int resCreateNote = 0;
   @override
   void initState() {
     super.initState();
     _loadDate();
+    CreateNote().then((result) {
+      setState(() {
+        resCreateNote = result;
+      });
+    });
   }
 
   void _loadDate() async {
@@ -45,12 +51,6 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     CreateCards(context);
-
-   CreateNote(context).then((result) {
-      setState(() {
-        resCreateNote = result;
-      });
-    });
 
     double titleSpacing = resCreateNote == 1 ? 0.0 : 0.0;
     double toolbarHeight = resCreateNote == 1 ? 140.0 : 80.0;
@@ -125,7 +125,7 @@ class _HomePage extends State<HomePage> {
                   (route) => false,
                 );
               } else if (index == 2) {
-                muestraButtonSheet();
+                //muestraButtonSheet();
               } else if (index == 3) {
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -152,87 +152,7 @@ class _HomePage extends State<HomePage> {
     );
   }
 
-  void muestraButtonSheet(){
-    final int bandShow = 0;
-    // band: revisar que valor tiene para mostrar los widgets qe necesites
-    //final bool num = 0;
-    showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(12.0)
-          )
-      ),
-      context: context,
-      builder: (BuildContext context){
-        return SizedBox(
-            height: 350,
-            child: Center(
-              // child: bandShow == 1 ? Column(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (bandShow == 0)
-                    Column(
-                      children: [
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar medicamento',
-                          ruta: 0,
-                        ),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar cita médica',
-                          ruta: 1,
-                        )
-                      ],
-                    ),
 
-                  if (bandShow == 1)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Medicamento agregado con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 2)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Error al agregar medicamento',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 3)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Cita agregada con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 4)
-                    Column(
-                      children: [
-                        Texto(contenido: 'Error al agregar cita',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    )
-                ],
-              ) ,
-            )
-        );
-      },
-    );
-  }
 
   Future<void> CreateCards(var context) async {
     try{
@@ -364,7 +284,17 @@ class _HomePage extends State<HomePage> {
 
 List<Widget> homePageCards = [];
 
-Future<int> CreateNote(var context) async {
+/*
+ * Función que se encarga de validar que el usuario asulto mayor
+ * haya registrado el número de teléfono del cuidaddor
+ * @param:
+ * no recibe ningún parámetro
+ * return
+ * 1 si se registro el número de teléfono del cuidador.
+ * 0 en caso que no se registró el número del cuidador o
+ * haya ocurrido un error al ejecutar la consulta.
+ */
+Future<int> CreateNote() async {
   try {
     Database database = await openDatabase(
         Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -394,7 +324,15 @@ Future<int> CreateNote(var context) async {
   }
 }
 
-
+/*
+ * Función que se encarga de mostrar la nota que contiene
+ * la información del contacto del cuidador.
+ * @param:
+ * no recibe ningún parámetro
+ * return
+ * Regresa un Container que contiene los widgets con la
+ * información.
+ */
 Widget showTextEmergyCall(){
   return Container(
     height: 70,
