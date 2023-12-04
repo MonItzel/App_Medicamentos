@@ -26,7 +26,7 @@ class _ProfilePage extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-    //Al ingresar verifica si debe seleccionar la información del usuario.
+    // Al ingresar, verifica si debe seleccionar la información del usuario.
     select(context);
 
     return Scaffold(
@@ -35,6 +35,7 @@ class _ProfilePage extends State<ProfilePage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
+          // Título de la AppBar
           title: Text(
             'Perfil',
             style: AppStyles.encabezado1,
@@ -46,12 +47,14 @@ class _ProfilePage extends State<ProfilePage> {
         ),
       ),
 
+      // Cuerpo de la página
       body: Padding(
         padding: EdgeInsets.all(30.0), // Define el padding deseado
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Muestra el nombre del usuario
             Text(
               'Nombre: ' + nombreController.text + ' ' + apellidoPController.text + ' ' + apellidoMController.text,
               style: TextStyle(
@@ -61,6 +64,8 @@ class _ProfilePage extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: 20.0,),
+
+            // Muestra la fecha de nacimiento del usuario
             Text(
               'Fecha de nacimiento: ' + fechaNacController.text,
               style: TextStyle(
@@ -70,6 +75,8 @@ class _ProfilePage extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: 20.0,),
+
+            // Muestra la dirección del usuario
             Text(
               'Dirección: ' + calleController.text + ' ' + numExteriorController.text + ', ' + coloniaController.text,
               style: TextStyle(
@@ -79,6 +86,8 @@ class _ProfilePage extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: 20.0,),
+
+            // Muestra el cuidador del usuario
             Text(
               'Cuidador: ' + cuidadorController.text,
               style: TextStyle(
@@ -88,12 +97,15 @@ class _ProfilePage extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: 20.0,),
+
+            // Botón para editar el perfil del usuario
             Padding(
               padding: const EdgeInsets.only(right: 5, bottom: 50),
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton.small(
                   onPressed: () {
+                    // Navega a la página de edición del perfil
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
@@ -104,18 +116,21 @@ class _ProfilePage extends State<ProfilePage> {
                   },
                   backgroundColor: Color(0xFF09184D),
                   child: Icon(
-                    Icons.edit
+                      Icons.edit
                   ),
                 ),
               ),
             ),
             SizedBox(height: 20.0,),
+
+            // Botón para enviar mensajes
             Padding(
               padding: const EdgeInsets.only(right: 5, bottom: 50),
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton.small(
                   onPressed: () {
+                    // Navega a la página de mensajes
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
@@ -132,6 +147,7 @@ class _ProfilePage extends State<ProfilePage> {
               ),
             ),
 
+            // Botón para crear una alarma
             Container(
               margin: const EdgeInsets.all(25),
               child: TextButton(
@@ -140,6 +156,7 @@ class _ProfilePage extends State<ProfilePage> {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
+                  // Crea una alarma usando FlutterAlarmClock
                   FlutterAlarmClock.createAlarm(
                       hour: 16,
                       minutes: 08,
@@ -152,6 +169,7 @@ class _ProfilePage extends State<ProfilePage> {
         ),
       ),
 
+      // Barra de navegación inferior personalizada
       bottomNavigationBar: Container(
         child: CustomNavigationBar(
           currentIndex: _currentIndex,
@@ -160,6 +178,7 @@ class _ProfilePage extends State<ProfilePage> {
               _currentIndex = index;
             });
             if (index == 0) {
+              // Navega a la página de inicio
               Navigator.pushAndRemoveUntil(
                 context,
                 PageTransition(
@@ -169,6 +188,7 @@ class _ProfilePage extends State<ProfilePage> {
                     (route) => false,
               );
             } else if (index == 1) {
+              // Navega a la página del calendario
               Navigator.pushAndRemoveUntil(
                 context,
                 PageTransition(
@@ -178,8 +198,9 @@ class _ProfilePage extends State<ProfilePage> {
                     (route) => false,
               );
             } else if (index == 2) {
-              //muestraButtonSheet();
+              // Muestra algún contenido no especificado
             } else if (index == 3) {
+              // Navega a la página de registros
               Navigator.pushAndRemoveUntil(
                 context,
                 PageTransition(
@@ -189,7 +210,7 @@ class _ProfilePage extends State<ProfilePage> {
                     (route) => false,
               );
             } else if (index == 4) {
-              //Pagina actual, no necesita navegacion
+              // Página actual, no necesita navegación
             }
           },
         ),
@@ -197,10 +218,10 @@ class _ProfilePage extends State<ProfilePage> {
     );
   }
 
-  //Llena los campos de la pantalla con los datos del usuario.
+  // Llena los campos de la pantalla con los datos del usuario
   Future<void> select(var context) async {
 
-    //Si no hay se está mostrando información en la pantalla selecciona los datos del usuario.
+    // Si no hay información mostrándose en la pantalla, selecciona los datos del usuario
     if(nombreController.text == "" &&
         apellidoPController.text == "" &&
         apellidoMController.text == "" &&
@@ -223,7 +244,7 @@ class _ProfilePage extends State<ProfilePage> {
       print("map2: " + map2.length.toString());
       print(map1[0]['nombre'].toString());
 
-      //Llena los TextEditingController con los datos del usuario y vuelve a generar la pantalla.
+      // Llena los TextEditingController con los datos del usuario y vuelve a generar la pantalla
       nombreController.text = map1[0]['nombre'].toString();
       apellidoPController.text =  map1[0]['apellidoP'].toString();
       apellidoMController.text = map1[0]['apellidoM'].toString();
@@ -246,6 +267,7 @@ class _ProfilePage extends State<ProfilePage> {
   }
 }
 
+// Controladores para manejar la entrada de texto en los campos del formulario
 TextEditingController nombreController = TextEditingController();
 TextEditingController apellidoPController = TextEditingController();
 TextEditingController apellidoMController = TextEditingController();

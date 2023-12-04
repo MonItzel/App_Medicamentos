@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/utils/button.dart';
@@ -11,19 +10,20 @@ import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
 
-class CalendarPage extends StatefulWidget{
+class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
 
   @override
-  State<StatefulWidget> createState(){
+  State<StatefulWidget> createState() {
     return _CalendarPage();
   }
 }
 
-class _CalendarPage extends State <CalendarPage>{
+class _CalendarPage extends State<CalendarPage> {
   int _currentIndex = 1;
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -41,36 +41,34 @@ class _CalendarPage extends State <CalendarPage>{
           elevation: 0,
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Container(
-            height: calendarPageCards.length * 120 + 350, // Establece la altura del Container a 200 píxeles
-            child: ListView(
-              children: <Widget>[
-                SfDateRangePicker(
-                  selectionMode: DateRangePickerSelectionMode.single,
-                  showNavigationArrow: true,
-                  onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                    //Al seleccionar cualquier fecha, se generan las cartas correspondientes.
-                    CreateCards(context, args.value.toString());
-                  },
-                  todayHighlightColor: Color(0xFF09184D),
-                  selectionColor: Color(0xFF09184D),
-                ),
-                const SizedBox(height: 20.0,),
-                const Text(
-                  'Eventos de ' ,
-                  style: AppStyles.encabezado2,
-                )
-              ]
-                  //Se genera el calendario y debajo de él las cartas.
-                  + calendarPageCards
-              ,
-            )
+          height: calendarPageCards.length * 120 + 350, // Establece la altura del Container a 200 píxeles
+          child: ListView(
+            children: <Widget>[
+              SfDateRangePicker(
+                selectionMode: DateRangePickerSelectionMode.single,
+                showNavigationArrow: true,
+                onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                  // Al seleccionar cualquier fecha, se generan las cartas correspondientes.
+                  CreateCards(context, args.value.toString());
+                },
+                todayHighlightColor: Color(0xFF09184D),
+                selectionColor: Color(0xFF09184D),
+              ),
+              const SizedBox(height: 20.0,),
+              const Text(
+                'Eventos de ',
+                style: AppStyles.encabezado2,
+              )
+            ]
+                // Se genera el calendario y debajo de él las cartas.
+                + calendarPageCards
+            ,
+          ),
         ),
       ),
-
       bottomNavigationBar: Container(
         child: CustomNavigationBar(
           currentIndex: _currentIndex,
@@ -88,7 +86,7 @@ class _CalendarPage extends State <CalendarPage>{
                     (route) => false,
               );
             } else if (index == 1) {
-              //Pagina actual, no necesita navegacion
+              // Pagina actual, no necesita navegacion
             } else if (index == 2) {
               muestraButtonSheet();
             } else if (index == 3) {
@@ -116,106 +114,106 @@ class _CalendarPage extends State <CalendarPage>{
     );
   }
 
-  void muestraButtonSheet(){
+  void muestraButtonSheet() {
     final int bandShow = 0;
-    // band: revisar que valor tiene para mostrar los widgets qe necesites
-    //final bool num = 0;
+    // band: revisar que valor tiene para mostrar los widgets que necesites
+    // final bool num = 0;
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(12.0)
-          )
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(12.0),
+        ),
       ),
       context: context,
-      builder: (BuildContext context){
+      builder: (BuildContext context) {
         return SizedBox(
-            height: 350,
-            child: Center(
-              // child: bandShow == 1 ? Column(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (bandShow == 0)
-                    Column(
-                      children: [
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar medicamento',
-                          ruta: 0,
-                        ),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar cita médica',
-                          ruta: 1,
-                        )
-                      ],
-                    ),
+          height: 350,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (bandShow == 0)
+                  Column(
+                    children: [
+                      Button(
+                        color: 0xFF0D1C52,
+                        ancho: 263,
+                        alto: 71,
+                        contenido: 'Agregar medicamento',
+                        ruta: 0,
+                      ),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(
+                        color: 0xFF0D1C52,
+                        ancho: 263,
+                        alto: 71,
+                        contenido: 'Agregar cita médica',
+                        ruta: 1,
+                      )
+                    ],
+                  ),
 
-                  if (bandShow == 1)
-                    Column(
-                      children: [
-                        Text('Medicamento agregado con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
+                if (bandShow == 1)
+                  Column(
+                    children: [
+                      Text('Medicamento agregado con éxito',),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                    ],
+                  ),
 
-                  if (bandShow == 2)
-                    Column(
-                      children: [
-                        Text('Error al agregar medicamento',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
+                if (bandShow == 2)
+                  Column(
+                    children: [
+                      Text('Error al agregar medicamento',),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                    ],
+                  ),
 
-                  if (bandShow == 3)
-                    Column(
-                      children: [
-                        Text('Cita agregada con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
+                if (bandShow == 3)
+                  Column(
+                    children: [
+                      Text('Cita agregada con éxito',),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                    ],
+                  ),
 
-                  if (bandShow == 4)
-                    Column(
-                      children: [
-                        Text('Error al agregar cita',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    )
-                ],
-              ) ,
-            )
+                if (bandShow == 4)
+                  Column(
+                    children: [
+                      Text('Error al agregar cita',),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                    ],
+                  )
+              ],
+            ),
+          ),
         );
       },
     );
   }
 
-  //Genera las cartas con los recordatorios del día seleccionado y vuelve a generar esta pantalla con los datos.
+  // Genera las cartas con los recordatorios del día seleccionado y vuelve a generar esta pantalla con los datos.
   Future<void> CreateCards(var context, String date) async {
-    try{
-      //Elimina los elementos de la lista.
+    try {
+      // Elimina los elementos de la lista.
       calendarPageCards.clear();
       Database database = await openDatabase(
           Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-      //Selecciona la información de los recordatorios y medicamentos de la fecha seleccionada.
+      // Selecciona la información de los recordatorios y medicamentos de la fecha seleccionada.
       final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
         "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%'",
       );
       print("SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC");
       print("map: " + medicamentos.length.toString());
 
-      //Si retorna al menos un medicamento, genera la carta con la su información y lo agrega a la lista.
-      if(medicamentos.length > 0){
-        for(int i = 0; i < medicamentos.length; i++){
+      // Si retorna al menos un medicamento, genera la carta con la su información y lo agrega a la lista.
+      if (medicamentos.length > 0) {
+        for (int i = 0; i < medicamentos.length; i++) {
           calendarPageCards.add(Card(
             elevation: 3, // Elevación para dar profundidad al card
             margin: EdgeInsets.all(16), // Margen alrededor del card
@@ -245,15 +243,15 @@ class _CalendarPage extends State <CalendarPage>{
         }
       }
 
-      //Selecciona la información de los recordatorios y citas de la fecha seleccionada.
+      // Selecciona la información de los recordatorios y citas de la fecha seleccionada.
       final List<Map<String, dynamic>> citas = await database.rawQuery(
         "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
       );
       print("map: " + citas.length.toString());
       print("cards: " + homePageCards.length.toString());
 
-      //Si retorna al menos una cita, genera la carta con la su información y lo agrega a la lista.
-      if(citas.length > 0) {
+      // Si retorna al menos una cita, genera la carta con la su información y lo agrega a la lista.
+      if (citas.length > 0) {
         for (int i = 0; i < citas.length; i++) {
           calendarPageCards.add(Card(
             elevation: 3, // Elevación para dar profundidad al card
@@ -289,8 +287,7 @@ class _CalendarPage extends State <CalendarPage>{
         }
       }
 
-
-      //Una vez la lista está llena, genera de nuevo la pantalla con la lista llena.
+      // Una vez la lista está llena, genera de nuevo la pantalla con la lista llena.
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
         MaterialPageRoute <dynamic>(
@@ -299,7 +296,7 @@ class _CalendarPage extends State <CalendarPage>{
             (route) => false,
       );
       print("cards: " + calendarPageCards.length.toString());
-    }catch(exception){
+    } catch (exception) {
       print(exception);
     }
   }

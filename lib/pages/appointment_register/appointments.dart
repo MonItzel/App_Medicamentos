@@ -5,7 +5,6 @@ import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
 
@@ -16,10 +15,10 @@ class AppointmentsPage extends StatefulWidget {
 }
 
 class _AppointmentsPage extends State <AppointmentsPage> {
-
+  // Definición del formateador de máscara para el número de teléfono
   var maskFormatter = MaskTextInputFormatter(mask: '### ### ####', filter: {"#": RegExp(r'[0-9]')});
 
-  //Objeto que se usará para pasar la información de la cita a la próxima pantalla.
+  // Objeto que se usará para pasar la información de la cita a la próxima pantalla.
   final  Appointment appointment = Appointment();
 
   @override
@@ -39,6 +38,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
             onPressed: () {
+              // Navegar de regreso a la página de inicio
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
@@ -55,13 +55,13 @@ class _AppointmentsPage extends State <AppointmentsPage> {
           elevation: 0,
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            // Sección para el nombre del médico
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -72,12 +72,12 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 20,
-                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
             SizedBox(height: 10,),
+            // Campo de entrada para el nombre del médico
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -110,6 +110,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   fillColor: Colors.white,
                 ),
                 onChanged: (text) {
+                  // Convertir a mayúsculas el primer carácter de cada palabra
                   setState(() {
                     convertoUpperCase(text, nombreMedicoController, 0);
                   });
@@ -117,6 +118,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
               ),
             ),
             SizedBox(height: 20.0,),
+            // Sección para el motivo de la cita médica
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -127,12 +129,12 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 20,
-                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
             SizedBox(height: 10,),
+            // Campo de entrada para el motivo de la cita médica
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -165,6 +167,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   fillColor: Colors.white,
                 ),
                 onChanged: (text) {
+                  // Convertir a mayúsculas el primer carácter de la primera palabra
                   setState(() {
                     convertFirstWordUpperCase(text, motivoController);
                   });
@@ -172,6 +175,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
               ),
             ),
             SizedBox(height: 20.0,),
+            // Sección para el lugar de la cita médica
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -182,12 +186,12 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 20,
-                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
             SizedBox(height: 10,),
+            // Campo de entrada para el lugar de la cita médica
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -220,6 +224,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   fillColor: Colors.white,
                 ),
                 onChanged: (text) {
+                  // Convertir a mayúsculas el primer carácter de la primera palabra
                   setState(() {
                     convertFirstWordUpperCase(text, lugarController);
                   });
@@ -227,6 +232,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
               ),
             ),
             SizedBox(height: 20.0,),
+            // Sección para el teléfono del médico
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -237,12 +243,12 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 20,
-                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
             SizedBox(height: 10,),
+            // Campo de entrada para el teléfono del médico con máscara
             Container(
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -278,7 +284,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 ),
               ),
             ),
-           // SizedBox(height: 20.0,),
+            // Botón para avanzar a la siguiente pantalla
             Padding(
               padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
               child: Container(
@@ -286,7 +292,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 height: 77,
                 child: ElevatedButton(
                   onPressed: () {
-                    //Al presionar el botón se llena el modelo de la cita y se pasa a la siguieten pantalla.
+                    // Al presionar el botón se llena el modelo de la cita y se pasa a la siguiente pantalla.
                     SetAppointment();
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
@@ -317,7 +323,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
     );
   }
 
-  //Llena la el modelo con la información ingresada en esta pantalla.
+  // Llena el modelo con la información ingresada en esta pantalla.
   void SetAppointment(){
     appointment.nombre_medico = nombreMedicoController.text;
     appointment.motivo = motivoController.text;
@@ -326,6 +332,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
   }
 }
 
+// Controladores de texto para los campos de entrada
 TextEditingController nombreMedicoController = TextEditingController();
 TextEditingController motivoController = TextEditingController();
 TextEditingController lugarController = TextEditingController();
