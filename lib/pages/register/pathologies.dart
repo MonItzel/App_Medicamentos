@@ -1,6 +1,4 @@
-import 'package:app_medicamentos/database/conection.dart';
 import 'package:app_medicamentos/models/user_model.dart';
-import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:app_medicamentos/pages/register/carer.dart';

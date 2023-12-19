@@ -1,19 +1,17 @@
-import 'package:app_medicamentos/models/reminder_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
-import 'package:app_medicamentos/utils/button.dart';
 import 'package:intl/intl.dart';
-import 'package:app_medicamentos/utils/texto.dart';
-import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+String tel_cuidador = '';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -205,6 +203,7 @@ class _HomePage extends State<HomePage> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Icon(Icons.medication_liquid, size: 44),
+                      //Nombre del medicamento
                       title: Text(
                         medicamentos[i]['nombre'].toString(),
                         style: AppStyles.tituloCard,
@@ -345,6 +344,9 @@ Future<int> CreateNote() async {
     // Verificar si la lista de resultados no está vacía
     if (result.isNotEmpty) {
       print('Tiene cuidador activo');
+      tel_cuidador = result[0]['cuidador_telefono'];
+      print('variable tel_cuidador');
+      print(tel_cuidador);
 
       return 1;
     } else {
@@ -381,7 +383,7 @@ Widget showTextEmergyCall(){
             fontFamily: 'Roboto',),),
         FloatingActionButton.small(
           onPressed: () {
-            //_callMe();
+            _callCarer(tel_cuidador);
           },
           backgroundColor: Color(0xFF09184D),
           child: Icon(
@@ -397,3 +399,16 @@ Widget showTextEmergyCall(){
 
 
 
+
+/*
+ * Función que se encarga de obtener el teléfono del
+ * cuidador y poder realizar luna llamada telefónica
+ * @param:
+ * tel_cuidador: variable que recibe el teléfono del cuidador
+ * return
+ * no regresa ningún valor
+ */
+_callCarer(tel_cuidador) async {
+  //$telefono variable
+  launch('tel: $tel_cuidador');
+}

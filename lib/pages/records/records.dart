@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
 import 'package:flutter/material.dart';
@@ -5,11 +7,12 @@ import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
-import 'package:app_medicamentos/utils/button.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:app_medicamentos/utils/buttonSheet.dart';
+
 
 class RecordsPage extends StatefulWidget{
   const RecordsPage({super.key});
@@ -78,7 +81,7 @@ class _RecordsPage extends State <RecordsPage>{
                     (route) => false,
               );
             } else if (index == 2) {
-              muestraButtonSheet(context);
+              //muestraButtonSheet(context);
             } else if (index == 3) {
               //Pagina actual, no necesita navegacion
             } else if (index == 4) {
@@ -97,87 +100,6 @@ class _RecordsPage extends State <RecordsPage>{
     );
   }
 
-  void muestraButtonSheet(BuildContext context){
-    final int bandShow = 0;
-    // band: revisar que valor tiene para mostrar los widgets qe necesites
-    //final bool num = 0;
-    showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(12.0)
-          )
-      ),
-      context: context,
-      builder: (BuildContext context){
-        return SizedBox(
-            height: 350,
-            child: Center(
-              // child: bandShow == 1 ? Column(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (bandShow == 0)
-                    Column(
-                      children: [
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar medicamento',
-                          ruta: 0,
-                        ),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0D1C52,
-                          ancho: 263,
-                          alto: 71,
-                          contenido: 'Agregar cita médica',
-                          ruta: 1,
-                        )
-                      ],
-                    ),
-
-                  if (bandShow == 1)
-                    Column(
-                      children: [
-                        Text('Medicamento agregado con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 2)
-                    Column(
-                      children: [
-                        Text('Error al agregar medicamento',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 3)
-                    Column(
-                      children: [
-                        Text('Cita agregada con éxito',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    ),
-
-                  if (bandShow == 4)
-                    Column(
-                      children: [
-                        Text('Error al agregar cita',),
-                        const SizedBox(width: 0.0, height: 60.0,),
-                        Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
-                      ],
-                    )
-                ],
-              ) ,
-            )
-        );
-      },
-    );
-  }
 
   //Si no hay cartas seleccioan la información y las crea.
   Future<void> CreateCards(BuildContext context) async {
@@ -230,15 +152,21 @@ class _RecordsPage extends State <RecordsPage>{
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton.small(
                         heroTag: "DeleteM" + medicamentos[i]['id_medicamento'].toString(),
-                        onPressed: () {
-                          DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
+                        onPressed: () async {
+                          /*Pendiente*/
+                          int result = await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
+                          print('res de delete med');
+                          print(result);
+                          muestraButtonSheet(context, result);
+
+                          /*
                           Navigator.pushAndRemoveUntil <dynamic>(
                             context,
                             MaterialPageRoute <dynamic>(
                                 builder: (BuildContext context) => const RecordsPage()
                             ),
                                 (route) => false,
-                          );
+                          );*/
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(
@@ -324,8 +252,17 @@ class _RecordsPage extends State <RecordsPage>{
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton.small(
                         heroTag: "DeleteC" + medicamentos[i]['id_medicamento'].toString(),
-                        onPressed: () {
-                          DeleteAppointment(citas[i]['id_cita'].toString());
+                        onPressed: () async {
+                          int result = await DeleteAppointment(citas[i]['id_cita'].toString());
+                          print('res de delete med');
+                          print(result);
+                          muestraButtonSheet(context, result);
+                          var duration = const Duration(seconds: 3);
+                          print('Start sleeping');
+                          sleep(duration);
+                          print('5 seconds has passed');
+
+
                           Navigator.pushAndRemoveUntil <dynamic>(
                             context,
                             MaterialPageRoute <dynamic>(
@@ -384,7 +321,7 @@ class _RecordsPage extends State <RecordsPage>{
   }
 
   //Intenta eliminar la cita y su recordatorio con el id que recibe.
-  Future<void> DeleteAppointment(String id) async {
+  Future<int> DeleteAppointment(String id) async {
       print("id_cita " + id);
       try{
         calendarPageCards.clear();
@@ -401,14 +338,15 @@ class _RecordsPage extends State <RecordsPage>{
         homePageCards.clear();
         calendarPageCards.clear();
         recordsPageCards.clear();
-
+        return 8;
       }catch(exception){
         print(exception);
+        return 9;
       }
   }
 
   //Intenta eliminar el medicamento y sus recordatorios con el id que recibe.
-  Future<void> DeleteMedicament(String id) async {
+  Future<int> DeleteMedicament(String id) async {
     print("id_medicamento " + id);
     try{
       calendarPageCards.clear();
@@ -425,8 +363,10 @@ class _RecordsPage extends State <RecordsPage>{
       homePageCards.clear();
       calendarPageCards.clear();
       recordsPageCards.clear();
+      return 6;
     }catch(exception){
       print(exception);
+      return 7;
     }
   }
 

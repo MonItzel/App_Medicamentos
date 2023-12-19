@@ -3,14 +3,11 @@ import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/utils/buttonSheet.dart';
-
-
 import '../../models/reminder_model.dart';
 
 class MedicamentDateRegister extends StatefulWidget {

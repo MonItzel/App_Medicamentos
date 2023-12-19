@@ -1,8 +1,5 @@
-import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:app_medicamentos/constants.dart';
 
 class StartPage extends StatefulWidget {
