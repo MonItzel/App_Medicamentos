@@ -216,7 +216,21 @@ class _CalendarPage extends State <CalendarPage>{
       //Si retorna al menos un medicamento, genera la carta con la su información y lo agrega a la lista.
       if(medicamentos.length > 0){
         for(int i = 0; i < medicamentos.length; i++){
+
+          String horaOriginal = medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
+          // Analiza la hora original en un objeto DateTime
+          DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
+
+          Color color = Colors.red;
+          if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
+            color = Colors.orange.shade50;
+          }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){
+            color = Colors.lightBlue.shade50;
+          }else if(horaDateTime.hour <6 || horaDateTime.hour > 18){
+            color = Colors.indigo.shade50;
+          }
           calendarPageCards.add(Card(
+            color: color,
             elevation: 3, // Elevación para dar profundidad al card
             margin: EdgeInsets.all(16), // Margen alrededor del card
             shape: RoundedRectangleBorder(
@@ -255,7 +269,21 @@ class _CalendarPage extends State <CalendarPage>{
       //Si retorna al menos una cita, genera la carta con la su información y lo agrega a la lista.
       if(citas.length > 0) {
         for (int i = 0; i < citas.length; i++) {
+          String horaOriginal = citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
+          // Analiza la hora original en un objeto DateTime
+          DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
+
+          Color color = Colors.red;
+          if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
+            color = Colors.orange.shade50;
+          }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){
+            color = Colors.lightBlue.shade50;
+          }else if(horaDateTime.hour <6 || horaDateTime.hour > 18){
+            color = Colors.indigo.shade50;
+          }
+
           calendarPageCards.add(Card(
+            color: color,
             elevation: 3, // Elevación para dar profundidad al card
             margin: EdgeInsets.all(16), // Margen alrededor del card
             shape: RoundedRectangleBorder(

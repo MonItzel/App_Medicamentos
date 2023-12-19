@@ -181,11 +181,21 @@ class _HomePage extends State<HomePage> {
             DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
             // Formatea la hora en formato de 12 horas sin segundos
             String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
+            Color color = Colors.red;
+            if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
+              color = Colors.orange.shade50;
+            }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){
+              color = Colors.lightBlue.shade50;
+            }else if(horaDateTime.hour <6 || horaDateTime.hour > 18){
+              color = Colors.indigo.shade50;
+            }
+
             homePageCards.add(
               SizedBox(
                 height: 120.0,
                 child: Card(
                   elevation: 3,
+                  color: color,
                   margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -234,7 +244,20 @@ class _HomePage extends State<HomePage> {
           //Crea las cartas para cada recordatorio de cita.
           if(citas.length > 0) {
             for (int i = 0; i < citas.length; i++) {
+              String horaOriginal = citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
+              // Analiza la hora original en un objeto DateTime
+              DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
+
+              Color color = Colors.red;
+              if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
+                color = Colors.orange.shade50;
+              }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){
+                color = Colors.lightBlue.shade50;
+              }else if(horaDateTime.hour < 6 || horaDateTime.hour > 18){
+                color = Colors.indigo.shade50;
+              }
               homePageCards.add(Card(
+                color: color,
                 elevation: 3,
                 margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
                 shape: RoundedRectangleBorder(
@@ -268,6 +291,10 @@ class _HomePage extends State<HomePage> {
               )
               );
             }
+          }
+
+          if(homePageCards.length != medicamentos.length + citas.length){
+            homePageCards.clear();
           }
 
           //Si se generaron cartas vuelve a generar la pantalla.
