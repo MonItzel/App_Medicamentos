@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
 
@@ -71,7 +72,30 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               ),
             ),
             SizedBox(height: 10),
-            SfDateRangePicker(
+            DatePickerWidget(
+              locale: DateTimePickerLocale.es,
+              firstDate: DateTime.utc(1954,01,01),
+              lastDate: DateTime.now(),
+              dateFormat: 'dd MMMM yyyy',
+              pickerTheme: DateTimePickerTheme(
+                backgroundColor: Colors.transparent,
+                dividerColor: Color(0xFF09184D),
+                itemTextStyle: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 25,
+                    color: Colors.black
+                ),
+              ),
+              onChange: (DateTime args, _) {
+                setState(() {
+                  fechaNac = args.day.toString()[0];
+                  fechaController.text = fechaNac;
+                });
+                print(fechaNac);
+              },
+            ),
+            SizedBox(height: 10),
+            /*SfDateRangePicker(
               selectionMode: DateRangePickerSelectionMode.single,
               showNavigationArrow: true,
               onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
@@ -81,7 +105,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               todayHighlightColor: AppStyles.secondaryBlue,
               selectionColor: AppStyles.primaryBlue,
               backgroundColor: Colors.white,
-            ),
+            ),*/
             SizedBox(height: 30.0),
 
             Align(
