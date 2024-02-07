@@ -9,7 +9,6 @@ import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:path/path.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
-import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -35,7 +34,6 @@ class _ProfilePage extends State<ProfilePage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          // Título de la AppBar
           title: Text(
             'Perfil',
             style: AppStyles.encabezado1,
@@ -48,126 +46,294 @@ class _ProfilePage extends State<ProfilePage> {
       ),
 
       // Cuerpo de la página
-      body: Padding(
-        padding: EdgeInsets.all(30.0), // Define el padding deseado
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Muestra el nombre del usuario
-            Text(
-              'Nombre: ' + nombreController.text + ' ' + apellidoPController.text + ' ' + apellidoMController.text,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20.0,),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(15, 10, 15, 0), // Define el padding deseado
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-            // Muestra la fecha de nacimiento del usuario
-            Text(
-              'Fecha de nacimiento: ' + fechaNacController.text,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20.0,),
-
-            // Muestra la dirección del usuario
-            Text(
-              'Dirección: ' + calleController.text + ' ' + numExteriorController.text + ', ' + coloniaController.text,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20.0,),
-
-            // Muestra el cuidador del usuario
-            Text(
-              'Cuidador: ' + cuidadorController.text,
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20.0,),
-
-            // Botón para editar el perfil del usuario
-            Padding(
-              padding: const EdgeInsets.only(right: 5, bottom: 50),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: FloatingActionButton.small(
-                  onPressed: () {
-                    // Navega a la página de edición del perfil
-                    Navigator.pushAndRemoveUntil <dynamic>(
-                      context,
-                      MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => const EditProfile()
-                      ),
-                          (route) => false,
-                    );
-                  },
-                  backgroundColor: Color(0xFF09184D),
-                  child: Icon(
-                      Icons.edit
+              //Icono de perfil
+              Center(
+                child: SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                    child: Container(
+                      child: Image.asset('assets/images/icon_profile2.png'),
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 20.0,),
 
-            // Botón para enviar mensajes
-            Padding(
-              padding: const EdgeInsets.only(right: 5, bottom: 50),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: FloatingActionButton.small(
-                  onPressed: () {
-                    // Navega a la página de mensajes
-                    Navigator.pushAndRemoveUntil <dynamic>(
-                      context,
-                      MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => const Message()
+
+              //Informacion personal
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Información personal',
+                          style: AppStyles.encabezado2,
+                        ),
                       ),
-                          (route) => false,
-                    );
-                  },
-                  backgroundColor: Color(0xFF09184D),
-                  child: Icon(
-                      Icons.message
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.edit),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
 
-            // Botón para crear una alarma
-            Container(
-              margin: const EdgeInsets.all(25),
-              child: TextButton(
-                child: const Text(
-                  'Create alarm',
-                  style: TextStyle(fontSize: 20),
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
+                    'Nombre(s)',
+                    style: AppStyles.texto2,
+                  ),
                 ),
-                onPressed: () {
-                  // Crea una alarma usando FlutterAlarmClock
-                  FlutterAlarmClock.createAlarm(
-                      hour: 16,
-                      minutes: 08,
-                      title: 'Hora de tomar sus medicamentos'
-                  );
-                },
               ),
-            ),
-          ],
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    nombreController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
+                    'Apellido(s)',
+                    style: AppStyles.texto2,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    apellidoPController.text + ' ' + apellidoMController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: AppStyles.divider,
+              ),
+
+
+              //Fecha de nacimiento
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Fecha de nacimiento',
+                          style: AppStyles.encabezado2,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.edit),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    fechaNacController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: AppStyles.divider,
+              ),
+
+
+              //Domicilio
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Domicilio',
+                          style: AppStyles.encabezado2,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.edit),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
+                    'Calle',
+                    style: AppStyles.texto2,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    calleController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
+                    'Número exterior',
+                    style: AppStyles.texto2,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    numExteriorController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
+                    'Colonia/Barrio',
+                    style: AppStyles.texto2,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    coloniaController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: AppStyles.divider,
+              ),
+
+
+              //Cuidador
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Cuidador',
+                          style: AppStyles.encabezado2,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil <dynamic>(
+                            context,
+                            MaterialPageRoute <dynamic>(
+                                builder: (BuildContext context) => const EditProfile()
+                            ),
+                                (route) => false,
+                          );
+                        },
+                        icon: Icon(Icons.edit),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
+                    'Nombre',
+                    style: AppStyles.texto2,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    cuidadorController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
+                    'Número de teléfono',
+                    style: AppStyles.texto2,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    numCuidadorController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
+
 
       // Barra de navegación inferior personalizada
       bottomNavigationBar: Container(
@@ -229,7 +395,8 @@ class _ProfilePage extends State<ProfilePage> {
         calleController.text == "" &&
         coloniaController.text == "" &&
         numExteriorController.text == "" &&
-        cuidadorController.text == ""){
+        cuidadorController.text == "" &&
+        numCuidadorController.text == ""){
       Database database = await openDatabase(
           join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
@@ -252,7 +419,8 @@ class _ProfilePage extends State<ProfilePage> {
       calleController.text = map1[0]['calle'].toString();
       coloniaController.text = map1[0]['club'].toString();
       numExteriorController.text = map1[0]['numero_exterior'].toString();
-      cuidadorController.text = map1[0]['cuidador_nombre'].toString() + "\n" + map1[0]['cuidador_telefono'].toString();
+      cuidadorController.text = map1[0]['cuidador_nombre'].toString();
+      numCuidadorController.text = map1[0]['cuidador_telefono'].toString();
 
       print(cuidadorController.text);
 
@@ -276,3 +444,4 @@ TextEditingController calleController = TextEditingController();
 TextEditingController coloniaController = TextEditingController();
 TextEditingController numExteriorController = TextEditingController();
 TextEditingController cuidadorController = TextEditingController();
+TextEditingController numCuidadorController = TextEditingController();

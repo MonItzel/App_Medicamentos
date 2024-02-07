@@ -37,6 +37,20 @@ class AppStyles {
     color: Colors.black,
   );
 
+  static const TextStyle texto2 = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20.0,
+    fontWeight: FontWeight.normal,
+    color: Colors.black,
+  );
+
+  static const TextStyle texto3 = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20.0,
+    fontWeight: FontWeight.normal,
+    color: primaryGrey,
+  );
+
   static const TextStyle tituloCard = TextStyle(
     fontFamily: 'Roboto',
     fontSize: 22.0,
@@ -103,5 +117,11 @@ class AppStyles {
     filled: true,
     fillColor: Colors.white,
     errorStyle: AppStyles.textoError,
+  );
+
+  //DIVIDER
+  static final divider = Divider(
+    color: primaryGrey,
+    thickness: 2,
   );
 }
