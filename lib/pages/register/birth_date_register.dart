@@ -20,7 +20,7 @@ class BirthDateRegister extends StatefulWidget {
 }
 
 class _BirthDateRegister extends State <BirthDateRegister> {
-  var fechaNac;
+  var fechaNac, dia, mes, anio;
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +88,12 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               ),
               onChange: (DateTime args, _) {
                 setState(() {
-                  fechaNac = args.day.toString()[0];
+                  dia = args.day.toString();
+                  mes = args.month.toString();
+                  anio = args.year.toString();
+                  fechaNac = dia + ' ' + mes + ' ' + anio;
                   fechaController.text = fechaNac;
                 });
-                print(fechaNac);
               },
             ),
             SizedBox(height: 10),
