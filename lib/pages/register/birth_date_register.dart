@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
@@ -14,13 +13,17 @@ class BirthDateRegister extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-
     return _BirthDateRegister();
   }
 }
 
 class _BirthDateRegister extends State <BirthDateRegister> {
   var fechaNac, dia, mes, anio;
+  final List<String> meses = [
+    'ENE', 'FEB', 'MAR', 'ABR',
+    'MAY', 'JUN', 'JUL', 'AGO',
+    'SEP', 'OCT', 'NOV', 'DIC'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Align(
@@ -67,7 +70,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                 child: Text(
                     'Seleccione su fecha de nacimiento',
                     textAlign: TextAlign.left,
-                    style: AppStyles.texto1
+                    style: AppStyles.tituloCard
                 ),
               ),
             ),
@@ -79,7 +82,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               dateFormat: 'dd MMMM yyyy',
               pickerTheme: DateTimePickerTheme(
                 backgroundColor: Colors.transparent,
-                dividerColor: Color(0xFF09184D),
+                dividerColor: Color(0xFF0063C9),
                 itemTextStyle: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 25,
@@ -89,27 +92,14 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               onChange: (DateTime args, _) {
                 setState(() {
                   dia = args.day.toString();
-                  mes = args.month.toString();
+                  mes = meses[args.month - 1];
                   anio = args.year.toString();
-                  fechaNac = dia + ' ' + mes + ' ' + anio;
+                  fechaNac = dia + ' / ' + mes + ' / ' + anio;
                   fechaController.text = fechaNac;
                 });
-              },
+                },
             ),
-            SizedBox(height: 10),
-            /*SfDateRangePicker(
-              selectionMode: DateRangePickerSelectionMode.single,
-              showNavigationArrow: true,
-              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                fechaNac = args.value.toString().split(' ')[0];
-                fechaController.text = fechaNac;
-              },
-              todayHighlightColor: AppStyles.secondaryBlue,
-              selectionColor: AppStyles.primaryBlue,
-              backgroundColor: Colors.white,
-            ),*/
-            SizedBox(height: 30.0),
-
+            SizedBox(height: 80.0),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -117,7 +107,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                 child: Text(
                     'Fecha seleccionada',
                     textAlign: TextAlign.left,
-                    style: AppStyles.texto1
+                    style: AppStyles.tituloCard
                 ),
               ),
             ),
@@ -136,8 +126,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
-
+            SizedBox(height: 80.0,),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: Container(

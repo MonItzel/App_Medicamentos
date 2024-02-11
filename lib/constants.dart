@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 //Archivo de estilos, estos estilos son utilizados en los widgets, este archivo cumple una funcion similar a un CSS
 class AppStyles {
 
