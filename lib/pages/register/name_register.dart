@@ -5,6 +5,7 @@ import '../../models/user_model.dart';
 import 'package:app_medicamentos/utils/validaciones.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:app_medicamentos/utils/flashMessage.dart';
 
 class NameRegister extends StatefulWidget {
   const NameRegister({super.key});
@@ -22,6 +23,7 @@ class _NameRegister extends State <NameRegister> {
 
   late bool _validateU = false;
   late bool _validateApp = false;
+  late bool _validateApm = false;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,7 @@ class _NameRegister extends State <NameRegister> {
                   obscureText: false,
                   textAlign: TextAlign.left,
                   decoration: AppStyles.textFieldEstilo.copyWith(
-                    errorText: _validateApp ? 'Por favor, ingrese su(s) nombre(s)' : null,
+                   // errorText: _validateU ? '' : null,
                   ),
                   style: AppStyles.texto1,
                   onChanged: (text) {
@@ -117,7 +119,7 @@ class _NameRegister extends State <NameRegister> {
                   obscureText: false,
                   textAlign: TextAlign.left,
                   decoration: AppStyles.textFieldEstilo.copyWith(
-                    errorText: _validateApp ? 'Por favor, ingrese su apellido' : null,
+                    //errorText: _validateApp ? '' : null,
                   ),
                   style: AppStyles.texto1,
                   onChanged: (text) {
@@ -181,7 +183,12 @@ class _NameRegister extends State <NameRegister> {
                       String? appaternoError = validateUser(apellidoPController.text);
                       _validateApp = appaternoError != null;
 
-                      if(!_validateU && !_validateApp ){
+                      //Verificar que el nombre completo cumpla las características de la expresión regular
+                      String? apmaternoError = validateUser(apellidoMController.text);
+                      _validateApm = apmaternoError != null;
+
+
+                      if(!_validateU && (!_validateApp || !_validateApm)){
                         print(nombreController.text);
                         print(apellidoPController.text);
                         print(apellidoMController.text);
@@ -191,6 +198,12 @@ class _NameRegister extends State <NameRegister> {
                               builder: (BuildContext context) => BirthDateRegister(user: user,),
                             ),
                                 (route) => false);
+                      }else if(_validateU){
+                        muestraSnackBar(context);
+                      }
+                      else if(_validateApp || _validateApm){
+                        //Aqui me falta cambiar a apellidos(optimizar la función)
+                        muestraSnackBar(context);
                       }
                     });
                   },
@@ -206,6 +219,7 @@ class _NameRegister extends State <NameRegister> {
       ),
     );
   }
+
 
   //Almacena los datos ingresados en esta pantalla en el objeto.
   void SetUser(){

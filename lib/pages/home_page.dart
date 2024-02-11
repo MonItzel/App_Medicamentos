@@ -105,6 +105,14 @@ class _HomePage extends State<HomePage> {
             children: homePageCards,
           )
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFF09184D),
+          onPressed: () {
+            // Acción que se ejecutará al presionar el botón flotante.
+            print('Botón flotante presionado');
+          },
+          child: Icon(Icons.message),
+        ),
 
         bottomNavigationBar: Container(
           child: CustomNavigationBar(

@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/pages/register/pathologies.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
@@ -43,7 +44,7 @@ class _CarerPage extends State <CarerPage> {
               Navigator.pushAndRemoveUntil <dynamic>(
                 context,
                 MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => StartPage()
+                    builder: (BuildContext context) => Pathologies(user: widget.user)
                 ),
                     (route) => false,
               );
@@ -168,7 +169,7 @@ class _CarerPage extends State <CarerPage> {
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => HomePage()
+                          builder: (BuildContext context) => Pathologies(user: widget.user,)
                       ),
                           (route) => false,
                     );
