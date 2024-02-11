@@ -108,8 +108,7 @@ class _HomePage extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xFF09184D),
           onPressed: () {
-            // Acción que se ejecutará al presionar el botón flotante.
-            print('Botón flotante presionado');
+            _msgAppointment();
           },
           child: Icon(Icons.message),
         ),
@@ -419,4 +418,23 @@ Widget showTextEmergyCall(){
 _callCarer(tel_cuidador) async {
   //$telefono variable
   launch('tel: $tel_cuidador');
+}
+
+_msgAppointment() async {
+  //%20 es el espacio
+  //Lamado a la    Parámetros a enviar
+  //funcion
+  const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
+  if (await canLaunch(uri)) {
+    await launch(uri);
+  }
+  else {
+    /*
+    const uri = 'sms:0039-222-060-888?body=hello%20there';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      throw 'Could not launch $uri';
+    }*/
+  }
 }

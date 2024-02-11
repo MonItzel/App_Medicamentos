@@ -169,7 +169,7 @@ class _CarerPage extends State <CarerPage> {
                     Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => Pathologies(user: widget.user,)
+                          builder: (BuildContext context) => HomePage()
                       ),
                           (route) => false,
                     );
