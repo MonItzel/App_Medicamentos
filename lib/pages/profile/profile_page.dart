@@ -1,14 +1,21 @@
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/pages/register/address.dart';
+import 'package:app_medicamentos/pages/register/carer.dart';
+import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/profile/edit_profile.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
+import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:path/path.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
+
+import '../../models/user_model.dart';
+import '../register/birth_date_register.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -82,7 +89,9 @@ class _ProfilePage extends State<ProfilePage> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          UpdateInfoPersonal(context);
+                        },
                         icon: Icon(Icons.edit),
                       ),
                     ],
@@ -149,7 +158,9 @@ class _ProfilePage extends State<ProfilePage> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          UpdateBirthdate(context);
+                        },
                         icon: Icon(Icons.edit),
                       ),
                     ],
@@ -186,7 +197,9 @@ class _ProfilePage extends State<ProfilePage> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          UpdateAddress(context);
+                        },
                         icon: Icon(Icons.edit),
                       ),
                     ],
@@ -274,13 +287,7 @@ class _ProfilePage extends State<ProfilePage> {
                       ),
                       IconButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil <dynamic>(
-                            context,
-                            MaterialPageRoute <dynamic>(
-                                builder: (BuildContext context) => const EditProfile()
-                            ),
-                                (route) => false,
-                          );
+                          UpdateCarer(context);
                         },
                         icon: Icon(Icons.edit),
                       ),
@@ -419,7 +426,7 @@ class _ProfilePage extends State<ProfilePage> {
       calleController.text = map1[0]['calle'].toString();
       coloniaController.text = map1[0]['club'].toString();
       numExteriorController.text = map1[0]['numero_exterior'].toString();
-      cuidadorController.text = map1[0]['cuidador_nombre'].toString();
+      cuidadorController.text = map1[0]['cuidador_nombre'].toString().split(',')[0] + map1[0]['cuidador_nombre'].toString().split(',')[1];
       numCuidadorController.text = map1[0]['cuidador_telefono'].toString();
 
       print(cuidadorController.text);
@@ -432,6 +439,113 @@ class _ProfilePage extends State<ProfilePage> {
             (route) => false,
       );
     }
+  }
+
+  Future<void> UpdateCarer(BuildContext context) async{
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+      'SELECT * FROM Usuario LIMIT 1',
+    );
+
+    final user = User(
+      id_usuario: int.parse(map1[0]['id_usuario'].toString()),
+      cuidador_nombre: map1[0]['cuidador_nombre'].toString(),
+      cuidador_telefono: map1[0]['cuidador_telefono'].toString()
+    );
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => CarerPage(user: user)
+      ),
+          (route) => false,
+    );
+  }
+
+  Future<void> UpdateAddress(BuildContext context) async{
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+      'SELECT * FROM Usuario LIMIT 1',
+    );
+
+    final user = User(
+        id_usuario: int.parse(map1[0]['id_usuario'].toString()),
+        calle: map1[0]['calle'].toString(),
+        numExterior: map1[0]['numero_exterior'].toString(),
+        club: map1[0]['club'].toString()
+    );
+
+    calleController.text = '';
+    numExteriorController.text = '';
+    coloniaController.text = '';
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => Address(user: user)
+      ),
+          (route) => false,
+    );
+  }
+
+  Future<void> UpdateBirthdate(BuildContext context) async{
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+      'SELECT * FROM Usuario LIMIT 1',
+    );
+
+    final user = User(
+        id_usuario: int.parse(map1[0]['id_usuario'].toString()),
+        fechaNac: map1[0]['fechaNac'].toString(),
+    );
+
+    fechaNacController.text = '';
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => BirthDateRegister(user: user)
+      ),
+          (route) => false,
+    );
+  }
+
+  Future<void> UpdateInfoPersonal(BuildContext context) async{
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+      'SELECT * FROM Usuario LIMIT 1',
+    );
+
+    final user = User(
+      id_usuario: int.parse(map1[0]['id_usuario'].toString()),
+      nombre: map1[0]['nombre'].toString(),
+      apellidoP: map1[0]['apellidoP'].toString(),
+      apellidoM: map1[0]['apellidoM'].toString(),
+    );
+
+    nombreController.text = '';
+    apellidoPController.text = '';
+    apellidoMController.text = '';
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => NameRegister(user: user)
+      ),
+          (route) => false,
+    );
   }
 }
 

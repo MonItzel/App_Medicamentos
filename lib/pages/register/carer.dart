@@ -9,6 +9,8 @@ import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_medicamentos/constants.dart';
 
+import '../profile/profile_page.dart';
+
 
 class CarerPage extends StatefulWidget {
   const CarerPage({super.key, required this.user});
@@ -25,9 +27,17 @@ class CarerPage extends StatefulWidget {
 class _CarerPage extends State <CarerPage> {
 
   var maskFormatter = MaskTextInputFormatter(mask: '### ### ####', filter: {"#": RegExp(r'[0-9]')});
-
+  String buttonText = "Siguiente";
   @override
   Widget build(BuildContext context) {
+
+    if(widget.user.id_usuario != null && nombreCuidadorController.text == '' && apellidoCuidadorController.text == '' && telefonoCuidadorController.text == ''){
+      buttonText = 'Guardar';
+      nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
+      apellidoCuidadorController.text = widget.user.cuidador_nombre.toString().split(', ')[1];
+      telefonoCuidadorController.text = widget.user.cuidador_telefono.toString();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -41,13 +51,24 @@ class _CarerPage extends State <CarerPage> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => Pathologies(user: widget.user)
-                ),
-                    (route) => false,
-              );
+              if(widget.user.id_usuario != null){
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => ProfilePage()
+                  ),
+                      (route) => false,
+                );
+              }else{
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => Pathologies(user: widget.user)
+                  ),
+                      (route) => false,
+                );
+              }
+
             },
           ),
           actions: const [],
@@ -164,18 +185,24 @@ class _CarerPage extends State <CarerPage> {
                 height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
-                    //Al presionar el botón registra la usuario y va al HomePage.
-                    register();
-                    Navigator.pushAndRemoveUntil <dynamic>(
-                      context,
-                      MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => HomePage()
-                      ),
-                          (route) => false,
-                    );
+
+                    if(widget.user.id_usuario != null){
+                      //Si el user ya tiene un id, actualiza la información del usuario
+                      update(context);
+                    }else{
+                      //Al presionar el botón registra la usuario y va al HomePage.
+                      register();
+                      Navigator.pushAndRemoveUntil <dynamic>(
+                        context,
+                        MaterialPageRoute <dynamic>(
+                            builder: (BuildContext context) => HomePage()
+                        ),
+                            (route) => false,
+                      );
+                    }
                   },
                   style: AppStyles.botonPrincipal,
-                  child: Text("Siguiente",
+                  child: Text(buttonText,
                     style: AppStyles.textoBoton
                   ),
                 ),
@@ -194,7 +221,7 @@ class _CarerPage extends State <CarerPage> {
 
     await database.transaction((txn) async {
 
-      widget.user.cuidador_nombre = nombreCuidadorController.text + " " + apellidoCuidadorController.text;
+      widget.user.cuidador_nombre = nombreCuidadorController.text + ", " + apellidoCuidadorController.text;
       widget.user.cuidador_telefono = telefonoCuidadorController.text.replaceAll(' ', '');
 
       var usuario = {
@@ -214,6 +241,41 @@ class _CarerPage extends State <CarerPage> {
 
       print(widget.user.toMap().toString());
     });
+  }
+
+  void update(BuildContext context) async{
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    widget.user.cuidador_nombre = nombreCuidadorController.text + ", " + apellidoCuidadorController.text;
+    widget.user.cuidador_telefono = telefonoCuidadorController.text.replaceAll(' ', '');
+
+    int activeCarer = 0;
+    if(widget.user.cuidador_telefono != '')
+      activeCarer = 1;
+
+
+    var usuario = {
+      'id_usuario': widget.user.id_usuario,
+      'cuidador_activo': activeCarer,
+      'cuidador_nombre': widget.user.cuidador_nombre,
+      'cuidador_telefono': widget.user.cuidador_telefono
+    };
+
+    await database.transaction((txn) async {
+      var id1 = txn.update('Usuario', usuario);
+    });
+
+    cuidadorController.text = widget.user.cuidador_nombre.toString();
+    numCuidadorController.text = widget.user.cuidador_telefono.toString();
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => ProfilePage()
+      ),
+          (route) => false,
+    );
   }
 }
 

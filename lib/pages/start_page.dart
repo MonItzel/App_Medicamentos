@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/constants.dart';
 
+import '../models/user_model.dart';
+
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
 
@@ -39,7 +41,7 @@ class _StartPage extends State <StartPage> {
                   Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => const NameRegister()
+                          builder: (BuildContext context) => NameRegister(user: new User(),)
                       ),
                       (route) => false,
                   );

@@ -1,14 +1,18 @@
+import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
+import 'package:sqflite/sqflite.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/utils/validaciones.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:app_medicamentos/utils/flashMessage.dart';
+import 'package:path/path.dart';
 
 class NameRegister extends StatefulWidget {
-  const NameRegister({super.key});
+  const NameRegister({super.key, required User this.user});
+  final User user;
 
   @override
   State<StatefulWidget> createState() {
@@ -25,8 +29,16 @@ class _NameRegister extends State <NameRegister> {
   late bool _validateApp = false;
   late bool _validateApm = false;
 
+  String buttonText = "Siguiente";
   @override
   Widget build(BuildContext context) {
+    if(widget.user.id_usuario != null && nombreController.text == '' && apellidoPController.text == '' && apellidoMController.text == ''){
+      buttonText = 'Guardar';
+      nombreController.text = widget.user.nombre.toString();
+      apellidoPController.text = widget.user.apellidoP.toString();
+      apellidoMController.text = widget.user.apellidoM.toString();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -40,13 +52,23 @@ class _NameRegister extends State <NameRegister> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => StartPage()
-                ),
-                    (route) => false,
-              );
+              if(widget.user.id_usuario != null){
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => ProfilePage()
+                  ),
+                      (route) => false,
+                );
+              }else{
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => StartPage()
+                  ),
+                      (route) => false,
+                );
+              }
             },
           ),
           actions: const [],
@@ -192,12 +214,20 @@ class _NameRegister extends State <NameRegister> {
                         print(nombreController.text);
                         print(apellidoPController.text);
                         print(apellidoMController.text);
-                        Navigator.pushAndRemoveUntil <dynamic>(
-                            context,
-                            MaterialPageRoute <dynamic>(
-                              builder: (BuildContext context) => BirthDateRegister(user: user,),
-                            ),
-                                (route) => false);
+
+                        if(widget.user.id_usuario != null){
+                          //Si el user ya tiene un id, actualiza la información del usuario
+                          update(context);
+                        }else{
+                          //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
+                          SetUser();
+                          Navigator.pushAndRemoveUntil <dynamic>(
+                              context,
+                              MaterialPageRoute <dynamic>(
+                                builder: (BuildContext context) => BirthDateRegister(user: user,),
+                              ),
+                                  (route) => false);
+                        }
                       }else if(_validateU){
                         muestraSnackBar(context);
                       }
@@ -208,7 +238,7 @@ class _NameRegister extends State <NameRegister> {
                     });
                   },
                   style: AppStyles.botonPrincipal,
-                  child: Text("Siguiente",
+                  child: Text(buttonText,
                     style: AppStyles.textoBoton
                   ),
                 ),
@@ -232,9 +262,37 @@ class _NameRegister extends State <NameRegister> {
     user.apellidoP = apellidoPController.text;
     user.apellidoM = apellidoMController.text;
   }
-}
 
-TextEditingController nombreController = TextEditingController();
-TextEditingController apellidoPController = TextEditingController();
-TextEditingController apellidoMController = TextEditingController();
+  void update(BuildContext context) async{
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    widget.user.nombre = nombreController.text;
+    widget.user.apellidoP = apellidoPController.text;
+    widget.user.apellidoM = apellidoMController.text;
+
+    var usuario = {
+      'id_usuario': widget.user.id_usuario,
+      'nombre': widget.user.nombre,
+      'apellidoP': widget.user.apellidoP,
+      'apellidoM': widget.user.apellidoM
+    };
+
+    await database.transaction((txn) async {
+      var id1 = txn.update('Usuario', usuario);
+    });
+
+    nombreController.text = widget.user.nombre.toString();
+    apellidoPController.text = widget.user.apellidoP.toString();
+    apellidoMController.text = widget.user.apellidoM.toString();
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => ProfilePage()
+      ),
+          (route) => false,
+    );
+  }
+}
 

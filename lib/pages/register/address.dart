@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:app_medicamentos/pages/register/pathologies.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
+import 'package:sqflite/sqflite.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:path/path.dart';
+
+import '../profile/profile_page.dart';
 
 class Address extends StatefulWidget {
   const Address({super.key, required User this.user});
 
   //Objeto usado para pasar la inforamción a la siguiente pantalla.
   final User user;
-
 
   @override
   State<StatefulWidget> createState() {
@@ -19,8 +22,17 @@ class Address extends StatefulWidget {
 }
 
 class _Address extends State <Address> {
+  String buttonText = "Siguiente";
+
   @override
   Widget build(BuildContext context) {
+    if(widget.user.id_usuario != null && calleController.text == '' && numExteriorController.text == '' && coloniaController.text == ''){
+      buttonText = 'Guardar';
+      calleController.text = widget.user.calle.toString();
+      numExteriorController.text = widget.user.numExterior.toString();
+      coloniaController.text = widget.user.club.toString();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -34,13 +46,23 @@ class _Address extends State <Address> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => BirthDateRegister(user: widget.user)
-                ),
-                    (route) => false,
-              );
+              if(widget.user.id_usuario != null){
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => ProfilePage()
+                  ),
+                      (route) => false,
+                );
+              }else{
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => BirthDateRegister(user: widget.user)
+                  ),
+                      (route) => false,
+                );
+              }
             },
           ),
           actions: const [],
@@ -175,18 +197,23 @@ class _Address extends State <Address> {
                 height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
-                    //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
-                    SetUser();
-                    Navigator.pushAndRemoveUntil <dynamic>(
-                      context,
-                      MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => Pathologies(user: widget.user,)
-                      ),
-                          (route) => false,
-                    );
+                    if(widget.user.id_usuario != null){
+                      //Si el user ya tiene un id, actualiza la información del usuario
+                      update(context);
+                    }else{
+                      //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
+                      SetUser();
+                      Navigator.pushAndRemoveUntil <dynamic>(
+                        context,
+                        MaterialPageRoute <dynamic>(
+                            builder: (BuildContext context) => Pathologies(user: widget.user,)
+                        ),
+                            (route) => false,
+                      );
+                    }
                   },
                   style: AppStyles.botonPrincipal,
-                  child: const Text("Siguiente",
+                  child: Text(buttonText,
                     style: AppStyles.textoBoton
                   ),
                 ),
@@ -204,8 +231,35 @@ class _Address extends State <Address> {
     widget.user.club = coloniaController.text;
     widget.user.numExterior = numExteriorController.text;
   }
-}
 
-TextEditingController calleController = TextEditingController();
-TextEditingController coloniaController = TextEditingController();
-TextEditingController numExteriorController = TextEditingController();
+  void update(BuildContext context) async{
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    widget.user.calle = calleController.text;
+    widget.user.numExterior = numExteriorController.text;
+    widget.user.club = coloniaController.text;
+
+    var usuario = {
+      'id_usuario': widget.user.id_usuario,
+      'calle': widget.user.calle,
+      'numero_exterior': widget.user.numExterior,
+      'club': widget.user.club
+    };
+
+    await database.transaction((txn) async {
+      var id1 = txn.update('Usuario', usuario);
+    });
+
+    cuidadorController.text = widget.user.cuidador_nombre.toString();
+    numCuidadorController.text = widget.user.cuidador_telefono.toString();
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => ProfilePage()
+      ),
+          (route) => false,
+    );
+  }
+}

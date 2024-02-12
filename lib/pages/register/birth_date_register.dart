@@ -4,6 +4,10 @@ import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+import '../profile/profile_page.dart';
 
 class BirthDateRegister extends StatefulWidget {
   const BirthDateRegister({required User this.user});
@@ -25,8 +29,62 @@ class _BirthDateRegister extends State <BirthDateRegister> {
     'SEP', 'OCT', 'NOV', 'DIC'
   ];
 
+  String buttonText = "Siguiente";
+  DateTime lastDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
+    if(widget.user.id_usuario != null && fechaNacController.text == ''){
+      try{
+        buttonText = 'Guardar';
+        fechaNacController.text = widget.user.fechaNac.toString();
+
+        int day = int.parse(widget.user.fechaNac.toString().split('/')[0]);
+        int year = int.parse(widget.user.fechaNac.toString().split('/')[2]);
+        int month = 0;
+        switch(widget.user.fechaNac.toString().split('/')[1]){
+          case ' ENE ':
+            month = 1;
+            break;
+          case ' FEB ':
+            month = 2;
+            break;
+          case ' MAR ':
+            month = 3;
+            break;
+          case ' ABR ':
+            month = 4;
+            break;
+          case ' MAY ':
+            month = 5;
+            break;
+          case ' JUN ':
+            month = 6;
+            break;
+          case ' JUL ':
+            month = 7;
+            break;
+          case ' AGO ':
+            month = 8;
+            break;
+          case ' SEP ':
+            month = 9;
+            break;
+          case ' OCT ':
+            month = 10;
+            break;
+          case ' NOV ':
+            month = 11;
+            break;
+          case ' DIC ':
+            month = 12;
+            break;
+        }
+        lastDate = DateTime(year, month, day);
+        print(lastDate);
+      }catch(ex){
+      }
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -40,13 +98,23 @@ class _BirthDateRegister extends State <BirthDateRegister> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => NameRegister()
-                ),
-                    (route) => false,
-              );
+              if(widget.user.id_usuario != null){
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => ProfilePage()
+                  ),
+                      (route) => false,
+                );
+              }else{
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => NameRegister(user: new User(),)
+                  ),
+                      (route) => false,
+                );
+              }
             },
           ),
           actions: const [],
@@ -78,6 +146,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
             DatePickerWidget(
               locale: DateTimePickerLocale.es,
               firstDate: DateTime.utc(1954,01,01),
+              initialDate: lastDate,
               lastDate: DateTime.now(),
               dateFormat: 'dd MMMM yyyy',
               pickerTheme: DateTimePickerTheme(
@@ -95,7 +164,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                   mes = meses[args.month - 1];
                   anio = args.year.toString();
                   fechaNac = dia + ' / ' + mes + ' / ' + anio;
-                  fechaController.text = fechaNac;
+                  fechaNacController.text = fechaNac;
                 });
                 },
             ),
@@ -117,7 +186,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
               child: Container(
                 decoration: AppStyles.contenedorTextForm,
                 child: TextFormField(
-                  controller: fechaController,
+                  controller: fechaNacController,
                   obscureText: false,
                   textAlign: TextAlign.left,
                   decoration: AppStyles.textFieldEstilo,
@@ -134,18 +203,23 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                 height: AppStyles.altoBoton,
                 child: ElevatedButton(
                   onPressed: () {
-                    //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
-                    SetUser();
-                    Navigator.pushAndRemoveUntil <dynamic>(
-                      context,
-                      MaterialPageRoute <dynamic>(
-                          builder: (BuildContext context) => Address(user: widget.user,)
-                      ),
-                          (route) => false,
-                    );
+                    if(widget.user.id_usuario != null){
+                      //Si el user ya tiene un id, actualiza la información del usuario
+                      update(context);
+                    }else{
+                      //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
+                      SetUser();
+                      Navigator.pushAndRemoveUntil <dynamic>(
+                        context,
+                        MaterialPageRoute <dynamic>(
+                            builder: (BuildContext context) => Address(user: widget.user,)
+                        ),
+                            (route) => false,
+                      );
+                    }
                   },
                   style: AppStyles.botonPrincipal,
-                  child: Text("Siguiente",
+                  child: Text(buttonText,
                     style: AppStyles.textoBoton
                   ),
                 ),
@@ -161,6 +235,28 @@ class _BirthDateRegister extends State <BirthDateRegister> {
   void SetUser(){
     widget.user.fechaNac = fechaNac.toString();
   }
-}
 
-TextEditingController fechaController = TextEditingController();
+  void update(BuildContext context) async{
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    widget.user.fechaNac = fechaNacController.text;
+
+    var usuario = {
+      'id_usuario': widget.user.id_usuario,
+      'fechaNac': widget.user.fechaNac,
+    };
+
+    await database.transaction((txn) async {
+      var id1 = txn.update('Usuario', usuario);
+    });
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => ProfilePage()
+      ),
+          (route) => false,
+    );
+  }
+}
