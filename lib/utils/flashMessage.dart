@@ -1,6 +1,7 @@
+import 'package:app_medicamentos/utils/TextSnackBar.dart';
 import 'package:flutter/material.dart';
 
-void muestraSnackBar(BuildContext context){
+void muestraSnackBar(BuildContext context, int bandShow){
   ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Stack(
@@ -17,14 +18,13 @@ void muestraSnackBar(BuildContext context){
                         children: [
                           Text('Advertencia', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),),
                           Spacer(),
-                          Text("Por favor, ingrese su(s) nombre(s)",
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.white),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,)
-                        ],
-                      )
+                          if(bandShow == 0)
+                           TextoSnackBar(contenido: 'Por favor ingrese su(s) nombres', tamFontSize: 25),
+                         if(bandShow == 1)
+                          TextoSnackBar(contenido: 'Puede ingresar su(s) apellido(s) paterno y/o materno', tamFontSize: 19),
+                          ]
+                      ),
+
                   )
                 ],
               ),

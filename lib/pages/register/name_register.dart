@@ -199,11 +199,10 @@ class _NameRegister extends State <NameRegister> {
                             ),
                                 (route) => false);
                       }else if(_validateU){
-                        muestraSnackBar(context);
+                        muestraSnackBar(context, 0);
                       }
                       else if(_validateApp || _validateApm){
-                        //Aqui me falta cambiar a apellidos(optimizar la función)
-                        muestraSnackBar(context);
+                        muestraSnackBar(context, 1);
                       }
                     });
                   },
