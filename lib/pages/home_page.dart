@@ -186,12 +186,12 @@ class _HomePage extends State<HomePage> {
             DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
             // Formatea la hora en formato de 12 horas sin segundos
             String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
-            Color color = Colors.red;
+            Color color = Colors.white;
             if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
               color = Colors.orange.shade50;
             }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){
               color = Colors.lightBlue.shade50;
-            }else if(horaDateTime.hour <6 || horaDateTime.hour > 18){
+            }else if(horaDateTime.hour <6 || horaDateTime.hour >= 18){
               color = Colors.indigo.shade50;
             }
 
@@ -254,12 +254,12 @@ class _HomePage extends State<HomePage> {
               // Analiza la hora original en un objeto DateTime
               DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
 
-              Color color = Colors.red;
+              Color color = Colors.white;
               if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
                 color = Colors.orange.shade50;
-              }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){
+              }else if(horaDateTime.hour >= 12 && horaDateTime.hour <= 18){
                 color = Colors.lightBlue.shade50;
-              }else if(horaDateTime.hour < 6 || horaDateTime.hour > 18){
+              }else if(horaDateTime.hour < 6 || horaDateTime.hour >= 18){
                 color = Colors.indigo.shade50;
               }
               homePageCards.add(Card(
