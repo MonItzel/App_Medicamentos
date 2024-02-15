@@ -99,7 +99,7 @@ class _HomePage extends State<HomePage> {
           ),
         ),
         body: Container(
-          height: homePageCards.length * 120,
+          height: homePageCards.length * 170,
           child: new ListView(
             //Lista de cartas del día actual.
             children: homePageCards,
@@ -163,7 +163,7 @@ class _HomePage extends State<HomePage> {
   //Crea las cartas de los medicamentos y citas.
   Future<void> CreateCards(var context) async {
     try{
-      if(homePageCards.length < 1){
+      if(homePageCards.isEmpty){
         Database database = await openDatabase(
             Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
@@ -197,7 +197,7 @@ class _HomePage extends State<HomePage> {
 
             homePageCards.add(
               SizedBox(
-                height: 120.0,
+                height: 120.0 + (medicamentos[i]['nombre'].toString().length / 15 + 1) * 20,
                 child: Card(
                   elevation: 3,
                   color: color,
@@ -321,7 +321,6 @@ class _HomePage extends State<HomePage> {
 }
 
 
-List<Widget> homePageCards = [];
 
 /*
  * Función que se encarga de validar que el usuario asulto mayor
@@ -438,3 +437,5 @@ _msgAppointment() async {
     }*/
   }
 }
+
+List<Widget> homePageCards = [];
