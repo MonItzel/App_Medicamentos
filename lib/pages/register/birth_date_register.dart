@@ -83,6 +83,9 @@ class _BirthDateRegister extends State <BirthDateRegister> {
         print(lastDate);
       }catch(ex){
       }
+    }else{
+      DateTime today = DateTime.now();
+      lastDate = DateTime(today.year - 80, today.month, today.day);
     }
 
     return Scaffold(
