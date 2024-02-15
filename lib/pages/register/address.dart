@@ -206,7 +206,7 @@ class _Address extends State <Address> {
                       Navigator.pushAndRemoveUntil <dynamic>(
                         context,
                         MaterialPageRoute <dynamic>(
-                            builder: (BuildContext context) => Pathologies(user: widget.user,)
+                            builder: (BuildContext context) => Pathologies(user: widget.user, pathologies: [],)
                         ),
                             (route) => false,
                       );

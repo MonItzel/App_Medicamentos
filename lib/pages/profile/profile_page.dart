@@ -1,3 +1,5 @@
+//import 'dart:js_interop';
+
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:app_medicamentos/pages/register/carer.dart';
@@ -16,6 +18,7 @@ import 'package:app_medicamentos/constants.dart';
 
 import '../../models/user_model.dart';
 import '../register/birth_date_register.dart';
+import '../register/pathologies.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -34,6 +37,8 @@ class _ProfilePage extends State<ProfilePage> {
 
     // Al ingresar, verifica si debe seleccionar la información del usuario.
     select(context);
+
+    setState(() {});
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -336,6 +341,43 @@ class _ProfilePage extends State<ProfilePage> {
                 ),
               ),
 
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: AppStyles.divider,
+              ),
+
+
+              //Patologías
+              SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Patologías',
+                          style: AppStyles.encabezado2,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          UpdatePathologies(context);
+                        },
+                        icon: Icon(Icons.edit),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              Container(
+                height: 40.0 * patologiasCards.length,
+                  child: ListView(
+                    children: patologiasCards,
+                  )
+              )
+
             ],
           ),
         ),
@@ -410,12 +452,8 @@ class _ProfilePage extends State<ProfilePage> {
       final List<Map<String, dynamic>> map1 = await database.rawQuery(
         'SELECT * FROM Usuario LIMIT 1',
       );
-      final List<Map<String, dynamic>> map2 = await database.rawQuery(
-        'SELECT * FROM Padecimiento LIMIT 1',
-      );
 
       print("map1: " + map1.length.toString());
-      print("map2: " + map2.length.toString());
       print(map1[0]['nombre'].toString());
 
       // Llena los TextEditingController con los datos del usuario y vuelve a generar la pantalla
@@ -429,8 +467,6 @@ class _ProfilePage extends State<ProfilePage> {
       cuidadorController.text = map1[0]['cuidador_nombre'].toString().split(',')[0] + map1[0]['cuidador_nombre'].toString().split(',')[1];
       numCuidadorController.text = map1[0]['cuidador_telefono'].toString();
 
-      print(cuidadorController.text);
-
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
         MaterialPageRoute <dynamic>(
@@ -438,6 +474,42 @@ class _ProfilePage extends State<ProfilePage> {
         ),
             (route) => false,
       );
+    }
+
+    if(patologiasCards.isEmpty){
+      Database database = await openDatabase(
+          join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+      final List<Map<String, dynamic>> map2 = await database.rawQuery(
+        'SELECT * FROM Padecimiento',
+      );
+
+      print("map2: " + map2.length.toString());
+
+      patologiasCards.clear();
+      for(int i = 0; i < map2.length; i++){
+        String s = map2[i]["nombre_padecimiento"].toString();
+        patologiasCards.add(
+          SizedBox(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Text(
+                map2[i]["nombre_padecimiento"].toString(),
+                style:AppStyles.texto3,
+              ),
+            ),
+          ),
+        );
+
+        Navigator.pushAndRemoveUntil <dynamic>(
+          context,
+          MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) => const ProfilePage()
+          ),
+              (route) => false,
+        );
+      }
+      print('Patologias: ' + patologiasCards.length.toString());
     }
   }
 
@@ -519,7 +591,7 @@ class _ProfilePage extends State<ProfilePage> {
     );
   }
 
-  Future<void> UpdateInfoPersonal(BuildContext context) async{
+   Future<void> UpdateInfoPersonal(BuildContext context) async{
 
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -547,6 +619,31 @@ class _ProfilePage extends State<ProfilePage> {
           (route) => false,
     );
   }
+
+  Future<void> UpdatePathologies(BuildContext context) async{
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> map1 = await database.rawQuery(
+      'SELECT * FROM Padecimiento',
+    );
+    List<String> pathologies = [];
+    patologiasCards.clear();
+    otraspatController.text = '';
+
+    for(int i = 0; i < map1.length; i++){
+      pathologies.add(map1[i]["nombre_padecimiento"].toString());
+    }
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => Pathologies(user: User(), pathologies: pathologies)
+      ),
+          (route) => false,
+    );
+  }
 }
 
 // Controladores para manejar la entrada de texto en los campos del formulario
@@ -559,3 +656,4 @@ TextEditingController coloniaController = TextEditingController();
 TextEditingController numExteriorController = TextEditingController();
 TextEditingController cuidadorController = TextEditingController();
 TextEditingController numCuidadorController = TextEditingController();
+List<Widget> patologiasCards = [];

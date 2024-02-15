@@ -1,3 +1,5 @@
+//import 'dart:html';
+
 import 'package:app_medicamentos/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
@@ -8,12 +10,15 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:app_medicamentos/constants.dart';
 
+import '../profile/profile_page.dart';
+
 
 class Pathologies extends StatefulWidget {
-  const Pathologies({super.key, required User this.user});
+  const Pathologies({super.key, required User this.user, required List<String> this.pathologies});
 
   //Objeto usado para almacenar los datos del usuario y registrarlo.
   final User user;
+  final List<String> pathologies;
 
   @override
   State<StatefulWidget> createState() {
@@ -22,11 +27,17 @@ class Pathologies extends StatefulWidget {
 }
 
 class _Pathologies extends State <Pathologies> {
-  var patologias;
-  final otraspatController = TextEditingController();
+  List<String> patologias = [];
+  String buttonText = "Siguiente";
 
   @override
   Widget build(BuildContext context) {
+
+    if(widget.pathologies.length > 0 && patologiasCards.isEmpty && otraspatController.text == ''){
+      buttonText = 'Guardar';
+      //otraspatController.text = widget.pathologies[widget.pathologies.length - 1];
+    }
+
     List patologias = ['Diabetes Mellitus', 'Hipertensión arterial sistemática', 'Demencia o Alzheimer', 'Artritis', 'Osteoporosis', 'Cardiopatias', 'Parkinson', 'Depresión'];
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -41,13 +52,23 @@ class _Pathologies extends State <Pathologies> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => Address(user: widget.user,)
-                ),
-                    (route) => false,
-              );
+              if(widget.pathologies.length > 0){
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => ProfilePage()
+                  ),
+                      (route) => false,
+                );
+              }else{
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => Address(user: widget.user,)
+                  ),
+                      (route) => false,
+                );
+              }
             },
           ),
           actions: const [],
@@ -164,19 +185,24 @@ class _Pathologies extends State <Pathologies> {
                     height: AppStyles.altoBoton,
                     child: ElevatedButton(
                       onPressed: () {
-                        print(otraspatController.text);
-                        //Al presionar el botón registra las patologías seleccioandas.
-                        register();
-                        Navigator.pushAndRemoveUntil <dynamic>(
-                          context,
-                          MaterialPageRoute <dynamic>(
-                              builder: (BuildContext context) => CarerPage(user: widget.user,)
-                          ),
-                              (route) => false,
-                        );
+                        if(widget.pathologies.length > 0){
+                          //Si el user ya tiene un id, actualiza la información del usuario
+                          update(context);
+                        }else{
+                          print(otraspatController.text);
+                          //Al presionar el botón registra las patologías seleccioandas.
+                          register();
+                          Navigator.pushAndRemoveUntil <dynamic>(
+                            context,
+                            MaterialPageRoute <dynamic>(
+                                builder: (BuildContext context) => CarerPage(user: widget.user,)
+                            ),
+                                (route) => false,
+                          );
+                        }
                       },
                       style: AppStyles.botonPrincipal,
-                      child: Text("Siguiente",
+                      child: Text(buttonText,
                         style: AppStyles.textoBoton
                       ),
                     ),
@@ -197,7 +223,16 @@ class _Pathologies extends State <Pathologies> {
   }
 
   void savePathologies(dynamic val){
-    patologias = val;
+    var patologiasRaw = val;
+    patologias.clear();
+
+    List<String> patologias1 = patologiasRaw.toString().split('(');
+    for(int i = 0; i < patologias1.length; i++){
+      patologias.add(patologias1[i].split(', ')[0]);
+    }
+    patologias.removeAt(0);
+    print(patologias);
+    print(otraspatController.text);
   }
 
   //Crea las tablas en la base de datos y registra los padecimientos.
@@ -269,14 +304,19 @@ class _Pathologies extends State <Pathologies> {
           print(padecimiento["nombre_padecimiento"].toString() + " insertado.");
         }
 
-        var otroPadecimiento = {
-          'nombre_padecimiento': otraspatController.text,
-        };
+        if(otraspatController.text != ''){
+          var otroPadecimiento = {
+            'nombre_padecimiento': otraspatController.text,
+          };
 
-        var id2 = txn.insert('Padecimiento', otroPadecimiento);
-        print(
-            otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
+          var id2 = txn.insert('Padecimiento', otroPadecimiento);
+          print(otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
+        }
       });
+
+      final List<Map<String, dynamic>> map2 = await database.rawQuery(
+        'SELECT * FROM Padecimiento LIMIT 1',
+      );
     }catch(exception) {
       print(exception);
     }
@@ -288,7 +328,49 @@ class _Pathologies extends State <Pathologies> {
     );
     print("INSERT INTO RecordatotioRegistro (fecha) VALUES ('" + DateTime.now().toString().split(" ")[0] + "')");
   }
+
+  void update(BuildContext context) async{
+
+    patologiasCards.clear();
+
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    await database.transaction((txn) async {
+      var id1 = txn.rawQuery('DELETE FROM Padecimiento');
+    });
+
+    for (int i = 0; i < patologias.length; i++) {
+      var padecimiento = {
+        'nombre_padecimiento': patologias[i].toString(),
+      };
+
+      await database.transaction((txn) async {
+        var id2 = txn.insert('Padecimiento', padecimiento);
+      });
+
+      print(padecimiento["nombre_padecimiento"].toString() + " insertado.");
+    }
+
+    if(otraspatController.text != ''){
+      var otroPadecimiento = {
+        'nombre_padecimiento': otraspatController.text,
+      };
+
+      await database.transaction((txn) async {
+        var id2 = txn.insert('Padecimiento', otroPadecimiento);
+      });
+      print(otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
+    }
+
+    Navigator.pushAndRemoveUntil <dynamic>(
+      context,
+      MaterialPageRoute <dynamic>(
+          builder: (BuildContext context) => new ProfilePage()
+      ),
+          (route) => false,
+    );
+  }
 }
 
-
-
+final otraspatController = TextEditingController();
