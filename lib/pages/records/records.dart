@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_medicamentos/models/medicament_model.dart';
@@ -26,8 +27,13 @@ class RecordsPage extends StatefulWidget{
 class _RecordsPage extends State <RecordsPage>{
   int _currentIndex = 3;
 
+  Timer scheduleTimeout([int milliseconds = 10000]) =>
+      Timer(Duration(milliseconds: milliseconds), CheckMedicament);
+
   @override
   Widget build(BuildContext context){
+    scheduleTimeout(300);
+
     //Al ingresar verifica si debe crear nuevas cartas.
     CreateCards(context);
 
@@ -153,20 +159,7 @@ class _RecordsPage extends State <RecordsPage>{
                       child: FloatingActionButton.small(
                         heroTag: "DeleteM" + medicamentos[i]['id_medicamento'].toString(),
                         onPressed: () async {
-                          /*Pendiente*/
-                          int result = await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
-                          print('res de delete med');
-                          print(result);
-                          muestraButtonSheet(context, result);
-
-                          /*
-                          Navigator.pushAndRemoveUntil <dynamic>(
-                            context,
-                            MaterialPageRoute <dynamic>(
-                                builder: (BuildContext context) => const RecordsPage()
-                            ),
-                                (route) => false,
-                          );*/
+                          deleteResult = await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(
@@ -175,7 +168,7 @@ class _RecordsPage extends State <RecordsPage>{
                       ),
                     ),
                   ),
-                  /*SizedBox(height: 1.0, width: 1.0,),
+                  SizedBox(height: 1.0, width: 1.0,),
                   Padding(
                     padding: const EdgeInsets.only(right: 5, bottom: 0),
                     child: Align(
@@ -191,7 +184,7 @@ class _RecordsPage extends State <RecordsPage>{
                         ),
                       ),
                     ),
-                  ),*/
+                  ),
                 ],
               )
             )
@@ -363,6 +356,8 @@ class _RecordsPage extends State <RecordsPage>{
       homePageCards.clear();
       calendarPageCards.clear();
       recordsPageCards.clear();
+      update = true;
+      delete = false;
       return 6;
     }catch(exception){
       print(exception);
@@ -391,25 +386,38 @@ class _RecordsPage extends State <RecordsPage>{
             frecuenciaTipo: medicamento[0]['frecuenciaTipo'].toString(),
             frecuenciaToma: int.parse(medicamento[0]['frecuenciaToma'].toString())
         );
-
-        Navigator.pushAndRemoveUntil <dynamic>(
-          context,
-          MaterialPageRoute <dynamic>(
-              builder: (BuildContext context) => const MedicamentNameRegister()
-          ),
-              (route) => false,
-        );
       }
 
       homePageCards.clear();
       calendarPageCards.clear();
       recordsPageCards.clear();
+      update = true;
+      delete = false;
     }catch(exception){
       print(exception);
     }
   }
 
-}
+  bool update = false;
+  bool delete = false;
+  int deleteResult = 0;
 
-List<Widget> recordsPageCards = [];
+  void CheckMedicament(){
+     print('tick');
+     if(currentMedicament.id_medicamento != null){
+        update = false;
+        print('Editando medicaneto');
+        Navigator.pushAndRemoveUntil <dynamic>(
+          context,
+          MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) => MedicamentNameRegister(initMedicament: currentMedicament,)
+          ),
+              (route) => false,
+        );
+     }else{
+       setState(() {});
+     }
+  }
+}
 Medicament currentMedicament = Medicament();
+List<Widget> recordsPageCards = [];

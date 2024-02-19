@@ -1,4 +1,5 @@
 import 'package:app_medicamentos/models/medicament_model.dart';
+import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class Button extends StatelessWidget {
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             MaterialPageRoute <dynamic>(
-              builder: (BuildContext context) =>MedicamentNameRegister(),
+              builder: (BuildContext context) =>MedicamentNameRegister(initMedicament: Medicament(),),
             ),
                 (route) => false,
           );
@@ -49,6 +50,14 @@ class Button extends StatelessWidget {
             context,
             MaterialPageRoute <dynamic>(
                 builder: (BuildContext context) => HomePage()
+            ),
+                (route) => false,
+          );
+        }else if (ruta == 3){
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) => RecordsPage()
             ),
                 (route) => false,
           );

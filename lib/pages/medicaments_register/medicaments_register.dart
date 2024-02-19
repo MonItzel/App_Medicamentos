@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register_date.dart';
@@ -7,7 +8,8 @@ import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 enum Frequency { horas, dias, semanas, meses  }
 
 class MedicamentNameRegister extends StatefulWidget {
-  const MedicamentNameRegister({super.key,});
+  MedicamentNameRegister({super.key, required this.initMedicament});
+  final Medicament initMedicament;
 
   @override
   State<StatefulWidget> createState() {
@@ -17,7 +19,7 @@ class MedicamentNameRegister extends StatefulWidget {
 
 class _MedicamentNameRegister extends State <MedicamentNameRegister> {
   //Objeto usado para pasar la información del medicamento de esta pantalla a la suiguiente.
-  final Medicament medicament = Medicament();
+  Medicament medicament = Medicament();
   final  freqHour = TextEditingController();
   final  freqDay = TextEditingController();
   final  freqWeek = TextEditingController();
@@ -29,10 +31,31 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
 
   @override
   Widget build(BuildContext context) {
+    if(currentMedicament.id_medicamento != null)
+      medicament = currentMedicament;
+    else
+      medicament = widget.initMedicament;
+
     if(nombreController.text == "" && dosisController.text == ""){
       nombreController.text = medicament.nombre != null? medicament.nombre.toString() : "";
       dosisController.text = medicament.dosis != null? medicament.dosis.toString() : "";
+      switch(medicament.frecuenciaTipo){
+        case "Hora":
+          freqHour.text = medicament.frecuenciaToma.toString();
+          _frequency = Frequency.horas;
+        case "Dia":
+          freqDay.text = medicament.frecuenciaToma.toString();
+          _frequency = Frequency.dias;
+        case "Semana":
+          freqWeek.text = medicament.frecuenciaToma.toString();
+          _frequency = Frequency.semanas;
+         case "Mes":
+           freqMonth.text = medicament.frecuenciaToma.toString();
+           _frequency = Frequency.meses;
+      }
     }
+    currentMedicament = Medicament();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFEDF2FA),
@@ -48,13 +71,23 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => HomePage()
-                ),
-                    (route) => false,
-              );
+              if(medicament.id_medicamento != null){
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => RecordsPage()
+                  ),
+                      (route) => false,
+                );
+              }else{
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => HomePage()
+                  ),
+                      (route) => false,
+                );
+              }
             },
           ),
           actions: const [],

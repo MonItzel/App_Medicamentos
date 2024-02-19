@@ -81,7 +81,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                     children: [
                       Texto(contenido: 'Medicamento actualizado',),
                       const SizedBox(width: 0.0, height: 60.0,),
-                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 3,),
                     ],
                   ),
 
