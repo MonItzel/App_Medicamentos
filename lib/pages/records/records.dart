@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ import 'package:path/path.dart' as Path;
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:app_medicamentos/utils/buttonSheet.dart';
+
+import '../appointment_register/appointments.dart';
 
 
 class RecordsPage extends StatefulWidget{
@@ -28,7 +31,7 @@ class _RecordsPage extends State <RecordsPage>{
   int _currentIndex = 3;
 
   Timer scheduleTimeout([int milliseconds = 10000]) =>
-      Timer(Duration(milliseconds: milliseconds), CheckMedicament);
+      Timer(Duration(milliseconds: milliseconds), CheckCurrent);
 
   @override
   Widget build(BuildContext context){
@@ -36,7 +39,7 @@ class _RecordsPage extends State <RecordsPage>{
 
     //Al ingresar verifica si debe crear nuevas cartas.
     CreateCards(context);
-
+    delete = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -159,7 +162,7 @@ class _RecordsPage extends State <RecordsPage>{
                       child: FloatingActionButton.small(
                         heroTag: "DeleteM" + medicamentos[i]['id_medicamento'].toString(),
                         onPressed: () async {
-                          deleteResult = await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
+                          await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(
@@ -176,7 +179,7 @@ class _RecordsPage extends State <RecordsPage>{
                       child: FloatingActionButton.small(
                         heroTag: "EditM" + medicamentos[i]['id_medicamento'].toString(),
                         onPressed: () {
-                          EditMedicament(medicamentos[i]['id_medicamento'].toString(), context);
+                          EditMedicament(medicamentos[i]['id_medicamento'].toString());
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(
@@ -198,11 +201,12 @@ class _RecordsPage extends State <RecordsPage>{
 
         //Selecciona todas las citas registradas y genera sus cartas.
         final List<Map<String, dynamic>> citas = await database.rawQuery(
-          "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita",
+          "SELECT * FROM Cita",
         );
 
         if(citas.length > 0) {
           for(int i = 0; i < citas.length; i++){
+            String date = citas[i]['fecha'].toString();
             recordsPageCards.add(Card(
               elevation: 3, // Elevación para dar profundidad al card
               margin: EdgeInsets.all(16), // Margen alrededor del card
@@ -224,8 +228,7 @@ class _RecordsPage extends State <RecordsPage>{
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hora: ' + citas[i]['fecha_hora']
-                            .toString().split(" ")[1].split(".")[0]),
+                        Text('Fecha: ' + citas[i]['fecha'].toString()),
                         Text("Ubicacion: " +
                             citas[i]['ubicacion'].toString()),
                         //Dosis del medicamento
@@ -244,25 +247,9 @@ class _RecordsPage extends State <RecordsPage>{
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton.small(
-                        heroTag: "DeleteC" + medicamentos[i]['id_medicamento'].toString(),
+                        heroTag: "DeleteC" + citas[i]['id_cita'].toString(),
                         onPressed: () async {
-                          int result = await DeleteAppointment(citas[i]['id_cita'].toString());
-                          print('res de delete med');
-                          print(result);
-                          muestraButtonSheet(context, result);
-                          var duration = const Duration(seconds: 3);
-                          print('Start sleeping');
-                          sleep(duration);
-                          print('5 seconds has passed');
-
-
-                          Navigator.pushAndRemoveUntil <dynamic>(
-                            context,
-                            MaterialPageRoute <dynamic>(
-                                builder: (BuildContext context) => const RecordsPage()
-                            ),
-                                (route) => false,
-                          );
+                          await DeleteAppointment(citas[i]['id_cita'].toString());
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(
@@ -271,15 +258,15 @@ class _RecordsPage extends State <RecordsPage>{
                       ),
                     ),
                   ),
-                  /*SizedBox(height: 1.0, width: 1.0,),
+                  SizedBox(height: 1.0, width: 1.0,),
                   Padding(
                     padding: const EdgeInsets.only(right: 5, bottom: 0),
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton.small(
-                        heroTag: "EditC" + medicamentos[i]['id_medicamento'].toString(),
+                        heroTag: "EditC" + citas[i]['id_cita'].toString(),
                         onPressed: () {
-                          DeleteAppointment(citas[i]['id_cita'].toString());
+                          EditAppointment(citas[i]['id_cita'].toString());
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(
@@ -287,7 +274,7 @@ class _RecordsPage extends State <RecordsPage>{
                         ),
                       ),
                     ),
-                  ),*/
+                  ),
                 ]
               )
             )
@@ -314,12 +301,27 @@ class _RecordsPage extends State <RecordsPage>{
   }
 
   //Intenta eliminar la cita y su recordatorio con el id que recibe.
-  Future<int> DeleteAppointment(String id) async {
+  Future<void> DeleteAppointment(String id) async {
       print("id_cita " + id);
       try{
         calendarPageCards.clear();
         Database database = await openDatabase(
             Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+        final List<Map<String, dynamic>> cita = await database.rawQuery(
+          "SELECT * FROM Cita WHERE id_cita = " + id,
+        );
+
+        if(cita.length > 0) {
+          currentAppointment = Appointment(
+            id_cita: int.parse(cita[0]['id_cita'].toString()),
+            nombre_medico: cita[0]['nombre_medico'].toString(),
+            especialidad_medico: cita[0]['motivo'].toString(),
+            ubicacion: cita[0]['ubicacion'].toString(),
+            telefono_medico: cita[0]['telefono_medico'].toString(),
+            fecha: cita[0]['fecha'].toString()
+          );
+        }
 
         final List<Map<String, dynamic>> citas = await database.rawQuery(
           "DELETE FROM Cita WHERE id_cita = " + id,
@@ -331,20 +333,38 @@ class _RecordsPage extends State <RecordsPage>{
         homePageCards.clear();
         calendarPageCards.clear();
         recordsPageCards.clear();
-        return 8;
+        update = false;
+        delete = true;
+        deleteResult = 8;
       }catch(exception){
         print(exception);
-        return 9;
+        deleteResult = 9;
       }
   }
 
   //Intenta eliminar el medicamento y sus recordatorios con el id que recibe.
-  Future<int> DeleteMedicament(String id) async {
+  Future<void> DeleteMedicament(String id) async {
     print("id_medicamento " + id);
     try{
       calendarPageCards.clear();
       Database database = await openDatabase(
           Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+      final List<Map<String, dynamic>> medicamento = await database.rawQuery(
+        "SELECT * FROM Medicamento WHERE id_medicamento = " + id,
+      );
+
+      if(medicamento.length > 0) {
+        currentMedicament = Medicament(id_medicamento: int.parse(
+            medicamento[0]['id_medicamento'].toString()),
+            nombre: medicamento[0]['nombre'].toString(),
+            dosis: medicamento[0]['dosis'].toString(),
+            inicioToma: medicamento[0]['inicioToma'].toString(),
+            frecuenciaTipo: medicamento[0]['frecuenciaTipo'].toString(),
+            frecuenciaToma: int.parse(
+                medicamento[0]['frecuenciaToma'].toString())
+        );
+      }
 
       final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
         "DELETE FROM Medicamento WHERE id_medicamento = " + id,
@@ -356,18 +376,18 @@ class _RecordsPage extends State <RecordsPage>{
       homePageCards.clear();
       calendarPageCards.clear();
       recordsPageCards.clear();
-      update = true;
-      delete = false;
-      return 6;
+      update = false;
+      delete = true;
+      deleteResult = 6;
     }catch(exception){
       print(exception);
-      return 7;
+      deleteResult = 7;
     }
   }
 
   //Selecciona el medicamento con el id que recibe para su actualización.
   //Aún no funciona.
-  Future<void> EditMedicament(String id, BuildContext context) async {
+  Future<void> EditMedicament(String id) async {
     print("id_medicamento " + id);
     try{
       calendarPageCards.clear();
@@ -398,26 +418,83 @@ class _RecordsPage extends State <RecordsPage>{
     }
   }
 
-  bool update = false;
-  bool delete = false;
-  int deleteResult = 0;
+  Future<void> EditAppointment(String id) async {
+    print("id_cita " + id);
+    try{
+      calendarPageCards.clear();
+      Database database = await openDatabase(
+          Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-  void CheckMedicament(){
+      final List<Map<String, dynamic>> cita = await database.rawQuery(
+        "SELECT * FROM Cita WHERE id_cita = " + id,
+      );
+
+      if(cita.length > 0) {
+        currentAppointment = Appointment(
+            id_cita: int.parse(cita[0]['id_cita'].toString()),
+            nombre_medico: cita[0]['nombre_medico'].toString(),
+            motivo: cita[0]['motivo'].toString(),
+            ubicacion: cita[0]['ubicacion'].toString(),
+            telefono_medico: cita[0]['telefono_medico'].toString(),
+            fecha: cita[0]['fecha'].toString()
+        );
+      }
+
+      homePageCards.clear();
+      calendarPageCards.clear();
+      recordsPageCards.clear();
+      update = true;
+      delete = false;
+    }catch(exception){
+      print(exception);
+    }
+  }
+
+  void CheckCurrent(){
      print('tick');
      if(currentMedicament.id_medicamento != null){
-        update = false;
-        print('Editando medicaneto');
-        Navigator.pushAndRemoveUntil <dynamic>(
-          context,
-          MaterialPageRoute <dynamic>(
-              builder: (BuildContext context) => MedicamentNameRegister(initMedicament: currentMedicament,)
-          ),
-              (route) => false,
-        );
-     }else{
+
+       if(update){
+         update = false;
+         print('Editando medicaneto');
+         Navigator.pushAndRemoveUntil <dynamic>(
+           context,
+           MaterialPageRoute <dynamic>(
+               builder: (BuildContext context) => MedicamentNameRegister(initMedicament: currentMedicament,)
+           ),
+               (route) => false,
+         );
+       }else if(delete){
+         currentMedicament = Medicament();
+         muestraButtonSheet(context, deleteResult);
+       }
+     }
+
+     if(currentAppointment.id_cita != null){
+       if(update){
+         update = false;
+         print('Editando medicaneto');
+         Navigator.pushAndRemoveUntil <dynamic>(
+           context,
+           MaterialPageRoute <dynamic>(
+               builder: (BuildContext context) => AppointmentsPage(initAppointment: currentAppointment,),
+           ),
+               (route) => false,
+         );
+       }else if(delete){
+         currentAppointment = Appointment();
+         muestraButtonSheet(context, deleteResult);
+       }
+     }
+
+     if(!delete && !update){
        setState(() {});
      }
   }
 }
 Medicament currentMedicament = Medicament();
+Appointment currentAppointment = Appointment();
 List<Widget> recordsPageCards = [];
+bool update = false;
+bool delete = false;
+int deleteResult = 0;

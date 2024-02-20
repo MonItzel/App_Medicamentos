@@ -32,8 +32,12 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
       buttonText = 'Guardar';
       print(widget.medicament.inicioToma.toString());
       initialDate = DateTime(int.parse(widget.medicament.inicioToma.toString().split('-')[0]), int.parse(widget.medicament.inicioToma.toString().split('-')[1]), int.parse(widget.medicament.inicioToma.toString().split('-')[2].split(' ')[0]));
+      medicamentDate = initialDate;
       print(initialDate.toString());
       timeinput.text = widget.medicament.inicioToma.toString().split(' ')[1].split(':')[0] + ':' + widget.medicament.inicioToma.toString().split(' ')[1].split(':')[1];
+    }else{
+      initialDate = DateTime.now();
+      medicamentDate = initialDate;
     }
 
     return Scaffold(
@@ -76,6 +80,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SfDateRangePicker(
+              initialDisplayDate: initialDate,
               initialSelectedDate: initialDate,
               selectionMode: DateRangePickerSelectionMode.single,
               showNavigationArrow: true,
@@ -210,46 +215,51 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   }
 
   void update(BuildContext context) async{
-    Database database = await openDatabase(
-        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+    try{
+      Database database = await openDatabase(
+          join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    widget.medicament.inicioToma =
-        medicamentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
+      widget.medicament.inicioToma =
+          medicamentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
 
-    await database.transaction((txn) async {
-      var medicamento = widget.medicament.toMap();
+      await database.transaction((txn) async {
+        var medicamento = widget.medicament.toMap();
 
-      //var id1 = txn.update('Medicamento', medicamento);
-      String query = 'UPDATE Medicamento SET '
-          'nombre = \'' + widget.medicament.nombre.toString() +
-          '\', dosis = \'' + widget.medicament.dosis.toString() +
-          '\', inicioToma = \'' + widget.medicament.inicioToma.toString() +
-          '\', frecuenciaTipo = \'' + widget.medicament.frecuenciaTipo.toString() +
-          '\', frecuenciaToma = \'' + widget.medicament.frecuenciaToma.toString() +
-          '\' WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString();
-      var id1 = txn.rawQuery(query);
+        //var id1 = txn.update('Medicamento', medicamento);
+        String query = 'UPDATE Medicamento SET '
+            'nombre = \'' + widget.medicament.nombre.toString() +
+            '\', dosis = \'' + widget.medicament.dosis.toString() +
+            '\', inicioToma = \'' + widget.medicament.inicioToma.toString() +
+            '\', frecuenciaTipo = \'' + widget.medicament.frecuenciaTipo.toString() +
+            '\', frecuenciaToma = \'' + widget.medicament.frecuenciaToma.toString() +
+            '\' WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString();
+        var id1 = txn.rawQuery(query);
 
-      print(query);
-    });
+        print(query);
+      });
 
-    final List<Map<String, dynamic>> maxID = await database.rawQuery(
-      'DELETE FROM Recordatorio WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString(),
-    );
+      final List<Map<String, dynamic>> maxID = await database.rawQuery(
+        'DELETE FROM Recordatorio WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString(),
+      );
 
-    Reminder reminder = Reminder(
-      tipo: "M",
-      id_medicamento: widget.medicament.id_medicamento,
-      fecha_hora: widget.medicament.inicioToma);
+      Reminder reminder = Reminder(
+          tipo: "M",
+          id_medicamento: widget.medicament.id_medicamento,
+          fecha_hora: widget.medicament.inicioToma);
       reminder.InsertReminder();
       reminder.CreateMedicamentReminders(widget.medicament);
 
-    currentMedicament = Medicament();
-    homePageCards.clear();
-    calendarPageCards.clear();
-    recordsPageCards.clear();
+      currentMedicament = Medicament();
+      homePageCards.clear();
+      calendarPageCards.clear();
+      recordsPageCards.clear();
 
-    //Si el medicamento fue actualizado retorna 5.
-    muestraButtonSheet(context, 5);
+      //Si el medicamento fue actualizado retorna 5.
+      muestraButtonSheet(context, 5);
+    }catch(ex){
+      currentMedicament = Medicament();
+      muestraButtonSheet(context, 12);
+    }
   }
 
   TextEditingController timeinput = new TextEditingController();

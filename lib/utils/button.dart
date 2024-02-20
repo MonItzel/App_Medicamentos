@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
@@ -40,7 +41,7 @@ class Button extends StatelessWidget {
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             MaterialPageRoute <dynamic>(
-              builder: (BuildContext context) =>AppointmentsPage(),
+              builder: (BuildContext context) =>AppointmentsPage(initAppointment: Appointment(),),
             ),
                 (route) => false,
           );

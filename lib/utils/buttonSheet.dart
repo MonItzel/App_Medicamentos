@@ -126,6 +126,33 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                     ],
                   ),
 
+                if (bandShow == 10)
+                  Column(
+                    children: [
+                      Text('Cita actualizada',),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 3,),
+                    ],
+                  ),
+
+                if (bandShow == 11)
+                  Column(
+                    children: [
+                      Text('Error al actualizar la cita',),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 3,),
+                    ],
+                  ),
+
+                if (bandShow == 12)
+                  Column(
+                    children: [
+                      Text('Error al actualizar el medicamento',),
+                      const SizedBox(width: 0.0, height: 60.0,),
+                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 3,),
+                    ],
+                  ),
+
               ],
             ) ,
           )
