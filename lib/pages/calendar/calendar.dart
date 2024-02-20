@@ -318,8 +318,9 @@ class _CalendarPage extends State<CalendarPage> {
       // Una vez la lista está llena, genera de nuevo la pantalla con la lista llena.
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
-        MaterialPageRoute <dynamic>(
-            builder: (BuildContext context) => const CalendarPage()
+        PageTransition(
+            type: PageTransitionType.fade,
+            child: const CalendarPage(),
         ),
             (route) => false,
       );
