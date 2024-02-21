@@ -17,18 +17,18 @@ class CustomNavigationBar extends StatelessWidget {
     //Se recibe el como parametro un numero entero que indica en que vista se encuentra el usuario para que el icono en el navbar se muestre de un color diferente
     return Container(
       color: AppStyles.primaryBlue,
-      height: 55,
+      height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            icon: Icon(Icons.home, color: currentIndex == 0 ? Colors.grey : Colors.white, size: 32),
+            icon: Icon(Icons.home, color: currentIndex == 0 ? Colors.grey : Colors.white, size: 34),
             onPressed: () {
               onTap(0);
             },
           ),
           IconButton(
-            icon: Icon(Icons.calendar_month, color: currentIndex == 1 ? Colors.grey : Colors.white, size: 32),
+            icon: Icon(Icons.calendar_month, color: currentIndex == 1 ? Colors.grey : Colors.white, size: 34),
             onPressed: () {
               onTap(1);
             },
@@ -41,7 +41,7 @@ class CustomNavigationBar extends StatelessWidget {
               color: AppStyles.secondaryBlue,
             ),
             child: IconButton(
-              icon: Icon(Icons.add, color: Colors.white, size: 32),
+              icon: Icon(Icons.add, color: Colors.white, size: 36),
               onPressed: () {
                 //onTap(2);
                 muestraButtonSheet(context, bandShow);
@@ -49,13 +49,13 @@ class CustomNavigationBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.edit_note, color: currentIndex == 3 ? Colors.grey : Colors.white, size: 32),
+            icon: Icon(Icons.edit_note, color: currentIndex == 3 ? Colors.grey : Colors.white, size: 34),
             onPressed: () {
               onTap(3);
             },
           ),
           IconButton(
-            icon: Icon(Icons.person, color: currentIndex == 4 ? Colors.grey : Colors.white, size: 32),
+            icon: Icon(Icons.person, color: currentIndex == 4 ? Colors.grey : Colors.white, size: 34),
             onPressed: () {
               onTap(4);
             },
