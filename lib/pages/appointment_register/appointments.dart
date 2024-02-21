@@ -45,7 +45,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Agendar cita',
+            appointment.id_cita != null ? 'Editar cita' : 'Registrar cita',
             style: TextStyle(
               color: Colors.black,
             ),

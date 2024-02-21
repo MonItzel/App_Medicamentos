@@ -137,16 +137,14 @@ class _CalendarPage extends State<CalendarPage> {
                     children: [
                       Button(
                         color: 0xFF0D1C52,
-                        ancho: 263,
-                        alto: 71,
+
                         contenido: 'Agregar medicamento',
                         ruta: 0,
                       ),
                       const SizedBox(width: 0.0, height: 60.0,),
                       Button(
                         color: 0xFF0D1C52,
-                        ancho: 263,
-                        alto: 71,
+
                         contenido: 'Agregar cita médica',
                         ruta: 1,
                       )
@@ -158,7 +156,7 @@ class _CalendarPage extends State<CalendarPage> {
                     children: [
                       Text('Medicamento agregado con éxito',),
                       const SizedBox(width: 0.0, height: 60.0,),
-                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      Button(color: 0xFF0063C9, contenido: 'Aceptar', ruta: 2,),
                     ],
                   ),
 
@@ -167,7 +165,7 @@ class _CalendarPage extends State<CalendarPage> {
                     children: [
                       Text('Error al agregar medicamento',),
                       const SizedBox(width: 0.0, height: 60.0,),
-                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      Button(color: 0xFF0063C9, contenido: 'Aceptar', ruta: 2,),
                     ],
                   ),
 
@@ -176,7 +174,7 @@ class _CalendarPage extends State<CalendarPage> {
                     children: [
                       Text('Cita agregada con éxito',),
                       const SizedBox(width: 0.0, height: 60.0,),
-                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      Button(color: 0xFF0063C9, contenido: 'Aceptar', ruta: 2,),
                     ],
                   ),
 
@@ -185,7 +183,7 @@ class _CalendarPage extends State<CalendarPage> {
                     children: [
                       Text('Error al agregar cita',),
                       const SizedBox(width: 0.0, height: 60.0,),
-                      Button(color: 0xFF0063C9, ancho: 180, alto: 60, contenido: 'Aceptar', ruta: 2,),
+                      Button(color: 0xFF0063C9, contenido: 'Aceptar', ruta: 2,),
                     ],
                   )
               ],

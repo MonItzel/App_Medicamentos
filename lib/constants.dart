@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class AppStyles {
 
   //MEDIDAS
-  static final anchoBoton = 190.0;
-  static final altoBoton = 70.0;
+  static final anchoBoton = 210.0;
+  static final altoBoton = 64.0;
 
   //COLORES
   static const Color primaryBlue = Color(0xFF0063C9);
@@ -13,6 +13,7 @@ class AppStyles {
   static const Color primaryBackground = Color(0xFFEDF2FA);
   static const Color errorColor = Color(0xFFFF1744);
   static const Color sombraForm = Color(0x3F000000);
+  static const Color emergencyBar = Color(0xFFF7F6C5);
 
   //TEXTO
   static const TextStyle encabezado1 = TextStyle(
@@ -76,6 +77,13 @@ class AppStyles {
     fontSize: 22.0,
     fontWeight: FontWeight.bold,
     color: Colors.white,
+  );
+
+  static const TextStyle textoEmergencia = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20.0,
+    fontWeight: FontWeight.w700,
+    color: secondaryBlue,
   );
 
   //BOTONES

@@ -8,26 +8,33 @@ import 'package:app_medicamentos/pages/medicaments_register/medicaments_register
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/appointment_register/appointments.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
-import 'package:intl/intl.dart';
+import 'package:app_medicamentos/constants.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Button extends StatelessWidget {
   final int color;
-  final double ancho, alto;
+  //final double ancho, alto;
   final String contenido;
   final int ruta;
-  const Button({required this.color, required this.ancho, required this.alto, required this.contenido, required this.ruta, super.key});
+  const Button({required this.color, required this.contenido, required this.ruta, super.key});
 
   @override
   Widget build(BuildContext context) {
     //int direction = 1;
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Color(color),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0),
+    double ancho = 263, alto = 71;
+    return Container(
+      width: AppStyles.anchoBoton,
+      height: AppStyles.altoBoton,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(color),
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          fixedSize: Size(ancho, alto),
         ),
         //263, 71
-        fixedSize: Size(ancho, alto),
-      ),
       onPressed: (){
         if(ruta == 0){
           Navigator.pushAndRemoveUntil <dynamic>(
@@ -67,9 +74,48 @@ class Button extends StatelessWidget {
           );
         }
 
-      },
-      child: Text(contenido,
-        style: TextStyle(color: Colors.white, fontSize: 20,fontFamily: 'Roboto', ),
+          //Navegacion para agregar cita medica
+          else if (ruta == 1){
+            Navigator.pushAndRemoveUntil <dynamic>(
+              context,
+              PageTransition(
+                type: PageTransitionType.bottomToTop,
+                child: AppointmentsPage(
+                  initAppointment: Appointment(),
+                ),
+              ),
+                  (route) => false,
+            );
+          }
+
+          //Navegacion para regresar al HomePage
+          else if (ruta == 2){
+            Navigator.pushAndRemoveUntil <dynamic>(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                child: const HomePage(),
+              ),
+                  (route) => false,
+            );
+          }
+
+          //Navgacion para regresar a la pagina de registros
+          else if (ruta == 3){
+            Navigator.pushAndRemoveUntil <dynamic>(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                child: const RecordsPage(),
+              ),
+                  (route) => false,
+            );
+          }
+
+        },
+        child: Text(contenido,
+          style: AppStyles.textoBoton
+        ),
       ),
     );
   }

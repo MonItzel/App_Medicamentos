@@ -62,7 +62,6 @@ class _HomePage extends State<HomePage> {
           titleSpacing: 0.0,
           toolbarHeight: 140.0,
 */
-
           titleSpacing: titleSpacing,
           toolbarHeight: toolbarHeight,
           backgroundColor: Colors.transparent,
@@ -70,11 +69,9 @@ class _HomePage extends State<HomePage> {
           title: Column(
             children: [
               if (resCreateNote == 1)
-
               showTextEmergyCall(),
-
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 15, left: 15),
+                padding: const EdgeInsets.only(top: 10, bottom: 16, left: 16),
                 child: Row(
                   children: [
                     Icon(Icons.today, color: Colors.black, size: 42),
@@ -106,7 +103,7 @@ class _HomePage extends State<HomePage> {
           )
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF09184D),
+          backgroundColor: AppStyles.secondaryBlue,
           onPressed: () {
             _msgAppointment();
           },
@@ -146,7 +143,7 @@ class _HomePage extends State<HomePage> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    type: PageTransitionType.rightToLeft,
+                    type: PageTransitionType.fade,
                     child: const ProfilePage(),
                   ),
                       (route) => false,
@@ -283,7 +280,7 @@ class _HomePage extends State<HomePage> {
               child: ListTile(
                 leading: Icon(Icons.medical_services, size: 40),
                 // Icono de medicina a la izquierda
-                title: Text(
+                title: const Text(
                   //citas[i]['motivo'].toString(),
                   'Cita Médica',
                   //Titulo
@@ -387,28 +384,31 @@ Future<int> CreateNote() async {
  */
 Widget showTextEmergyCall(){
   return Container(
-    height: 70,
-    color: Color(0xFFFFE9B6),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text('En caso de emergencia llamar ',
-          style: TextStyle(
-            color: Color(0xFF09184D),
-            fontWeight: FontWeight.bold,
-            fontSize: 23,
-            fontFamily: 'Roboto',),),
-        FloatingActionButton.small(
-          onPressed: () {
-            _callCarer(tel_cuidador);
-          },
-          backgroundColor: Color(0xFF09184D),
-          child: Icon(
-            Icons.call,
-            size: 28.0,
+    height: 60,
+    color: AppStyles.emergencyBar,
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: Row(
+        children: [
+          const Expanded(
+            child: Text(
+              'Llamada de emergencia',
+              style: AppStyles.textoEmergencia,
+            ),
           ),
-        ),
-      ],
+          FloatingActionButton(
+            onPressed: () {
+              _callCarer(tel_cuidador);
+              },
+            backgroundColor: AppStyles.secondaryBlue,
+            mini: true,
+            child: const Icon(
+              Icons.call,
+              size: 24.0,
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }
