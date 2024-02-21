@@ -1,5 +1,7 @@
+import 'package:app_medicamentos/pages/appointment_register/appointments.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
@@ -196,8 +198,8 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
             tipo: "M",
             id_medicamento: widget.medicament.id_medicamento,
             fecha_hora: widget.medicament.inicioToma);
-            reminder.InsertReminder();
-            reminder.CreateMedicamentReminders(widget.medicament);
+        reminder.InsertReminder();
+        reminder.CreateMedicamentReminders(widget.medicament);
 
         homePageCards.clear();
         recordsPageCards.clear();

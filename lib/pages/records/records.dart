@@ -39,7 +39,6 @@ class _RecordsPage extends State <RecordsPage>{
 
     //Al ingresar verifica si debe crear nuevas cartas.
     CreateCards(context);
-    delete = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -450,46 +449,51 @@ class _RecordsPage extends State <RecordsPage>{
     }
   }
 
-  void CheckCurrent(){
-     print('tick');
-     if(currentMedicament.id_medicamento != null){
+  void CheckCurrent() {
+    try {
+      print('tick');
+      if (currentMedicament.id_medicamento != null) {
+        if (update) {
+          print('Editando medicaneto');
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) =>
+                    MedicamentNameRegister(initMedicament: currentMedicament,)
+            ),
+                (route) => false,
+          );
+        } else if (delete) {
+          currentMedicament = Medicament();
+          muestraButtonSheet(context, deleteResult);
+        }
+      }
 
-       if(update){
-         update = false;
-         print('Editando medicaneto');
-         Navigator.pushAndRemoveUntil <dynamic>(
-           context,
-           MaterialPageRoute <dynamic>(
-               builder: (BuildContext context) => MedicamentNameRegister(initMedicament: currentMedicament,)
-           ),
-               (route) => false,
-         );
-       }else if(delete){
-         currentMedicament = Medicament();
-         muestraButtonSheet(context, deleteResult);
-       }
-     }
+      if (currentAppointment.id_cita != null) {
+        if (update) {
+          print('Editando medicaneto');
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) =>
+                  AppointmentsPage(initAppointment: currentAppointment,),
+            ),
+                (route) => false,
+          );
+        } else if (delete) {
+          currentAppointment = Appointment();
+          muestraButtonSheet(context, deleteResult);
+        }
+      }
 
-     if(currentAppointment.id_cita != null){
-       if(update){
-         update = false;
-         print('Editando medicaneto');
-         Navigator.pushAndRemoveUntil <dynamic>(
-           context,
-           MaterialPageRoute <dynamic>(
-               builder: (BuildContext context) => AppointmentsPage(initAppointment: currentAppointment,),
-           ),
-               (route) => false,
-         );
-       }else if(delete){
-         currentAppointment = Appointment();
-         muestraButtonSheet(context, deleteResult);
-       }
-     }
-
-     if(!delete && !update){
-       setState(() {});
-     }
+      if(!delete && !update){
+        setState(() {});
+      }
+    } catch (ex) {
+      if (!delete && !update) {
+        setState(() {});
+      }
+    }
   }
 }
 Medicament currentMedicament = Medicament();

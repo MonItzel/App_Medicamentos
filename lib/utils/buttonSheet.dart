@@ -87,7 +87,6 @@ void muestraButtonSheet(BuildContext context, int bandShow){
 
                 if (bandShow == 6)
                   Column(
-
                     children: [
                       Text('Medicamento eliminado con éxito',),
                       const SizedBox(width: 0.0, height: 60.0,),

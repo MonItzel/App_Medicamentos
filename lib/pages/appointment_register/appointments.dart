@@ -54,6 +54,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
             icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
             onPressed: () {
               if(appointment.id_cita != null){
+                update = false;
                 currentAppointment = Appointment();
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
@@ -356,10 +357,10 @@ class _AppointmentsPage extends State <AppointmentsPage> {
     appointment.ubicacion = lugarController.text;
     appointment.telefono_medico = telefonoMedicoController.text.replaceAll(' ', '');
   }
-}
 
-// Controladores de texto para los campos de entrada
-TextEditingController nombreMedicoController = TextEditingController();
-TextEditingController motivoController = TextEditingController();
-TextEditingController lugarController = TextEditingController();
-TextEditingController telefonoMedicoController = TextEditingController();
+  // Controladores de texto para los campos de entrada
+  TextEditingController nombreMedicoController = TextEditingController();
+  TextEditingController motivoController = TextEditingController();
+  TextEditingController lugarController = TextEditingController();
+  TextEditingController telefonoMedicoController = TextEditingController();
+}

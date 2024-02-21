@@ -8,6 +8,7 @@ import 'package:app_medicamentos/pages/medicaments_register/medicaments_register
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/appointment_register/appointments.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:intl/intl.dart';
 
 class Button extends StatelessWidget {
   final int color;
@@ -55,6 +56,8 @@ class Button extends StatelessWidget {
                 (route) => false,
           );
         }else if (ruta == 3){
+          delete = false;
+          update = false;
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             MaterialPageRoute <dynamic>(

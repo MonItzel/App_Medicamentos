@@ -191,6 +191,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
       Reminder reminder = Reminder();
       reminder.CreateAppointmentReminders(widget.appointment);
 
+      currentAppointment = Appointment();
       // Limpia las listas de tarjetas en las páginas principales
       homePageCards.clear();
       recordsPageCards.clear();

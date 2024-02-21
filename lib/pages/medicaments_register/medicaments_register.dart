@@ -72,6 +72,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
             icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
             onPressed: () {
               if(medicament.id_medicamento != null){
+                update = false;
                 currentMedicament = Medicament();
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
