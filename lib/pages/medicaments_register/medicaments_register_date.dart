@@ -11,6 +11,8 @@ import 'package:path/path.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/utils/buttonSheet.dart';
 import '../../models/reminder_model.dart';
+import 'package:app_medicamentos/constants.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MedicamentDateRegister extends StatefulWidget {
   const MedicamentDateRegister({super.key, required this.medicament});
@@ -44,112 +46,160 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEDF2FA),
+      backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          title: Text(
+          title: const Text(
             'Agregar medicamento',
-            style: TextStyle(
-              color: Colors.black,
-            ),
+            style: AppStyles.encabezado1
           ),
+
           leading: IconButton(
             icon: const Icon(
-                Icons.arrow_back_rounded, color: Color(0xFF09184D)),
+                Icons.arrow_back_rounded,
+                color: Colors.black
+            ),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
+              Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => MedicamentNameRegister(initMedicament: widget.medicament,)
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: MedicamentNameRegister(initMedicament: widget.medicament,)
                 ),
                     (route) => false,
               );
             },
           ),
           actions: const [],
-          backgroundColor: const Color(0xFFEDF2FA),
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           centerTitle: false,
           elevation: 0,
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SfDateRangePicker(
-              initialDisplayDate: initialDate,
-              initialSelectedDate: initialDate,
-              selectionMode: DateRangePickerSelectionMode.single,
-              showNavigationArrow: true,
-              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                medicamentDate = args.value;
-              },
-              todayHighlightColor: Color(0xFF09184D),
-              selectionColor: Color(0xFF09184D),
-            ),
-          TextField(
-            controller: timeinput, //editing controller of this TextField
-            decoration: InputDecoration(
-                icon: Icon(Icons.timer), //icon of text field
-                labelText: "Hora" //label text of field
-            ),
-            readOnly: true,  //set it true, so that user will not able to edit text
-            onTap: () async {
-              TimeOfDay? pickedTime =  await showTimePicker(
-                initialTime: TimeOfDay.now(),
-                context: context,
-              );
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
 
-              if(pickedTime != null ){
-                print(pickedTime.format(context));   //output 10:51 PM
-
-                String time = pickedTime.toString().split("(")[1];
-                time = time.split(")")[0];
-                setState(() {
-                  timeinput.text = time; //set the value of text field.
-                });
-              }else{
-                print("Time is not selected");
-              }
-            },
-          ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-              child: Container(
-                width: 193,
-                height: 77,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if(widget.medicament.id_medicamento != null){
-                      //Si el user ya tiene un id, actualiza la información del usuario
-                      update(context);
-                    }else{
-                      //Al presionar le botón intenta insertar el medicamento y recordatorios.
-                      int result = await RegisterMedicament();
-                      muestraButtonSheet(context, result);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF0063C9),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Fecha de inicio de toma',
+                    style: AppStyles.texto1,
                   ),
-                  child: Text(buttonText,
-                    style: TextStyle(
-                        fontSize: 26
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Selecciona la fecha en que iniciará a tomar su medicamento',
+                    style: AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: SfDateRangePicker(
+                    initialDisplayDate: initialDate,
+                    initialSelectedDate: initialDate,
+                    selectionMode: DateRangePickerSelectionMode.single,
+                    showNavigationArrow: true,
+                    onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                      medicamentDate = args.value;
+                    },
+                    todayHighlightColor: Color(0xFF09184D),
+                    selectionColor: Color(0xFF09184D),
+                  ),
+                ),
+              ),
+
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Hora de inicio de toma',
+                    style: AppStyles.texto1,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Selecciona la hora en que iniciará a tomar su medicamento',
+                    style: AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              TextField(
+                controller: timeinput, //editing controller of this TextField
+                decoration: InputDecoration(
+                    icon: Icon(Icons.timer), //icon of text field
+                    labelText: "Hora" //label text of field
+                ),
+                readOnly: true,  //set it true, so that user will not able to edit text
+                onTap: () async {
+                  TimeOfDay? pickedTime =  await showTimePicker(
+                    initialTime: TimeOfDay.now(),
+                    context: context,
+                  );
+
+                  if(pickedTime != null ){
+                    print(pickedTime.format(context));   //output 10:51 PM
+
+                    String time = pickedTime.toString().split("(")[1];
+                    time = time.split(")")[0];
+                    setState(() {
+                      timeinput.text = time; //set the value of text field.
+                    });
+                  }else{
+                    print("Time is not selected");
+                  }
+                },
+              ),
+
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 40, 0, 20),
+                  child: Container(
+                    width: AppStyles.anchoBoton,
+                    height: AppStyles.altoBoton,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if(widget.medicament.id_medicamento != null){
+                          //Si el user ya tiene un id, actualiza la información del usuario
+                          update(context);
+                        }else{
+                          //Al presionar le botón intenta insertar el medicamento y recordatorios.
+                          int result = await RegisterMedicament();
+                          muestraButtonSheet(context, result);
+                        }
+                      },
+                      style: AppStyles.botonPrincipal,
+                      child: Text(buttonText,
+                        style: AppStyles.textoBoton,
+                      ),
                     ),
                   ),
                 ),
               ),
-            )
-          ],
+
+            ],
+          ),
         ),
       ),
     );
