@@ -58,11 +58,6 @@ class _HomePage extends State<HomePage> {
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(
-/*
-          titleSpacing: 0.0,
-          toolbarHeight: 140.0,
-*/
-
           titleSpacing: titleSpacing,
           toolbarHeight: toolbarHeight,
           backgroundColor: Colors.transparent,
@@ -236,7 +231,6 @@ class _HomePage extends State<HomePage> {
                   ),
                 ),
               ),
-
             );
           }
 
