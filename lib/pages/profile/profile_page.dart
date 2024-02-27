@@ -1,17 +1,12 @@
-//import 'dart:js_interop';
-
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:app_medicamentos/pages/register/carer.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:flutter/material.dart';
-import 'package:app_medicamentos/pages/profile/edit_profile.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
-import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:app_medicamentos/utils/msgcall.dart';
 import 'package:path/path.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
@@ -44,9 +39,9 @@ class _ProfilePage extends State<ProfilePage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: Text(
+          title: const Text(
             'Perfil',
             style: AppStyles.encabezado1,
           ),
@@ -60,7 +55,7 @@ class _ProfilePage extends State<ProfilePage> {
       // Cuerpo de la página
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(15, 10, 15, 0), // Define el padding deseado
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +67,7 @@ class _ProfilePage extends State<ProfilePage> {
                   width: 120,
                   height: 120,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: Container(
                       child: Image.asset('assets/images/icon_profile2.png'),
                     ),
@@ -84,7 +79,7 @@ class _ProfilePage extends State<ProfilePage> {
               //Informacion personal
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Row(
                     children: [
                       const Expanded(
@@ -97,7 +92,7 @@ class _ProfilePage extends State<ProfilePage> {
                         onPressed: () {
                           UpdateInfoPersonal(context);
                         },
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                       ),
                     ],
                   ),
@@ -116,7 +111,7 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     nombreController.text,
                     style:AppStyles.texto3,
@@ -136,16 +131,16 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    apellidoPController.text + ' ' + apellidoMController.text,
+                    '${apellidoPController.text} ${apellidoMController.text}',
                     style:AppStyles.texto3,
                   ),
                 ),
               ),
 
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: AppStyles.divider,
               ),
 
@@ -153,7 +148,7 @@ class _ProfilePage extends State<ProfilePage> {
               //Fecha de nacimiento
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
                     children: [
                       const Expanded(
@@ -166,7 +161,7 @@ class _ProfilePage extends State<ProfilePage> {
                         onPressed: () {
                           UpdateBirthdate(context);
                         },
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                       ),
                     ],
                   ),
@@ -175,7 +170,7 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     fechaNacController.text,
                     style:AppStyles.texto3,
@@ -184,7 +179,7 @@ class _ProfilePage extends State<ProfilePage> {
               ),
 
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: AppStyles.divider,
               ),
 
@@ -192,7 +187,7 @@ class _ProfilePage extends State<ProfilePage> {
               //Domicilio
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
                     children: [
                       const Expanded(
@@ -205,7 +200,7 @@ class _ProfilePage extends State<ProfilePage> {
                         onPressed: () {
                           UpdateAddress(context);
                         },
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                       ),
                     ],
                   ),
@@ -224,7 +219,7 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     calleController.text,
                     style:AppStyles.texto3,
@@ -244,7 +239,7 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     numExteriorController.text,
                     style:AppStyles.texto3,
@@ -264,7 +259,7 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     coloniaController.text,
                     style:AppStyles.texto3,
@@ -273,7 +268,7 @@ class _ProfilePage extends State<ProfilePage> {
               ),
 
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: AppStyles.divider,
               ),
 
@@ -281,7 +276,7 @@ class _ProfilePage extends State<ProfilePage> {
               //Cuidador
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
                     children: [
                       const Expanded(
@@ -294,7 +289,7 @@ class _ProfilePage extends State<ProfilePage> {
                         onPressed: () {
                           UpdateCarer(context);
                         },
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                       ),
                     ],
                   ),
@@ -313,7 +308,7 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     cuidadorController.text,
                     style:AppStyles.texto3,
@@ -333,7 +328,7 @@ class _ProfilePage extends State<ProfilePage> {
 
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 30),
+                  padding: const EdgeInsets.only(bottom: 30),
                   child: Text(
                     numCuidadorController.text,
                     style:AppStyles.texto3,
@@ -343,7 +338,7 @@ class _ProfilePage extends State<ProfilePage> {
 
 
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: AppStyles.divider,
               ),
 
@@ -351,7 +346,7 @@ class _ProfilePage extends State<ProfilePage> {
               //Patologías
               SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
                     children: [
                       const Expanded(
@@ -364,7 +359,7 @@ class _ProfilePage extends State<ProfilePage> {
                         onPressed: () {
                           UpdatePathologies(context);
                         },
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                       ),
                     ],
                   ),
@@ -408,7 +403,7 @@ class _ProfilePage extends State<ProfilePage> {
                 context,
                 PageTransition(
                   type: PageTransitionType.fade,
-                  child: const CalendarPage(),
+                  child: CalendarPage(initialDate: DateTime.now(),),
                 ),
                     (route) => false,
               );

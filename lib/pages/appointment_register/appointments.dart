@@ -1,3 +1,4 @@
+import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/appointment_register/appointments_date.dart';
@@ -6,7 +7,9 @@ import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class AppointmentsPage extends StatefulWidget {
-  const AppointmentsPage({super.key});
+  const AppointmentsPage({super.key, required this.initAppointment});
+
+  final Appointment initAppointment;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,10 +22,22 @@ class _AppointmentsPage extends State <AppointmentsPage> {
   var maskFormatter = MaskTextInputFormatter(mask: '### ### ####', filter: {"#": RegExp(r'[0-9]')});
 
   // Objeto que se usará para pasar la información de la cita a la próxima pantalla.
-  final  Appointment appointment = Appointment();
+  Appointment appointment = Appointment();
 
   @override
   Widget build(BuildContext context) {
+    if(currentAppointment.id_cita != null)
+      appointment = currentAppointment;
+    else
+      appointment = widget.initAppointment;
+
+    if(appointment.id_cita != null && nombreMedicoController.text == '' && motivoController.text == '' && lugarController.text == ''&& telefonoMedicoController.text == ''){
+      nombreMedicoController.text = appointment.nombre_medico.toString();
+      motivoController.text = appointment.motivo.toString();
+      lugarController.text = appointment.ubicacion.toString();
+      telefonoMedicoController.text = appointment.telefono_medico.toString();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFEDF2FA),
@@ -30,7 +45,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Agendar cita',
+            appointment.id_cita != null ? 'Editar cita' : 'Registrar cita',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -38,14 +53,26 @@ class _AppointmentsPage extends State <AppointmentsPage> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF09184D)),
             onPressed: () {
-              // Navegar de regreso a la página de inicio
-              Navigator.pushAndRemoveUntil <dynamic>(
-                context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => HomePage()
-                ),
-                    (route) => false,
-              );
+              if(appointment.id_cita != null){
+                update = false;
+                currentAppointment = Appointment();
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => RecordsPage()
+                  ),
+                      (route) => false,
+                );
+              }else{
+                // Navegar de regreso a la página de inicio
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => HomePage()
+                  ),
+                      (route) => false,
+                );
+              }
             },
           ),
           actions: const [],
@@ -330,10 +357,10 @@ class _AppointmentsPage extends State <AppointmentsPage> {
     appointment.ubicacion = lugarController.text;
     appointment.telefono_medico = telefonoMedicoController.text.replaceAll(' ', '');
   }
-}
 
-// Controladores de texto para los campos de entrada
-TextEditingController nombreMedicoController = TextEditingController();
-TextEditingController motivoController = TextEditingController();
-TextEditingController lugarController = TextEditingController();
-TextEditingController telefonoMedicoController = TextEditingController();
+  // Controladores de texto para los campos de entrada
+  TextEditingController nombreMedicoController = TextEditingController();
+  TextEditingController motivoController = TextEditingController();
+  TextEditingController lugarController = TextEditingController();
+  TextEditingController telefonoMedicoController = TextEditingController();
+}

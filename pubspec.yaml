@@ -32,6 +32,8 @@ flutter:
   assets:
     - assets/images/logo_apesaam.png
     - assets/images/icon_profile2.png
+    - assets/images/icon_ok.png
+    - assets/images/icon_error.png
 
   fonts:
     - family: Roboto

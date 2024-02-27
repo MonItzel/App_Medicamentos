@@ -1,5 +1,7 @@
+import 'package:app_medicamentos/pages/appointment_register/appointments.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
@@ -9,6 +11,8 @@ import 'package:path/path.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/utils/buttonSheet.dart';
 import '../../models/reminder_model.dart';
+import 'package:app_medicamentos/constants.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MedicamentDateRegister extends StatefulWidget {
   const MedicamentDateRegister({super.key, required this.medicament});
@@ -32,117 +36,170 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
       buttonText = 'Guardar';
       print(widget.medicament.inicioToma.toString());
       initialDate = DateTime(int.parse(widget.medicament.inicioToma.toString().split('-')[0]), int.parse(widget.medicament.inicioToma.toString().split('-')[1]), int.parse(widget.medicament.inicioToma.toString().split('-')[2].split(' ')[0]));
+      medicamentDate = initialDate;
       print(initialDate.toString());
       timeinput.text = widget.medicament.inicioToma.toString().split(' ')[1].split(':')[0] + ':' + widget.medicament.inicioToma.toString().split(' ')[1].split(':')[1];
+    }else{
+      initialDate = DateTime.now();
+      medicamentDate = initialDate;
     }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFEDF2FA),
+      backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          title: Text(
+          title: const Text(
             'Agregar medicamento',
-            style: TextStyle(
-              color: Colors.black,
-            ),
+            style: AppStyles.encabezado1
           ),
+
           leading: IconButton(
             icon: const Icon(
-                Icons.arrow_back_rounded, color: Color(0xFF09184D)),
+                Icons.arrow_back_rounded,
+                color: Colors.black
+            ),
             onPressed: () {
-              Navigator.pushAndRemoveUntil <dynamic>(
+              Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute <dynamic>(
-                    builder: (BuildContext context) => MedicamentNameRegister(initMedicament: widget.medicament,)
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: MedicamentNameRegister(initMedicament: widget.medicament,)
                 ),
                     (route) => false,
               );
             },
           ),
           actions: const [],
-          backgroundColor: const Color(0xFFEDF2FA),
+          backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           centerTitle: false,
           elevation: 0,
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SfDateRangePicker(
-              initialSelectedDate: initialDate,
-              selectionMode: DateRangePickerSelectionMode.single,
-              showNavigationArrow: true,
-              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                medicamentDate = args.value;
-              },
-              todayHighlightColor: Color(0xFF09184D),
-              selectionColor: Color(0xFF09184D),
-            ),
-          TextField(
-            controller: timeinput, //editing controller of this TextField
-            decoration: InputDecoration(
-                icon: Icon(Icons.timer), //icon of text field
-                labelText: "Hora" //label text of field
-            ),
-            readOnly: true,  //set it true, so that user will not able to edit text
-            onTap: () async {
-              TimeOfDay? pickedTime =  await showTimePicker(
-                initialTime: TimeOfDay.now(),
-                context: context,
-              );
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
 
-              if(pickedTime != null ){
-                print(pickedTime.format(context));   //output 10:51 PM
-
-                String time = pickedTime.toString().split("(")[1];
-                time = time.split(")")[0];
-                setState(() {
-                  timeinput.text = time; //set the value of text field.
-                });
-              }else{
-                print("Time is not selected");
-              }
-            },
-          ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-              child: Container(
-                width: 193,
-                height: 77,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if(widget.medicament.id_medicamento != null){
-                      //Si el user ya tiene un id, actualiza la información del usuario
-                      update(context);
-                    }else{
-                      //Al presionar le botón intenta insertar el medicamento y recordatorios.
-                      int result = await RegisterMedicament();
-                      muestraButtonSheet(context, result);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF0063C9),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      )
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Fecha de inicio de toma',
+                    style: AppStyles.texto1,
                   ),
-                  child: Text(buttonText,
-                    style: TextStyle(
-                        fontSize: 26
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Selecciona la fecha en que iniciará a tomar su medicamento',
+                    style: AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: SfDateRangePicker(
+                    initialDisplayDate: initialDate,
+                    initialSelectedDate: initialDate,
+                    selectionMode: DateRangePickerSelectionMode.single,
+                    showNavigationArrow: true,
+                    onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                      medicamentDate = args.value;
+                    },
+                    todayHighlightColor: Color(0xFF09184D),
+                    selectionColor: Color(0xFF09184D),
+                  ),
+                ),
+              ),
+
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Hora de inicio de toma',
+                    style: AppStyles.texto1,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Selecciona la hora en que iniciará a tomar su medicamento',
+                    style: AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              TextField(
+                controller: timeinput, //editing controller of this TextField
+                decoration: InputDecoration(
+                    icon: Icon(Icons.timer), //icon of text field
+                    labelText: "Hora" //label text of field
+                ),
+                readOnly: true,  //set it true, so that user will not able to edit text
+                onTap: () async {
+                  TimeOfDay? pickedTime =  await showTimePicker(
+                    initialTime: TimeOfDay.now(),
+                    context: context,
+                  );
+
+                  if(pickedTime != null ){
+                    print(pickedTime.format(context));   //output 10:51 PM
+
+                    String time = pickedTime.toString().split("(")[1];
+                    time = time.split(")")[0];
+                    setState(() {
+                      timeinput.text = time; //set the value of text field.
+                    });
+                  }else{
+                    print("Time is not selected");
+                  }
+                },
+              ),
+
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 40, 0, 20),
+                  child: Container(
+                    width: AppStyles.anchoBoton,
+                    height: AppStyles.altoBoton,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if(widget.medicament.id_medicamento != null){
+                          //Si el user ya tiene un id, actualiza la información del usuario
+                          update(context);
+                        }else{
+                          //Al presionar le botón intenta insertar el medicamento y recordatorios.
+                          int result = await RegisterMedicament();
+                          muestraButtonSheet(context, result);
+                        }
+                      },
+                      style: AppStyles.botonPrincipal,
+                      child: Text(buttonText,
+                        style: AppStyles.textoBoton,
+                      ),
                     ),
                   ),
                 ),
               ),
-            )
-          ],
+
+            ],
+          ),
         ),
       ),
     );
@@ -191,8 +248,8 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
             tipo: "M",
             id_medicamento: widget.medicament.id_medicamento,
             fecha_hora: widget.medicament.inicioToma);
-            reminder.InsertReminder();
-            reminder.CreateMedicamentReminders(widget.medicament);
+        reminder.InsertReminder();
+        reminder.CreateMedicamentReminders(widget.medicament);
 
         homePageCards.clear();
         recordsPageCards.clear();
@@ -210,46 +267,51 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   }
 
   void update(BuildContext context) async{
-    Database database = await openDatabase(
-        join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+    try{
+      Database database = await openDatabase(
+          join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    widget.medicament.inicioToma =
-        medicamentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
+      widget.medicament.inicioToma =
+          medicamentDate.toString().split(" ")[0] + " " + timeinput.text + ":00";
 
-    await database.transaction((txn) async {
-      var medicamento = widget.medicament.toMap();
+      await database.transaction((txn) async {
+        var medicamento = widget.medicament.toMap();
 
-      //var id1 = txn.update('Medicamento', medicamento);
-      String query = 'UPDATE Medicamento SET '
-          'nombre = \'' + widget.medicament.nombre.toString() +
-          '\', dosis = \'' + widget.medicament.dosis.toString() +
-          '\', inicioToma = \'' + widget.medicament.inicioToma.toString() +
-          '\', frecuenciaTipo = \'' + widget.medicament.frecuenciaTipo.toString() +
-          '\', frecuenciaToma = \'' + widget.medicament.frecuenciaToma.toString() +
-          '\' WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString();
-      var id1 = txn.rawQuery(query);
+        //var id1 = txn.update('Medicamento', medicamento);
+        String query = 'UPDATE Medicamento SET '
+            'nombre = \'' + widget.medicament.nombre.toString() +
+            '\', dosis = \'' + widget.medicament.dosis.toString() +
+            '\', inicioToma = \'' + widget.medicament.inicioToma.toString() +
+            '\', frecuenciaTipo = \'' + widget.medicament.frecuenciaTipo.toString() +
+            '\', frecuenciaToma = \'' + widget.medicament.frecuenciaToma.toString() +
+            '\' WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString();
+        var id1 = txn.rawQuery(query);
 
-      print(query);
-    });
+        print(query);
+      });
 
-    final List<Map<String, dynamic>> maxID = await database.rawQuery(
-      'DELETE FROM Recordatorio WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString(),
-    );
+      final List<Map<String, dynamic>> maxID = await database.rawQuery(
+        'DELETE FROM Recordatorio WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString(),
+      );
 
-    Reminder reminder = Reminder(
-      tipo: "M",
-      id_medicamento: widget.medicament.id_medicamento,
-      fecha_hora: widget.medicament.inicioToma);
+      Reminder reminder = Reminder(
+          tipo: "M",
+          id_medicamento: widget.medicament.id_medicamento,
+          fecha_hora: widget.medicament.inicioToma);
       reminder.InsertReminder();
       reminder.CreateMedicamentReminders(widget.medicament);
 
-    currentMedicament = Medicament();
-    homePageCards.clear();
-    calendarPageCards.clear();
-    recordsPageCards.clear();
+      currentMedicament = Medicament();
+      homePageCards.clear();
+      calendarPageCards.clear();
+      recordsPageCards.clear();
 
-    //Si el medicamento fue actualizado retorna 5.
-    muestraButtonSheet(context, 5);
+      //Si el medicamento fue actualizado retorna 5.
+      muestraButtonSheet(context, 5);
+    }catch(ex){
+      currentMedicament = Medicament();
+      muestraButtonSheet(context, 12);
+    }
   }
 
   TextEditingController timeinput = new TextEditingController();

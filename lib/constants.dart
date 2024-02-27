@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class AppStyles {
 
   //MEDIDAS
-  static final anchoBoton = 190.0;
-  static final altoBoton = 70.0;
+  static final anchoBoton = 200.0;
+  static final altoBoton = 64.0;
 
   //COLORES
   static const Color primaryBlue = Color(0xFF0063C9);
@@ -13,6 +13,7 @@ class AppStyles {
   static const Color primaryBackground = Color(0xFFEDF2FA);
   static const Color errorColor = Color(0xFFFF1744);
   static const Color sombraForm = Color(0x3F000000);
+  static const Color emergencyBar = Color(0xFFF7F6C5);
 
   //TEXTO
   static const TextStyle encabezado1 = TextStyle(
@@ -74,8 +75,22 @@ class AppStyles {
   static const TextStyle textoBoton = TextStyle(
     fontFamily: 'Roboto',
     fontSize: 22.0,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
     color: Colors.white,
+  );
+
+  static const TextStyle textoEmergencia = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20.0,
+    fontWeight: FontWeight.w700,
+    color: secondaryBlue,
+  );
+
+  static const TextStyle textoInput2 = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 22.0,
+    fontWeight: FontWeight.normal,
+    color: Colors.grey,
   );
 
   //BOTONES
@@ -93,7 +108,7 @@ class AppStyles {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
     ),
-    shadows: [
+    shadows: const [
       BoxShadow(
         color: sombraForm,
         blurRadius: 5,
@@ -108,11 +123,18 @@ class AppStyles {
       borderRadius: BorderRadius.circular(16),
       borderSide: const BorderSide(
         color: Colors.white,
-        width: 1,
+        width: 2,
         style: BorderStyle.solid,
       ),
     ),
-    focusedBorder: InputBorder.none,
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: const BorderSide(
+        color: Colors.blue,
+        width: 2,
+        style: BorderStyle.solid,
+      ),
+    ),
     filled: true,
     fillColor: Colors.white,
     errorStyle: AppStyles.textoError,

@@ -58,6 +58,13 @@ class _HomePage extends State<HomePage> {
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(
+<<<<<<< HEAD
+=======
+/*
+          titleSpacing: 0.0,
+          toolbarHeight: 140.0,
+*/
+>>>>>>> c4752bf13cfc6052c4d17ee606e12cecbeba6768
           titleSpacing: titleSpacing,
           toolbarHeight: toolbarHeight,
           backgroundColor: Colors.transparent,
@@ -65,11 +72,9 @@ class _HomePage extends State<HomePage> {
           title: Column(
             children: [
               if (resCreateNote == 1)
-
               showTextEmergyCall(),
-
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 15, left: 15),
+                padding: const EdgeInsets.only(top: 10, bottom: 16, left: 16),
                 child: Row(
                   children: [
                     Icon(Icons.today, color: Colors.black, size: 42),
@@ -101,7 +106,7 @@ class _HomePage extends State<HomePage> {
           )
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF09184D),
+          backgroundColor: AppStyles.secondaryBlue,
           onPressed: () {
             _msgAppointment();
           },
@@ -122,7 +127,7 @@ class _HomePage extends State<HomePage> {
                   context,
                   PageTransition(
                     type: PageTransitionType.fade,
-                    child: const CalendarPage(),
+                    child: CalendarPage(initialDate: DateTime.now(),),
                   ),
                   (route) => false,
                 );
@@ -141,7 +146,7 @@ class _HomePage extends State<HomePage> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    type: PageTransitionType.rightToLeft,
+                    type: PageTransitionType.fade,
                     child: const ProfilePage(),
                   ),
                       (route) => false,
@@ -169,30 +174,37 @@ class _HomePage extends State<HomePage> {
 
         final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
           "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
+          //'Delete FROM Medicamento; '
+          //'Delete from Cita; '
+          //'delete from Recordatorio;',
         );
         print("map: " + medicamentos.length.toString());
         print("cards: " + homePageCards.length.toString());
 
         //Crea las cartas para cada recordatorio de medicamento.
-        if(medicamentos.length > 0){
-          for(int i = 0; i < medicamentos.length; i++){
-            String horaOriginal = medicamentos[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
+        if(medicamentos.length > 0) {
+          for (int i = 0; i < medicamentos.length; i++) {
+            String horaOriginal = medicamentos[i]['fecha_hora']
+                .toString()
+                .split(" ")[1].split(".")[0];
             // Analiza la hora original en un objeto DateTime
             DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
             // Formatea la hora en formato de 12 horas sin segundos
             String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
             Color color = Colors.white;
-            if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
+            if (horaDateTime.hour >= 6 && horaDateTime.hour < 12) {
               color = Colors.orange.shade50;
-            }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){
+            } else if (horaDateTime.hour >= 12 && horaDateTime.hour < 18) {
               color = Colors.lightBlue.shade50;
-            }else if(horaDateTime.hour <6 || horaDateTime.hour >= 18){
+            } else if (horaDateTime.hour < 6 || horaDateTime.hour >= 18) {
               color = Colors.indigo.shade50;
             }
 
             homePageCards.add(
               SizedBox(
-                height: 120.0 + (medicamentos[i]['nombre'].toString().length / 15 + 1) * 20,
+                height: 120.0 + (medicamentos[i]['nombre']
+                    .toString()
+                    .length / 15 + 1) * 20,
                 child: Card(
                   elevation: 3,
                   color: color,
@@ -218,7 +230,10 @@ class _HomePage extends State<HomePage> {
                             style: AppStyles.dosisCard,
                           ),
                           Text(
-                            'Cada ' + medicamentos[i]['frecuenciaToma'].toString() + ' ' + medicamentos[i]['frecuenciaTipo'].toString() + 's',
+                            'Cada ' +
+                                medicamentos[i]['frecuenciaToma'].toString() +
+                                ' ' + medicamentos[i]['frecuenciaTipo']
+                                .toString() + 's',
                             style: AppStyles.dosisCard,
                           ),
                         ],
@@ -233,81 +248,82 @@ class _HomePage extends State<HomePage> {
               ),
             );
           }
-
-          //Selecciona la información de los recordatorios de citas del día actual.
-          final List<Map<String, dynamic>> citas = await database.rawQuery(
-            "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
-          );
-          print("map: " + citas.length.toString());
-          print("cards: " + homePageCards.length.toString());
-
-          //Crea las cartas para cada recordatorio de cita.
-          if(citas.length > 0) {
-            for (int i = 0; i < citas.length; i++) {
-              String horaOriginal = citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0];
-              // Analiza la hora original en un objeto DateTime
-              DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
-
-              Color color = Colors.white;
-              if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
-                color = Colors.orange.shade50;
-              }else if(horaDateTime.hour >= 12 && horaDateTime.hour <= 18){
-                color = Colors.lightBlue.shade50;
-              }else if(horaDateTime.hour < 6 || horaDateTime.hour >= 18){
-                color = Colors.indigo.shade50;
-              }
-              homePageCards.add(Card(
-                color: color,
-                elevation: 3,
-                margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: ListTile(
-                  leading: Icon(Icons.medical_services, size: 40),
-                  // Icono de medicina a la izquierda
-                  title: Text(
-                    //citas[i]['motivo'].toString(),
-                    'Cita Médica',
-                    //Titulo
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Hora: ' + citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
-                      Text("Ubicacion: " +
-                          citas[i]['ubicacion'].toString()),
-                      //Dosis del medicamento
-                    ],
-                  ),
-                  trailing: Text(
-                    "Telefono: " +
-                        citas[i]['telefono_medico'].toString().split(
-                            " ")[0], //Fecha de inicio
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              )
-              );
-            }
-          }
-
-          if(homePageCards.length != medicamentos.length + citas.length){
-            homePageCards.clear();
-          }
-
-          //Si se generaron cartas vuelve a generar la pantalla.
-          if(medicamentos.length > 0 || citas.length > 0)
-            Navigator.pushAndRemoveUntil <dynamic>(
-              context,
-              MaterialPageRoute <dynamic>(
-                  builder: (BuildContext context) => const HomePage()
-              ),
-                  (route) => false,
-            );
         }
+        print( "SELECT * FROM Cita WHERE fecha LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY fecha ASC");
+        //Selecciona la información de los recordatorios de citas del día actual.
+        final List<Map<String, dynamic>> citas = await database.rawQuery(
+          "SELECT * FROM Cita AS C INNER JOIN Recordatorio AS R ON C.id_cita = R.id_cita WHERE R.fecha_hora LIKE '" + date.toString().split(" ")[0] + "%' ORDER BY R.fecha_hora ASC",
+        );
+        print("map: " + citas.length.toString());
+        print("cards: " + homePageCards.length.toString());
+
+        //Crea las cartas para cada recordatorio de cita.
+        if(citas.length > 0) {
+          for (int i = 0; i < citas.length; i++) {
+            String horaOriginal = citas[i]['fecha'].toString().split(" ")[1].split(".")[0];
+            // Analiza la hora original en un objeto DateTime
+            DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
+
+            Color color = Colors.white;
+            if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
+              color = Colors.orange.shade50;
+            }else if(horaDateTime.hour >= 12 && horaDateTime.hour <= 18){
+              color = Colors.lightBlue.shade50;
+            }else if(horaDateTime.hour < 6 || horaDateTime.hour >= 18){
+              color = Colors.indigo.shade50;
+            }
+            homePageCards.add(Card(
+              color: color,
+              elevation: 3,
+              margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: ListTile(
+                leading: Icon(Icons.medical_services, size: 40),
+                // Icono de medicina a la izquierda
+                title: const Text(
+                  //citas[i]['motivo'].toString(),
+                  'Cita Médica',
+                  //Titulo
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Hora: ' + citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
+                    Text("Ubicacion: " +
+                        citas[i]['ubicacion'].toString()),
+                    //Dosis del medicamento
+                  ],
+                ),
+                trailing: Text(
+                  "Telefono: " +
+                      citas[i]['telefono_medico'].toString().split(
+                          " ")[0], //Fecha de inicio
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+            );
+          }
+        }
+
+        if(homePageCards.length != medicamentos.length + citas.length){
+          homePageCards.clear();
+        }
+
+        //Si se generaron cartas vuelve a generar la pantalla.
+        if(medicamentos.length > 0 || citas.length > 0)
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) => const HomePage()
+            ),
+                (route) => false,
+          );
       }
+
     }catch(exception){
       print(exception);
     }
@@ -370,28 +386,31 @@ Future<int> CreateNote() async {
  */
 Widget showTextEmergyCall(){
   return Container(
-    height: 70,
-    color: Color(0xFFFFE9B6),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text('En caso de emergencia llamar ',
-          style: TextStyle(
-            color: Color(0xFF09184D),
-            fontWeight: FontWeight.bold,
-            fontSize: 23,
-            fontFamily: 'Roboto',),),
-        FloatingActionButton.small(
-          onPressed: () {
-            _callCarer(tel_cuidador);
-          },
-          backgroundColor: Color(0xFF09184D),
-          child: Icon(
-            Icons.call,
-            size: 28.0,
+    height: 60,
+    color: AppStyles.emergencyBar,
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: Row(
+        children: [
+          const Expanded(
+            child: Text(
+              'Llamada de emergencia',
+              style: AppStyles.textoEmergencia,
+            ),
           ),
-        ),
-      ],
+          FloatingActionButton(
+            onPressed: () {
+              _callCarer(tel_cuidador);
+              },
+            backgroundColor: AppStyles.secondaryBlue,
+            mini: true,
+            child: const Icon(
+              Icons.call,
+              size: 24.0,
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }
