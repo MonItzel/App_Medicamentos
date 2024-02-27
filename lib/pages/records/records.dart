@@ -84,7 +84,7 @@ class _RecordsPage extends State <RecordsPage>{
                 context,
                 PageTransition(
                   type: PageTransitionType.fade,
-                  child: CalendarPage(initialDate: DateTime.now(),),
+                  child: const CalendarPage(),
                 ),
                     (route) => false,
               );
