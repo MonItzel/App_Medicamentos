@@ -117,7 +117,6 @@ class _NameRegister extends State <NameRegister> {
                 ),
               ),
             ),
-
             SizedBox(height: 30.0),
 
 

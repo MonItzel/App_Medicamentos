@@ -21,7 +21,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //int direction = 1;
-    double ancho = AppStyles.anchoBoton, alto = AppStyles.altoBoton;
+    double ancho = 263, alto = 71;
     return Container(
       width: AppStyles.anchoBoton,
       height: AppStyles.altoBoton,
@@ -39,9 +39,8 @@ class Button extends StatelessWidget {
         if(ruta == 0){
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
-            PageTransition(
-              type: PageTransitionType.bottomToTop,
-              child: MedicamentNameRegister(initMedicament: Medicament(),),
+            MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) =>MedicamentNameRegister(initMedicament: Medicament(),),
             ),
                 (route) => false,
           );
@@ -49,9 +48,8 @@ class Button extends StatelessWidget {
         else if (ruta == 1){
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
-            PageTransition(
-              type: PageTransitionType.bottomToTop,
-              child: AppointmentsPage(initAppointment: Appointment(),),
+            MaterialPageRoute <dynamic>(
+              builder: (BuildContext context) =>AppointmentsPage(initAppointment: Appointment(),),
             ),
                 (route) => false,
           );
@@ -59,9 +57,8 @@ class Button extends StatelessWidget {
         else if (ruta == 2){
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
-            PageTransition(
-              type: PageTransitionType.topToBottom,
-              child: const HomePage(),
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) => HomePage()
             ),
                 (route) => false,
           );
@@ -70,9 +67,8 @@ class Button extends StatelessWidget {
           update = false;
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
-            PageTransition(
-              type: PageTransitionType.topToBottom,
-              child: const RecordsPage(),
+            MaterialPageRoute <dynamic>(
+                builder: (BuildContext context) => RecordsPage()
             ),
                 (route) => false,
           );
@@ -97,7 +93,7 @@ class Button extends StatelessWidget {
             Navigator.pushAndRemoveUntil <dynamic>(
               context,
               PageTransition(
-                type: PageTransitionType.topToBottom,
+                type: PageTransitionType.fade,
                 child: const HomePage(),
               ),
                   (route) => false,
@@ -109,7 +105,7 @@ class Button extends StatelessWidget {
             Navigator.pushAndRemoveUntil <dynamic>(
               context,
               PageTransition(
-                type: PageTransitionType.topToBottom,
+                type: PageTransitionType.fade,
                 child: const RecordsPage(),
               ),
                   (route) => false,
