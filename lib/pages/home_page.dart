@@ -12,6 +12,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 String tel_cuidador = '';
+String nomAdult = '';
+String apellidos = '';
+List<String> medicamentoInfoList = [];
+List<String> citaInfoList = [];
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,6 +35,7 @@ class _HomePage extends State<HomePage> {
   void initState() {
     super.initState();
     _loadDate();
+    ConsultaMedicamentos(context);
     CreateNote().then((result) {
       setState(() {
         resCreateNote = result;
@@ -58,13 +63,10 @@ class _HomePage extends State<HomePage> {
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(
-<<<<<<< HEAD
-=======
 /*
           titleSpacing: 0.0,
           toolbarHeight: 140.0,
 */
->>>>>>> c4752bf13cfc6052c4d17ee606e12cecbeba6768
           titleSpacing: titleSpacing,
           toolbarHeight: toolbarHeight,
           backgroundColor: Colors.transparent,
@@ -108,7 +110,7 @@ class _HomePage extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppStyles.secondaryBlue,
           onPressed: () {
-            _msgAppointment();
+            _msgMedicamentAppointment(nomAdult, tel_cuidador, medicamentoInfoList, citaInfoList);
           },
           child: Icon(Icons.message),
         ),
@@ -257,12 +259,22 @@ class _HomePage extends State<HomePage> {
         print("map: " + citas.length.toString());
         print("cards: " + homePageCards.length.toString());
 
+        citaInfoList.clear();
         //Crea las cartas para cada recordatorio de cita.
         if(citas.length > 0) {
           for (int i = 0; i < citas.length; i++) {
             String horaOriginal = citas[i]['fecha'].toString().split(" ")[1].split(".")[0];
             // Analiza la hora original en un objeto DateTime
             DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
+
+            // Formatea la hora en formato de 12 horas sin segundos
+            String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
+
+            citaInfoList.add(
+                'Hora: ${horaFormateada}\n'
+                    'Ubicacion: ${citas[i]['ubicacion'].toString()} \n'
+                    'Teléfono : ${citas[i]['telefono_medico'].toString().split(" ")[0]}'
+            );
 
             Color color = Colors.white;
             if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
@@ -331,6 +343,62 @@ class _HomePage extends State<HomePage> {
 }
 
 
+Future<void>ConsultaMedicamentos(var context) async{
+  medicamentoInfoList.clear();
+  try{
+    Database database = await openDatabase(
+        Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+    final List<Map<String, dynamic>> medicaments = await database.rawQuery(
+      "SELECT DISTINCT M.nombre, M.dosis, M.inicioToma, M.frecuenciaToma, M.frecuenciaTipo " +
+          "FROM Medicamento AS M " +
+          "INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento " +
+          "WHERE R.fecha_hora LIKE '%" + date.toString().split(" ")[0] + "%' " +
+          "ORDER BY R.fecha_hora ASC",
+    );
+    //  medicamentoInfoList.clear();
+
+    print("map 2: " + medicaments.length.toString());
+    print("medicamento consulta: " + medicaments.toString());
+    if(medicaments.length > 0){
+      for(int i = 0; i < medicaments.length; i++){
+        print("medicamento consultas: " + medicaments[i].toString());
+
+        String hOrigin = medicaments[i]['inicioToma'].toString().split(" ")[1].split(".")[0];
+        DateTime horaDateTime2 = DateTime.parse("2022-01-01 $hOrigin");
+        // Formatea la hora en formato de 12 horas sin segundos
+        String horaFormateada2 = DateFormat('hh:mm a').format(horaDateTime2);
+
+        int frecuenciaToma = medicaments[i]['frecuenciaToma'];
+        int minutosTotales = horaDateTime2.hour * 60 + horaDateTime2.minute;
+
+        List<String> horasFormateadas = [];
+
+        for (int minutos = minutosTotales; minutos < 24 * 60; minutos += frecuenciaToma * 60) {
+          int horas = minutos ~/ 60;
+          int minutosRestantes = minutos % 60;
+
+          String horaFormateada = DateFormat('hh:mm a').format(DateTime(2022, 1, 1, horas, minutosRestantes));
+
+          //print("Hora Formateada: $horaFormateada");
+          horasFormateadas.add(horaFormateada);
+        }
+
+        //medicamentoInfoList.clear();
+        medicamentoInfoList.add(
+            'Medicamento: \n${medicaments[i]['nombre'].toString()}\n'
+                'Dosis: ${medicaments[i]['dosis'].toString()}\n'
+                'Frecuencia: Cada ${medicaments[i]['frecuenciaToma'].toString()} Horas\n'
+                'Horario de toma:\n${horasFormateadas.join('\n')}'
+        );
+
+      }
+    }
+
+  }catch(exception){
+    print(exception);
+  }
+}
+
 
 /*
  * Función que se encarga de validar que el usuario asulto mayor
@@ -361,6 +429,10 @@ Future<int> CreateNote() async {
     if (result.isNotEmpty) {
       print('Tiene cuidador activo');
       tel_cuidador = result[0]['cuidador_telefono'];
+      nomAdult = result[0]['nombre'];
+      String apellidoP = result[0]['apellidoP'];
+      String apellidoM = result[0]['apellidoM'];
+      apellidos = '$apellidoP ${apellidoM.isNotEmpty ? apellidoM : ''}';
       print('variable tel_cuidador');
       print(tel_cuidador);
 
@@ -432,23 +504,25 @@ _callCarer(tel_cuidador) async {
   launch('tel: $tel_cuidador');
 }
 
-_msgAppointment() async {
+_msgMedicamentAppointment(nomAdult, tel_cuidador,  medicamentoInfoList, citaInfoList) async {
   //%20 es el espacio
-  //Lamado a la    Parámetros a enviar
+  //Llamado a la función Parámetros a enviar
   //funcion
-  const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
+  print('nom_persona :' + nomAdult);
+  print('apellidos :' + apellidos);
+
+  print('tel cuidador msg:' + tel_cuidador);
+
+  //print('msgmed: ' + medicamentoInfoList);
+  //print('msgcita: ' + citaInfoList);
+  final uri = 'sms:$tel_cuidador?body=$nomAdult%20$apellidos%0ATiene%20que%20tomar%20sus%20medicamentos%0A$medicamentoInfoList%0ATiene%20una%20cita%20médica%0A$citaInfoList';
+  //const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
+
+
   if (await canLaunch(uri)) {
     await launch(uri);
-  }
-  else {
-    /*
-    const uri = 'sms:0039-222-060-888?body=hello%20there';
-    if (await canLaunch(uri)) {
-      await launch(uri);
-    } else {
-      throw 'Could not launch $uri';
-    }*/
+  }else{
+    throw 'Could not launch $uri';
   }
 }
-
 List<Widget> homePageCards = [];
