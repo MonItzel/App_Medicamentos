@@ -11,7 +11,9 @@ import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
+  const CalendarPage({super.key, required this.initialDate});
+
+  final DateTime initialDate;
 
   @override
   State<StatefulWidget> createState() {
@@ -48,10 +50,19 @@ class _CalendarPage extends State<CalendarPage> {
           child: ListView(
             children: <Widget>[
               SfDateRangePicker(
+                initialDisplayDate: widget.initialDate.year == DateTime.now().year &&
+                    widget.initialDate.month == DateTime.now().month &&
+                    widget.initialDate.day == DateTime.now().day ?
+                null : widget.initialDate,
+                initialSelectedDate: widget.initialDate.year == DateTime.now().year &&
+                    widget.initialDate.month == DateTime.now().month &&
+                    widget.initialDate.day == DateTime.now().day ?
+                null : widget.initialDate,
                 selectionMode: DateRangePickerSelectionMode.single,
                 showNavigationArrow: true,
                 onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
                   // Al seleccionar cualquier fecha, se generan las cartas correspondientes.
+                  dateTime = args.value;
                   CreateCards(context, args.value.toString());
                 },
                 todayHighlightColor: Color(0xFF09184D),
@@ -318,7 +329,7 @@ class _CalendarPage extends State<CalendarPage> {
         context,
         PageTransition(
             type: PageTransitionType.fade,
-            child: const CalendarPage(),
+            child: CalendarPage(initialDate: dateTime,),
         ),
             (route) => false,
       );
@@ -331,3 +342,4 @@ class _CalendarPage extends State<CalendarPage> {
 
 List<Widget> calendarPageCards = [];
 String date = DateTime.now().toString().split(" ")[0];
+DateTime dateTime = DateTime.now();

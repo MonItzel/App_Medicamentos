@@ -129,7 +129,7 @@ class _HomePage extends State<HomePage> {
                   context,
                   PageTransition(
                     type: PageTransitionType.fade,
-                    child: const CalendarPage(),
+                    child: CalendarPage(initialDate: DateTime.now(),),
                   ),
                   (route) => false,
                 );
