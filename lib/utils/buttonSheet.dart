@@ -80,7 +80,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_ok.png'),
                             ),
@@ -120,7 +120,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_error.png'),
                             ),
@@ -160,7 +160,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_ok.png'),
                             ),
@@ -200,7 +200,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_error.png'),
                             ),
@@ -240,7 +240,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_ok.png'),
                             ),
@@ -280,7 +280,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_ok.png'),
                             ),
@@ -320,7 +320,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_error.png'),
                             ),
@@ -360,7 +360,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_ok.png'),
                             ),
@@ -400,7 +400,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_error.png'),
                             ),
@@ -440,7 +440,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_ok.png'),
                             ),
@@ -480,7 +480,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_error.png'),
                             ),
@@ -520,7 +520,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                           width: 100,
                           height: 100,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                            padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
                             child: Container(
                               child: Image.asset('assets/images/icon_error.png'),
                             ),
