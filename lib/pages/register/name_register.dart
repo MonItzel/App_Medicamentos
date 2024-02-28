@@ -46,15 +46,11 @@ class _NameRegister extends State <NameRegister> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            widget.user.id_usuario != null ? 'Editar usuario' : 'Registro',
+            'Registro',
               style: AppStyles.encabezado1
           ),
-
           leading: IconButton(
-            icon: const Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.black
-            ),
+            icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
             onPressed: () {
               if(widget.user.id_usuario != null){
                 Navigator.pushAndRemoveUntil <dynamic>(
@@ -64,8 +60,7 @@ class _NameRegister extends State <NameRegister> {
                   ),
                       (route) => false,
                 );
-              }
-              else{
+              }else{
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
                   MaterialPageRoute <dynamic>(
@@ -83,187 +78,173 @@ class _NameRegister extends State <NameRegister> {
         ),
       ),
 
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+      body: Padding(
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
 
-              //Informacion personal
-              const SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Información personal',
-                    style: AppStyles.encabezado2,
-                  ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Nombre(s)',
+                  textAlign: TextAlign.left,
+                  style: AppStyles.texto1
                 ),
               ),
-
-              const SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Nombre(s)',
-                    style: AppStyles.texto1,
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: AppStyles.contenedorTextForm,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TextFormField(
+                  controller: nombreController,
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: AppStyles.textFieldEstilo.copyWith(
+                   // errorText: _validateU ? '' : null,
                   ),
+                  style: AppStyles.texto1,
+                  onChanged: (text) {
+                    setState(() {
+                      convertoUpperCase(text, nombreController, _validateU);
+                    });
+                  },
                 ),
               ),
+            ),
 
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: Container(
-                    decoration: AppStyles.contenedorTextForm,
-                      child: TextFormField(
-                        controller: nombreController,
-                        obscureText: false,
-                        textAlign: TextAlign.left,
-                        decoration: AppStyles.textFieldEstilo.copyWith(
-                          // errorText: _validateU ? '' : null,
-                        ),
-                        style: AppStyles.texto1,
-                        onChanged: (text) {
-                          setState(() {
-                            convertoUpperCase(text, nombreController, _validateU);
-                          });
-                        },
-                      ),
-                  ),
+            SizedBox(height: 30.0),
+
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Apellido paterno',
+                  textAlign: TextAlign.left,
+                  style: AppStyles.texto1
                 ),
               ),
-
-
-              const SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Apellido paterno',
-                    style: AppStyles.texto1,
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: AppStyles.contenedorTextForm,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TextFormField(
+                  controller: apellidoPController,
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: AppStyles.textFieldEstilo.copyWith(
+                    //errorText: _validateApp ? '' : null,
                   ),
+                  style: AppStyles.texto1,
+                  onChanged: (text) {
+                    setState(() {
+                      convertoUpperCase(text, apellidoPController, _validateApp);
+                    });
+                  },
                 ),
               ),
+            ),
+            SizedBox(height: 30.0),
 
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: Container(
-                    decoration: AppStyles.contenedorTextForm,
-                    child: TextFormField(
-                      controller: apellidoPController,
-                      obscureText: false,
-                      textAlign: TextAlign.left,
-                      decoration: AppStyles.textFieldEstilo.copyWith(
-                        // errorText: _validateU ? '' : null,
-                      ),
-                      style: AppStyles.texto1,
-                      onChanged: (text) {
-                        setState(() {
-                          convertoUpperCase(text, apellidoPController, _validateApp);
-                        });
-                      },
-                    ),
-                  ),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  'Apellido materno (opcional)',
+                  textAlign: TextAlign.left,
+                  style: AppStyles.texto1
                 ),
               ),
-
-
-              const SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Apellido materno',
-                    style: AppStyles.texto1,
-                  ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: AppStyles.contenedorTextForm,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TextFormField(
+                  controller: apellidoMController,
+                  obscureText: false,
+                  textAlign: TextAlign.left,
+                  decoration: AppStyles.textFieldEstilo,
+                  style: AppStyles.texto1,
+                  onChanged: (text) {
+                    setState(() {
+                      convertoUpperCase(text, apellidoMController, 0);
+                    });
+                  },
                 ),
               ),
-
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: Container(
-                    decoration: AppStyles.contenedorTextForm,
-                    child: TextFormField(
-                      controller: apellidoMController,
-                      obscureText: false,
-                      textAlign: TextAlign.left,
-                      decoration: AppStyles.textFieldEstilo.copyWith(
-                        // errorText: _validateU ? '' : null,
-                      ),
-                      style: AppStyles.texto1,
-                      onChanged: (text) {
-                        setState(() {
-                          convertoUpperCase(text, apellidoMController, 0);
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
+            ),
 
 
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 40, 0, 20),
-                  child: Container(
-                    width: AppStyles.anchoBoton,
-                    height: AppStyles.altoBoton,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
-                        SetUser();
-                        setState(() {
-                          //Verificar que el nombre completo cumpla las características de la expresión regular
-                          String? nombreError = validateUser(nombreController.text);
-                          _validateU = nombreError != null;
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
+              child: Container(
+                width: AppStyles.anchoBoton,
+                height: AppStyles.altoBoton,
+                child: ElevatedButton(
+                  onPressed: () {
+                    //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
+                    SetUser();
+                    setState(() {
+                      //Verificar que el nombre completo cumpla las características de la expresión regular
+                      String? nombreError = validateUser(nombreController.text);
+                      _validateU = nombreError != null;
 
                       //Verificar que el nombre completo cumpla las características de la expresión regular
                       String? appaternoError = validateUser(apellidoPController.text);
                       _validateApp = appaternoError != null;
 
-                          //Verificar que el nombre completo cumpla las características de la expresión regular
-                          String? apmaternoError = validateUser(apellidoMController.text);
-                          _validateApm = apmaternoError != null;
+                      //Verificar que el nombre completo cumpla las características de la expresión regular
+                      String? apmaternoError = validateUser(apellidoMController.text);
+                      _validateApm = apmaternoError != null;
 
 
-                          if(!_validateU && (!_validateApp || !_validateApm)){
-                            print(nombreController.text);
-                            print(apellidoPController.text);
-                            print(apellidoMController.text);
+                      if(!_validateU && (!_validateApp || !_validateApm)){
+                        print(nombreController.text);
+                        print(apellidoPController.text);
+                        print(apellidoMController.text);
 
-                            if(widget.user.id_usuario != null){
-                              //Si el user ya tiene un id, actualiza la información del usuario
-                              update(context);
-                            }else{
-                              //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
-                              SetUser();
-                              Navigator.pushAndRemoveUntil <dynamic>(
-                                  context,
-                                  MaterialPageRoute <dynamic>(
-                                    builder: (BuildContext context) => BirthDateRegister(user: user,),
-                                  ),
-                                      (route) => false);
-                            }
-                          }else if(_validateU){
-                            muestraSnackBar(context, 0);
-                          }
-                          else if(_validateApp || _validateApm){
-                            muestraSnackBar(context, 1);
-                          }
-                        });
-                      },
-                      style: AppStyles.botonPrincipal,
-                      child: Text(buttonText,
-                        style: AppStyles.textoBoton
-                      ),
-                    ),
+                        if(widget.user.id_usuario != null){
+                          //Si el user ya tiene un id, actualiza la información del usuario
+                          update(context);
+                        }else{
+                          //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
+                          SetUser();
+                          Navigator.pushAndRemoveUntil <dynamic>(
+                              context,
+                              MaterialPageRoute <dynamic>(
+                                builder: (BuildContext context) => BirthDateRegister(user: user,),
+                              ),
+                                  (route) => false);
+                        }
+                      }else if(_validateU){
+                        muestraSnackBar(context, 0);
+                      }
+                      else if(_validateApp || _validateApm){
+                        muestraSnackBar(context, 1);
+                      }
+                    });
+                  },
+                  style: AppStyles.botonPrincipal,
+                  child: Text(buttonText,
+                    style: AppStyles.textoBoton
                   ),
                 ),
               ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
