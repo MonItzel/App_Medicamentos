@@ -4,13 +4,13 @@ class AppStyles {
 
   //MEDIDAS
   static final anchoBoton = 200.0;
-  static final altoBoton = 64.0;
+  static final altoBoton = 70.0;
 
   //COLORES
   static const Color primaryBlue = Color(0xFF0063C9);
-  static const Color secondaryBlue = Color(0xFF09184D);
+  static const Color secondaryBlue = Color(0xFF0A3461);
   static const Color primaryGrey = Color(0xFF808085);
-  static const Color primaryBackground = Color(0xFFEDF2FA);
+  static const Color primaryBackground = Color(0xFFF1F1F1);
   static const Color errorColor = Color(0xFFFF1744);
   static const Color sombraForm = Color(0x3F000000);
   static const Color emergencyBar = Color(0xFFF7F6C5);
@@ -140,8 +140,22 @@ class AppStyles {
     errorStyle: AppStyles.textoError,
   );
 
+  static final textFieldEstiloDisable = textFieldEstilo.copyWith(
+    enabled: false,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: const BorderSide(
+        color: Colors.white,
+        width: 2,
+        style: BorderStyle.solid,
+      ),
+    ),
+    filled: true,
+    fillColor: Colors.white,
+  );
+
   //DIVIDER
-  static final divider = Divider(
+  static const divider = Divider(
     color: primaryGrey,
     thickness: 2,
   );

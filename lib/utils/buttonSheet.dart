@@ -49,7 +49,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                       ),
 
                       Button(
-                        color: 0xFF09184D,
+                        color: 0xFF0A3461,
                         contenido: 'Cita médica',
                         ruta: 1,
                       )

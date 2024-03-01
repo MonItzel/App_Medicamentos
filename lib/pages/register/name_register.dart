@@ -43,7 +43,7 @@ class _NameRegister extends State <NameRegister> {
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           title: Text(
             widget.user.id_usuario != null ? 'Editar usuario' : 'Registro',
@@ -53,7 +53,7 @@ class _NameRegister extends State <NameRegister> {
           leading: IconButton(
             icon: const Icon(
                 Icons.arrow_back_rounded,
-                color: Colors.black
+                color: Colors.black,
             ),
             onPressed: () {
               if(widget.user.id_usuario != null){
@@ -85,7 +85,7 @@ class _NameRegister extends State <NameRegister> {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,9 +206,9 @@ class _NameRegister extends State <NameRegister> {
 
               Center(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 40, 0, 20),
+                  padding: const EdgeInsets.only(top: 40.0),
                   child: Container(
-                    width: AppStyles.anchoBoton,
+                    width: double.infinity,
                     height: AppStyles.altoBoton,
                     child: ElevatedButton(
                       onPressed: () {

@@ -45,11 +45,14 @@ class _CarerPage extends State <CarerPage> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Registro de cuidador',
+              widget.user.id_usuario != null ? 'Editar cuidador' : 'Registro del cuidador',
             style: AppStyles.encabezado1
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
+            icon: const Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.black
+            ),
             onPressed: () {
               if(widget.user.id_usuario != null){
                 Navigator.pushAndRemoveUntil <dynamic>(
@@ -59,7 +62,8 @@ class _CarerPage extends State <CarerPage> {
                   ),
                       (route) => false,
                 );
-              }else{
+              }
+              else{
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
                   MaterialPageRoute <dynamic>(
@@ -68,147 +72,155 @@ class _CarerPage extends State <CarerPage> {
                       (route) => false,
                 );
               }
-
             },
           ),
           actions: const [],
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          centerTitle: false,
           elevation: 0,
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
 
-            Align(
-              alignment: Alignment.centerLeft,
-              child: const Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                  'Nombre(s)',
-                  textAlign: TextAlign.left,
-                  style: AppStyles.texto1,
-                ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              decoration: AppStyles.contenedorTextForm,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child:TextFormField(
-                  controller: nombreCuidadorController,
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: AppStyles.textFieldEstilo,
-                  style: AppStyles.texto1,
-                  onChanged: (text) {
-                    setState(() {
-                      convertoUpperCase(text, nombreCuidadorController, 0);
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 30.0),
-
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                    'Apellido(s)',
-                    textAlign: TextAlign.left,
-                    style: AppStyles.texto1
-                ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              decoration: AppStyles.contenedorTextForm,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: TextFormField(
-                  controller: apellidoCuidadorController,
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: AppStyles.textFieldEstilo,
-                  style: AppStyles.texto1,
-                  onChanged: (text) {
-                    setState(() {
-                      convertoUpperCase(text, apellidoCuidadorController, 0);
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 30.0),
-
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                    'Número de telefono',
-                    textAlign: TextAlign.left,
-                    style: AppStyles.texto1
-                ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              decoration: AppStyles.contenedorTextForm,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: TextFormField(
-                  controller: telefonoCuidadorController,
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [maskFormatter],
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: AppStyles.textFieldEstilo,
-                  style: AppStyles.texto1,
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0,),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: Container(
-                width: AppStyles.anchoBoton,
-                height: AppStyles.altoBoton,
-                child: ElevatedButton(
-                  onPressed: () {
-
-                    if(widget.user.id_usuario != null){
-                      //Si el user ya tiene un id, actualiza la información del usuario
-                      update(context);
-                    }else{
-                      //Al presionar el botón registra la usuario y va al HomePage.
-                      register();
-                      Navigator.pushAndRemoveUntil <dynamic>(
-                        context,
-                        MaterialPageRoute <dynamic>(
-                            builder: (BuildContext context) => HomePage()
-                        ),
-                            (route) => false,
-                      );
-                    }
-                  },
-                  style: AppStyles.botonPrincipal,
-                  child: Text(buttonText,
-                    style: AppStyles.textoBoton
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Nombre(s)',
+                    style: AppStyles.texto1,
                   ),
                 ),
               ),
-            ),
-          ],
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: AppStyles.contenedorTextForm,
+                    child: TextFormField(
+                      controller: nombreCuidadorController,
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo.copyWith(
+
+                      ),
+                      style: AppStyles.texto1,
+                      onChanged: (text) {
+                        setState(() {
+                          convertoUpperCase(text, nombreCuidadorController, 0);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Apellido(s)',
+                    style: AppStyles.texto1,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: AppStyles.contenedorTextForm,
+                    child: TextFormField(
+                      controller: apellidoCuidadorController,
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo.copyWith(
+
+                      ),
+                      style: AppStyles.texto1,
+                      onChanged: (text) {
+                        setState(() {
+                          convertoUpperCase(text, apellidoCuidadorController, 0);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Número de telefono',
+                    style: AppStyles.texto1,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: AppStyles.contenedorTextForm,
+                    child: TextFormField(
+                      controller: telefonoCuidadorController,
+                      obscureText: false,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [maskFormatter],
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo,
+                      style: AppStyles.texto1,
+                    ),
+                  ),
+                ),
+              ),
+
+
+
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 40.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: AppStyles.altoBoton,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if(widget.user.id_usuario != null){
+                          //Si el user ya tiene un id, actualiza la información del usuario
+                          update(context);
+                        }else{
+                          //Al presionar el botón registra la usuario y va al HomePage.
+                          register();
+                          Navigator.pushAndRemoveUntil <dynamic>(
+                            context,
+                            MaterialPageRoute <dynamic>(
+                                builder: (BuildContext context) => HomePage()
+                            ),
+                                (route) => false,
+                          );
+                        }
+                      },
+                      style: AppStyles.botonPrincipal,
+                      child: Text(buttonText,
+                        style: AppStyles.textoBoton
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
     );

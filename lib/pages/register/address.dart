@@ -39,12 +39,14 @@ class _Address extends State <Address> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: const Text(
-            'Registro',
+          title: Text(
+              widget.user.id_usuario != null ? 'Editar usuario' : 'Registro',
             style: AppStyles.encabezado1
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
+            icon: const Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.black),
             onPressed: () {
               if(widget.user.id_usuario != null){
                 Navigator.pushAndRemoveUntil <dynamic>(
@@ -54,7 +56,8 @@ class _Address extends State <Address> {
                   ),
                       (route) => false,
                 );
-              }else{
+              }
+              else{
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
                   MaterialPageRoute <dynamic>(
@@ -68,158 +71,211 @@ class _Address extends State <Address> {
           actions: const [],
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          centerTitle: false,
           elevation: 0,
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: const Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                  'Ingrese su domicilio (opcional)',
-                  textAlign: TextAlign.left,
-                  style: AppStyles.texto1,
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: const Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                  'Calle',
-                  textAlign: TextAlign.left,
-                  style: AppStyles.texto1,
-                ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              decoration: AppStyles.contenedorTextForm,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: TextFormField(
-                  controller: calleController,
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: AppStyles.textFieldEstilo,
-                  style: AppStyles.texto1,
-                  onChanged: (text) {
-                    setState(() {
-                      convertFirstWordUpperCase(text, calleController);
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 30.0),
-
-
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                  'Colonia',
-                  textAlign: TextAlign.left,
-                  style: AppStyles.texto1
-                ),
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              decoration: AppStyles.contenedorTextForm,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: TextFormField(
-                  controller: coloniaController,
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: AppStyles.textFieldEstilo,
-                  style: AppStyles.texto1,
-                  onChanged: (text) {
-                    setState(() {
-                      convertFirstWordUpperCase(text, coloniaController);
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 30.0),
-
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                  'Número exterior',
-                  textAlign: TextAlign.left,
-                  style: AppStyles.texto1
-                ),
-              ),
-            ),
-            const SizedBox(height: 10.0,),
-            Container(
-              decoration: AppStyles.contenedorTextForm,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: TextFormField(
-                  controller: numExteriorController,
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: AppStyles.textFieldEstilo,
-                  style: AppStyles.texto1,
-                  onChanged: (text) {
-                    setState(() {
-                      convertFirstWordUpperCase(text, numExteriorController);
-                    });
-                  },
-                ),
-              ),
-            ),
-
-
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: Container(
-                width: AppStyles.anchoBoton,
-                height: AppStyles.altoBoton,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if(widget.user.id_usuario != null){
-                      //Si el user ya tiene un id, actualiza la información del usuario
-                      update(context);
-                    }else{
-                      //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
-                      SetUser();
-                      Navigator.pushAndRemoveUntil <dynamic>(
-                        context,
-                        MaterialPageRoute <dynamic>(
-                            builder: (BuildContext context) => Pathologies(user: widget.user, pathologies: [],)
-                        ),
-                            (route) => false,
-                      );
-                    }
-                  },
-                  style: AppStyles.botonPrincipal,
-                  child: Text(buttonText,
-                    style: AppStyles.textoBoton
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'Domicilio (opcional)',
+                    style: AppStyles.encabezado2,
                   ),
                 ),
               ),
-            )
-          ],
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Calle',
+                    style: AppStyles.texto1,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: AppStyles.contenedorTextForm,
+                    child: TextFormField(
+                      controller: calleController,
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo.copyWith(
+                        // errorText: _validateU ? '' : null,
+                      ),
+                      style: AppStyles.texto1,
+                      onChanged: (text) {
+                        setState(() {
+                          convertFirstWordUpperCase(text, calleController);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Text(
+                                  'No. Exterior',
+                                  style: AppStyles.texto1,
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              decoration: AppStyles.contenedorTextForm,
+                              child: TextFormField(
+                                controller: numExteriorController,
+                                obscureText: false,
+                                textAlign: TextAlign.left,
+                                decoration: AppStyles.textFieldEstilo.copyWith(
+
+                                ),
+                                style: AppStyles.texto1,
+                                onChanged: (text) {
+                                  setState(() {
+                                    convertFirstWordUpperCase(text, numExteriorController);
+                                  });
+                                },
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(
+                          width: 20
+                      ),
+
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Text(
+                                  'No. Interior',
+                                  style: AppStyles.texto1,
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              decoration: AppStyles.contenedorTextForm,
+                              child: TextFormField(
+                                obscureText: false,
+                                textAlign: TextAlign.left,
+                                decoration: AppStyles.textFieldEstilo.copyWith(
+
+                                ),
+                                style: AppStyles.texto1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Colonia/Barrio',
+                    style: AppStyles.texto1,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: AppStyles.contenedorTextForm,
+                    child: TextFormField(
+                      controller: coloniaController,
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo.copyWith(
+                        // errorText: _validateU ? '' : null,
+                      ),
+                      style: AppStyles.texto1,
+                      onChanged: (text) {
+                        setState(() {
+                          convertFirstWordUpperCase(text, coloniaController);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: AppStyles.altoBoton,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if(widget.user.id_usuario != null){
+                          //Si el user ya tiene un id, actualiza la información del usuario
+                          update(context);
+                        }else{
+                          //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
+                          SetUser();
+                          Navigator.pushAndRemoveUntil <dynamic>(
+                            context,
+                            MaterialPageRoute <dynamic>(
+                                builder: (BuildContext context) => Pathologies(user: widget.user, pathologies: [],)
+                            ),
+                                (route) => false,
+                          );
+                        }
+                      },
+                      style: AppStyles.botonPrincipal,
+                      child: Text(buttonText,
+                          style: AppStyles.textoBoton
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
     );

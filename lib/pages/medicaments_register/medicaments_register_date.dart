@@ -147,7 +147,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
 
               TextField(
                 controller: timeinput, //editing controller of this TextField
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     icon: Icon(Icons.timer), //icon of text field
                     labelText: "Hora" //label text of field
                 ),

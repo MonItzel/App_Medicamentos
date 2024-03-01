@@ -92,14 +92,16 @@ class _BirthDateRegister extends State <BirthDateRegister> {
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            'Registro',
+              widget.user.id_usuario != null ? 'Editar usuario' : 'Registro',
             style: AppStyles.encabezado1
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
+            icon: const Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.black),
             onPressed: () {
               if(widget.user.id_usuario != null){
                 Navigator.pushAndRemoveUntil <dynamic>(
@@ -109,7 +111,8 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                   ),
                       (route) => false,
                 );
-              }else{
+              }
+              else{
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
                   MaterialPageRoute <dynamic>(
@@ -123,113 +126,155 @@ class _BirthDateRegister extends State <BirthDateRegister> {
           actions: const [],
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          centerTitle: false,
           elevation: 0,
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                    'Seleccione su fecha de nacimiento',
-                    textAlign: TextAlign.left,
-                    style: AppStyles.tituloCard
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            DatePickerWidget(
-              locale: DateTimePickerLocale.es,
-              firstDate: DateTime.utc(1954,01,01),
-              initialDate: lastDate,
-              lastDate: DateTime.now(),
-              dateFormat: 'dd MMMM yyyy',
-              pickerTheme: DateTimePickerTheme(
-                backgroundColor: Colors.transparent,
-                dividerColor: Color(0xFF0063C9),
-                itemTextStyle: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 25,
-                    color: Colors.black
-                ),
-              ),
-              onChange: (DateTime args, _) {
-                setState(() {
-                  dia = args.day.toString();
-                  mes = meses[args.month - 1];
-                  anio = args.year.toString();
-                  fechaNac = dia + ' / ' + mes + ' / ' + anio;
-                  fechaNacController.text = fechaNac;
-                });
-                },
-            ),
-            SizedBox(height: 80.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                    'Fecha seleccionada',
-                    textAlign: TextAlign.left,
-                    style: AppStyles.tituloCard
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 8.0, right: 14.0),
-              child: Container(
-                decoration: AppStyles.contenedorTextForm,
-                child: TextFormField(
-                  controller: fechaNacController,
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: AppStyles.textFieldEstilo,
-                  style: AppStyles.texto1,
-                  enabled: false,
-                ),
-              ),
-            ),
-            SizedBox(height: 80.0,),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-              child: Container(
-                width: AppStyles.anchoBoton,
-                height: AppStyles.altoBoton,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if(widget.user.id_usuario != null){
-                      //Si el user ya tiene un id, actualiza la información del usuario
-                      update(context);
-                    }else{
-                      //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
-                      SetUser();
-                      Navigator.pushAndRemoveUntil <dynamic>(
-                        context,
-                        MaterialPageRoute <dynamic>(
-                            builder: (BuildContext context) => Address(user: widget.user,)
-                        ),
-                            (route) => false,
-                      );
-                    }
-                  },
-                  style: AppStyles.botonPrincipal,
-                  child: Text(buttonText,
-                    style: AppStyles.textoBoton
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+
+                //Fecha de nacimiento
+                const SizedBox(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'Fecha de nacimiento',
+                      style: AppStyles.encabezado2,
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
-        ),
+
+                const SizedBox(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'Desliza para seleccionar',
+                      style: AppStyles.texto3,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                      child:Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Día',
+                          style: AppStyles.texto1,
+                        ),
+                        Text(
+                          'Mes',
+                          style: AppStyles.texto1,
+                        ),
+                        Text(
+                          'Año',
+                          style: AppStyles.texto1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: Container(
+                        decoration: AppStyles.contenedorTextForm,
+                        child: DatePickerWidget(
+                        locale: DateTimePickerLocale.es,
+                        firstDate: DateTime.utc(1954,01,01),
+                        initialDate: lastDate,
+                        lastDate: DateTime.now(),
+                        dateFormat: 'dd MMMM yyyy',
+                        pickerTheme: const DateTimePickerTheme(
+                          backgroundColor: Colors.transparent,
+                          dividerColor: AppStyles.primaryBlue,
+                          itemTextStyle: AppStyles.texto1,
+                        ),
+                        onChange: (DateTime args, _) {
+                          setState(() {
+                            dia = args.day.toString();
+                            mes = meses[args.month - 1];
+                            anio = args.year.toString();
+                            fechaNac = dia + ' / ' + mes + ' / ' + anio;
+                            fechaNacController.text = fechaNac;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      'Fecha seleccionada',
+                      style: AppStyles.texto1,
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Container(
+                      decoration: AppStyles.contenedorTextForm,
+                      child: TextFormField(
+                        controller: fechaNacController,
+                        obscureText: false,
+                        textAlign: TextAlign.left,
+                        decoration: AppStyles.textFieldEstiloDisable.copyWith(
+                          enabled: false,
+                        ),
+                        style: AppStyles.texto1,
+                      ),
+                    ),
+                  ),
+                ),
+
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: AppStyles.altoBoton,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if(widget.user.id_usuario != null){
+                            //Si el user ya tiene un id, actualiza la información del usuario
+                            update(context);
+                          }else{
+                            //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
+                            SetUser();
+                            Navigator.pushAndRemoveUntil <dynamic>(
+                              context,
+                              MaterialPageRoute <dynamic>(
+                                  builder: (BuildContext context) => Address(user: widget.user,)
+                              ),
+                                  (route) => false,
+                            );
+                          }
+                        },
+                        style: AppStyles.botonPrincipal,
+                        child: Text(buttonText,
+                            style: AppStyles.textoBoton
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
+          ),
       ),
     );
   }
