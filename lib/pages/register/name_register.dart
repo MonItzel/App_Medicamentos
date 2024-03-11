@@ -195,7 +195,7 @@ class _NameRegister extends State <NameRegister> {
                       style: AppStyles.texto1,
                       onChanged: (text) {
                         setState(() {
-                          convertoUpperCase(text, apellidoMController, 0);
+                          convertoUpperCase(text, apellidoMController, _validateApm);
                         });
                       },
                     ),

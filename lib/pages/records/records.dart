@@ -248,7 +248,52 @@ class _RecordsPage extends State <RecordsPage>{
                       child: FloatingActionButton.small(
                         heroTag: "DeleteC" + citas[i]['id_cita'].toString(),
                         onPressed: () async {
-                          await DeleteAppointment(citas[i]['id_cita'].toString());
+                          //await DeleteAppointment(citas[i]['id_cita'].toString());
+                          /*
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                backgroundColor: Colors.white,
+
+                                content: Text(
+                                  '¿Está seguro de que desea eliminar el medicamento?',
+                                  style: TextStyle( fontWeight: FontWeight.bold, fontSize: 22),
+                                ),
+                                actions: [
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Navigator.pop(context); // Close the dialog
+                                    },
+                                    //color: Color(0xFF0063C9),
+                                    color: Colors.redAccent[400],
+                                    minWidth: 137,
+                                    child: Text(
+                                      'Cancelar',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Navigator.pop(context); // Close the dialog
+                                    },
+                                    color: Color(0xFF0063C9),
+                                    minWidth: 137,
+                                    child: Text(
+                                      'Aceptar',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+
+                              )
+                          );
+                          */
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(

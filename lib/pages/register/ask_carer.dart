@@ -1,4 +1,4 @@
-import 'package:app_medicamentos/pages/register/ask_carer.dart';
+import 'package:app_medicamentos/pages/register/carer.dart';
 import 'package:app_medicamentos/pages/register/pathologies.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:flutter/material.dart';
@@ -13,31 +13,26 @@ import 'package:app_medicamentos/constants.dart';
 import '../profile/profile_page.dart';
 
 
-class CarerPage extends StatefulWidget {
-  const CarerPage({super.key, required this.user});
+class AskCarerPage extends StatefulWidget {
+  const AskCarerPage({super.key, required this.user});
 
   //Objeto usado para almacenar los datos del usuario y registrarlo.
   final User user;
 
   @override
   State<StatefulWidget> createState() {
-    return _CarerPage();
+    return _AskCarerPage();
   }
 }
 
-class _CarerPage extends State <CarerPage> {
+class _AskCarerPage extends State <AskCarerPage> {
 
   var maskFormatter = MaskTextInputFormatter(mask: '### ### ####', filter: {"#": RegExp(r'[0-9]')});
   String buttonText = "Siguiente";
   @override
   Widget build(BuildContext context) {
 
-    if(widget.user.id_usuario != null && nombreCuidadorController.text == '' && apellidoCuidadorController.text == '' && telefonoCuidadorController.text == ''){
-      buttonText = 'Guardar';
-      nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
-      apellidoCuidadorController.text = widget.user.cuidador_nombre.toString().split(', ')[1];
-      telefonoCuidadorController.text = widget.user.cuidador_telefono.toString();
-    }
+
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -68,7 +63,7 @@ class _CarerPage extends State <CarerPage> {
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
                   MaterialPageRoute <dynamic>(
-                      builder: (BuildContext context) => AskCarerPage(user: widget.user)
+                      builder: (BuildContext context) => Pathologies(user: widget.user, pathologies: [],)
                   ),
                       (route) => false,
                 );
@@ -94,113 +89,22 @@ class _CarerPage extends State <CarerPage> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 10),
                   child: Text(
-                    'Nombre(s)',
+                    'Si usted cuenta con una persona que esta a su cuidado y '
+                        'desea agregar su contacto, seleccione Agregar',
                     style: AppStyles.texto1,
                   ),
                 ),
               ),
 
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: Container(
-                    decoration: AppStyles.contenedorTextForm,
-                    child: TextFormField(
-                      controller: nombreCuidadorController,
-                      obscureText: false,
-                      textAlign: TextAlign.left,
-                      decoration: AppStyles.textFieldEstilo.copyWith(
+              const SizedBox(height: 190,),
 
-                      ),
-                      style: AppStyles.texto1,
-                      onChanged: (text) {
-                        setState(() {
-                          convertoUpperCase(text, nombreCuidadorController, 0);
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
-
-
-              const SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Apellido(s)',
-                    style: AppStyles.texto1,
-                  ),
-                ),
-              ),
-
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: Container(
-                    decoration: AppStyles.contenedorTextForm,
-                    child: TextFormField(
-                      controller: apellidoCuidadorController,
-                      obscureText: false,
-                      textAlign: TextAlign.left,
-                      decoration: AppStyles.textFieldEstilo.copyWith(
-
-                      ),
-                      style: AppStyles.texto1,
-                      onChanged: (text) {
-                        setState(() {
-                          convertoUpperCase(text, apellidoCuidadorController, 0);
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
-
-
-              const SizedBox(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Número de telefono',
-                    style: AppStyles.texto1,
-                  ),
-                ),
-              ),
-
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: Container(
-                    decoration: AppStyles.contenedorTextForm,
-                    child: TextFormField(
-                      controller: telefonoCuidadorController,
-                      obscureText: false,
-                      keyboardType: TextInputType.phone,
-                      inputFormatters: [maskFormatter],
-                      textAlign: TextAlign.left,
-                      decoration: AppStyles.textFieldEstilo,
-                      style: AppStyles.texto1,
-                    ),
-                  ),
-                ),
-              ),
-
-
-
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 40.0),
-                  child: Container(
-                    width: double.infinity,
-                    height: AppStyles.altoBoton,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if(widget.user.id_usuario != null){
-                          //Si el user ya tiene un id, actualiza la información del usuario
-                          update(context);
-                        }else{
-                          //Al presionar el botón registra la usuario y va al HomePage.
+              Padding(
+                  padding: EdgeInsets.all(10.0),
+                child: Row(
+                  //crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                        onPressed: (){
                           register();
                           Navigator.pushAndRemoveUntil <dynamic>(
                             context,
@@ -209,16 +113,36 @@ class _CarerPage extends State <CarerPage> {
                             ),
                                 (route) => false,
                           );
-                        }
-                      },
-                      style: AppStyles.botonPrincipal,
-                      child: Text(buttonText,
-                        style: AppStyles.textoBoton
-                      ),
+                        },
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent[400],
+                          padding: EdgeInsets.only(left: 35, top: 10, right: 35, bottom: 10),
+                        ),
+                        child: const Text('Cancelar',
+                          style: TextStyle(fontSize: 22, ),
+                        )
                     ),
-                  ),
+                    const SizedBox(width: 35,),
+                    ElevatedButton(
+                        onPressed: (){
+                          Navigator.pushAndRemoveUntil <dynamic>(
+                            context,
+                            MaterialPageRoute <dynamic>(
+                                  builder: (BuildContext context) => CarerPage(user: widget.user)
+                            ),
+                                (route) => false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF0063C9),
+                          padding: EdgeInsets.only(left: 35, top: 10, right: 35, bottom: 10),
+                        ),
+                        child: const Text('Agregar',
+                          style: TextStyle(fontSize: 22, ),
+                        )
+                    ),
+                  ],
                 ),
               ),
+              
 
             ],
           ),

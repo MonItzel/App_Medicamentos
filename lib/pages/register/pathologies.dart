@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 import 'package:app_medicamentos/models/user_model.dart';
+import 'package:app_medicamentos/pages/register/ask_carer.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:app_medicamentos/pages/register/carer.dart';
@@ -195,7 +196,7 @@ class _Pathologies extends State <Pathologies> {
                           Navigator.pushAndRemoveUntil <dynamic>(
                             context,
                             MaterialPageRoute <dynamic>(
-                                builder: (BuildContext context) => CarerPage(user: widget.user,)
+                                builder: (BuildContext context) => AskCarerPage(user: widget.user,)
                             ),
                                 (route) => false,
                           );
