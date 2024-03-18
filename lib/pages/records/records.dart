@@ -327,7 +327,11 @@ class _RecordsPage extends State <RecordsPage>{
         }
 
         print("citas: " + citas.length.toString());
-        print("cards: " + homePageCards.length.toString());
+        print("cards: " + recordsPageCards.length.toString());
+
+        if(recordsPageCards.length != medicamentos.length + citas.length){
+          recordsPageCards = [];
+        }
 
         //Cuando se crearon las cartas vuelve a generar la pantalla.
         if(medicamentos.length > 0 || citas.length > 0)

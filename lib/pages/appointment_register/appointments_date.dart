@@ -197,6 +197,8 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
       recordsPageCards.clear();
       calendarPageCards.clear();
 
+      reminder.SetAlarms();
+
       // Si tiene éxito en los registros, retorna 3.
       return 3;
     } catch (e) {
@@ -248,6 +250,8 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
       homePageCards.clear();
       calendarPageCards.clear();
       recordsPageCards.clear();
+
+      reminder.SetAlarms();
 
       //Si la cita fue actualizada retorna 10.
       muestraButtonSheet(context, 10);

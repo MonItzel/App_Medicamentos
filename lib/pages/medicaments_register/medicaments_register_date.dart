@@ -255,6 +255,8 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
         recordsPageCards.clear();
         calendarPageCards.clear();
 
+        reminder.SetAlarms();
+
         //Si el medicamento fue insertado retorna 1.
         return 1;
       }
@@ -305,6 +307,8 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
       homePageCards.clear();
       calendarPageCards.clear();
       recordsPageCards.clear();
+
+      reminder.SetAlarms();
 
       //Si el medicamento fue actualizado retorna 5.
       muestraButtonSheet(context, 5);

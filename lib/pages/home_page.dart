@@ -322,7 +322,7 @@ class _HomePage extends State<HomePage> {
         }
 
         if(homePageCards.length != medicamentos.length + citas.length){
-          homePageCards.clear();
+          homePageCards = [];
         }
 
         //Si se generaron cartas vuelve a generar la pantalla.

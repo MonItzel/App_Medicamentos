@@ -45,6 +45,7 @@ class Reminder{
 
       print("Recordatorio insertado\n" + toMap().toString());
     });
+
   }
 
   //Configura las alarmas para todos los recordatorios del día actual.
@@ -94,6 +95,8 @@ class Reminder{
         minutes: int.parse(MinutoAlarma),
         title: mensaje,
       );
+
+      await Future.delayed(Duration(milliseconds: 400));
     }
   }
 
@@ -149,7 +152,7 @@ class Reminder{
       print(lastReminder[0]['id_recordatorio'].toString() + " - " + lastReminder[0]['id_medicamento'].toString() + " - " + lastReminder[0]['fecha_hora'].toString());
     }
 
-    //Inserta los recordatorios y vanaza en la fecha y hora dependiendo de la fecuencia y tipo de frecuencia del medicamento.
+    //Inserta los recordatorios y avanaza en la fecha y hora dependiendo de la fecuencia y tipo de frecuencia del medicamento.
     int count = 0;
     DateTime lastFechaHora = DateTime.parse(lastReminder[0]['fecha_hora'].toString());
     DateTime fechaHora = lastFechaHora;
