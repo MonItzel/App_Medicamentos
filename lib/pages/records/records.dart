@@ -248,7 +248,7 @@ class _RecordsPage extends State <RecordsPage>{
                       child: FloatingActionButton.small(
                         heroTag: "DeleteC" + citas[i]['id_cita'].toString(),
                         onPressed: () async {
-                          //await DeleteAppointment(citas[i]['id_cita'].toString());
+                          await DeleteAppointment(citas[i]['id_cita'].toString());
                           /*
                           showDialog(
                               context: context,

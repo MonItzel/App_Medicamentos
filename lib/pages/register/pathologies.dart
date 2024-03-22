@@ -244,7 +244,7 @@ class _Pathologies extends State <Pathologies> {
     try {
       await database.transaction((txn) async {
         String sql =
-            'CREATE TABLE Usuario (id_usuario INTEGER PRIMARY KEY, '
+            'CREATE TABLE IF NOT EXISTS Usuario (id_usuario INTEGER PRIMARY KEY, '
             'nombre TEXT, '
             'apellidoP TEXT,  '
             'apellidoM TEXT,  '
@@ -259,11 +259,11 @@ class _Pathologies extends State <Pathologies> {
         txn.rawQuery(sql);
 
         sql =
-        'CREATE TABLE Padecimiento (id_padecimiento INTEGER PRIMARY KEY, '
+        'CREATE TABLE IF NOT EXISTS Padecimiento (id_padecimiento INTEGER PRIMARY KEY, '
             'nombre_padecimiento TEXT); ';
         txn.rawQuery(sql);
 
-        sql = 'CREATE TABLE Medicamento (id_medicamento INTEGER PRIMARY KEY, '
+        sql = 'CREATE TABLE IF NOT EXISTS Medicamento (id_medicamento INTEGER PRIMARY KEY, '
             'nombre TEXT, '
             'descripcion TEXT,  '
             'dosis TEXT,  '
@@ -273,7 +273,7 @@ class _Pathologies extends State <Pathologies> {
             'frecuenciaToma INTEGER); ';
         txn.rawQuery(sql);
 
-        sql = 'CREATE TABLE Cita (id_cita INTEGER PRIMARY KEY, '
+        sql = 'CREATE TABLE IF NOT EXISTS Cita (id_cita INTEGER PRIMARY KEY, '
             'nombre_medico TEXT, '
             'motivo TEXT,  '
             'especialidad_medico TEXT,  '
@@ -282,7 +282,7 @@ class _Pathologies extends State <Pathologies> {
             'fecha TEXT); ';
         txn.rawQuery(sql);
 
-        sql = 'CREATE TABLE Recordatorio (id_recordatorio INTEGER PRIMARY KEY, '
+        sql = 'CREATE TABLE IF NOT EXISTS Recordatorio (id_recordatorio INTEGER PRIMARY KEY, '
             'tipo TEXT, '
             'id_medicamento INTEGER,  '
             'id_cita INTEGER, '
@@ -290,9 +290,11 @@ class _Pathologies extends State <Pathologies> {
         txn.rawQuery(sql);
 
         sql =
-        'CREATE TABLE RecordatotioRegistro (id_registro INTEGER PRIMARY KEY, '
+        'CREATE TABLE IF NOT EXISTS RecordatotioRegistro (id_registro INTEGER PRIMARY KEY, '
             'fecha TEXT); ';
         txn.rawQuery(sql);
+
+        var map = txn.rawQuery('DELETE FROM Padecimiento');
 
         //Inserta los padecimientos de la lista y el padecimiento ingresado por el usuario.
         for (int i = 0; i < patologias.length; i++) {

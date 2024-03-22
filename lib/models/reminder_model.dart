@@ -96,7 +96,7 @@ class Reminder{
         title: mensaje,
       );
 
-      await Future.delayed(Duration(milliseconds: 400));
+      await Future.delayed(Duration(milliseconds: 500));
     }
   }
 
