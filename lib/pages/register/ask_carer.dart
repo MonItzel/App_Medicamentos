@@ -114,8 +114,8 @@ class _AskCarerPage extends State <AskCarerPage> {
                                 (route) => false,
                           );
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent[400],
-                          padding: EdgeInsets.only(left: 35, top: 10, right: 35, bottom: 10),
+                        style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF0A3461),
+                          padding: EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
                         ),
                         child: const Text('Cancelar',
                           style: TextStyle(fontSize: 22, ),
@@ -133,7 +133,7 @@ class _AskCarerPage extends State <AskCarerPage> {
                           );
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF0063C9),
-                          padding: EdgeInsets.only(left: 35, top: 10, right: 35, bottom: 10),
+                          padding: EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
                         ),
                         child: const Text('Agregar',
                           style: TextStyle(fontSize: 22, ),
