@@ -11,7 +11,7 @@ import 'package:app_medicamentos/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-String tel_cuidador = '';
+String tel_cuidador = '+524831297088';
 String nomAdult = '';
 String apellidos = '';
 List<String> medicamentoInfoList = [];
@@ -29,18 +29,17 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _currentIndex = 0;
   String formattedDate = '';
+  bool _isLoading = true; // Añadido para controlar la carga de datos
+
 
   int resCreateNote = 0;
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     _loadDate();
-    ConsultaMedicamentos(context);
-    CreateNote().then((result) {
-      setState(() {
-        resCreateNote = result;
-      });
-    });
+     CreateCards(context);
+     ConsultaMedicamentos(context);
+
   }
 
   void _loadDate() async {
@@ -49,49 +48,70 @@ class _HomePage extends State<HomePage> {
     setState(() {
       formattedDate = DateFormat.yMMMMd('es').format(now);
     });
+    /*
+    await Future.wait([
+      CreateCards(context),
+      ConsultaMedicamentos(context),
+    ]);
+
+    // Indicar que la carga ha terminado
+    setState(() {
+      _isLoading = false;
+    });*/
   }
 
   @override
   Widget build(BuildContext context) {
     //Al ingresar se crean las cartas.
-    CreateCards(context);
+    //CreateCards(context);
 
     double titleSpacing = resCreateNote == 1 ? 0.0 : 0.0;
-    double toolbarHeight = resCreateNote == 1 ? 140.0 : 80.0;
+    //double toolbarHeight = resCreateNote == 1 ? 140.0 : 80.0;
 
     return MaterialApp(
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(
-/*
-          titleSpacing: 0.0,
-          toolbarHeight: 140.0,
-*/
+
+  //        titleSpacing: 0.0,
+//          toolbarHeight: 140.0,
+
           titleSpacing: titleSpacing,
-          toolbarHeight: toolbarHeight,
+          toolbarHeight: 140.0,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Column(
             children: [
-              if (resCreateNote == 1)
-              showTextEmergyCall(),
+              //if (resCreateNote == 1)
+              //showTextEmergyCall(),
+              Container(
+                width: 60,
+                height: 60,
+                color: Colors.greenAccent,
+              ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 16, left: 16),
-                child: Row(
+                child: Column(
                   children: [
-                    Icon(Icons.today, color: Colors.black, size: 42),
-                    SizedBox(width: 16), // Espacio entre el icono y el texto
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        Text(
-                          'Hoy',
-                          style: AppStyles.encabezado1,
-                        ),
-                        Text(
-                          formattedDate,
-                          style: AppStyles.encabezado2,
-                        ),
+                        Icon(Icons.today, color: Colors.black, size: 42),
+                        SizedBox(width: 16), // Espacio entre el icono y el texto
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hoy',
+                              style: AppStyles.encabezado1,
+                            ),
+                            Text(
+                              formattedDate,
+                              style: AppStyles.encabezado2,
+                            ),
+                      ],
+                    ),
+
                       ],
                     ),
                   ],
@@ -99,7 +119,26 @@ class _HomePage extends State<HomePage> {
               ),
             ],
           ),
+          /*
+          actions: 
+           <Widget>[
+             IconButton(onPressed: (){}, icon: Icon(Icons.call))
+           
+          ],*/
+
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFF0A3461),
+            onPressed: (){
+              //_callCarer();
+              _msgMedicamentAppointment(nomAdult, tel_cuidador,  medicamentoInfoList, citaInfoList) ;
+
+              },
+          child: Icon(Icons.message),
+        ),
+
+
         body: Container(
           height: homePageCards.length * 170,
           child: new ListView(
@@ -107,13 +146,7 @@ class _HomePage extends State<HomePage> {
             children: homePageCards,
           )
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppStyles.secondaryBlue,
-          onPressed: () {
-            _msgMedicamentAppointment(nomAdult, tel_cuidador, medicamentoInfoList, citaInfoList);
-          },
-          child: Icon(Icons.message),
-        ),
+
 
         bottomNavigationBar: Container(
           child: CustomNavigationBar(
@@ -387,7 +420,7 @@ Future<void>ConsultaMedicamentos(var context) async{
         medicamentoInfoList.add(
             'Medicamento: \n${medicaments[i]['nombre'].toString()}\n'
                 'Dosis: ${medicaments[i]['dosis'].toString()}\n'
-                'Frecuencia: Cada ${medicaments[i]['frecuenciaToma'].toString()} Horas\n'
+                'Frecuencia: Cada ${medicaments[i]['frecuenciaToma'].toString()} horas\n'
                 'Horario de toma:\n${horasFormateadas.join('\n')}'
         );
 
@@ -400,108 +433,11 @@ Future<void>ConsultaMedicamentos(var context) async{
 }
 
 
-/*
- * Función que se encarga de validar que el usuario asulto mayor
- * haya registrado el número de teléfono del cuidaddor
- * @param:
- * no recibe ningún parámetro
- * return
- * 1 si se registro el número de teléfono del cuidador.
- * 0 en caso que no se registró el número del cuidador o
- * haya ocurrido un error al ejecutar la consulta.
- */
-Future<int> CreateNote() async {
-  try {
-    Database database = await openDatabase(
-        Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
-
-    final List<Map<String, dynamic>> result = await database.query(
-      'Usuario',
-      columns: ['cuidador_telefono'],
-      where: 'cuidador_telefono IS NOT NULL AND TRIM(cuidador_telefono) != ?',
-      whereArgs: [''],
-    );
-
-    // Imprimir los resultados de la consulta
-    print('Resultados de la consulta: $result');
-
-    // Verificar si la lista de resultados no está vacía
-    if (result.isNotEmpty) {
-      print('Tiene cuidador activo');
-      tel_cuidador = result[0]['cuidador_telefono'];
-      nomAdult = result[0]['nombre'];
-      String apellidoP = result[0]['apellidoP'];
-      String apellidoM = result[0]['apellidoM'];
-      apellidos = '$apellidoP ${apellidoM.isNotEmpty ? apellidoM : ''}';
-      print('variable tel_cuidador');
-      print(tel_cuidador);
-
-      return 1;
-    } else {
-      print('No tiene cuidador activo');
-      return 0;
-    }
-  } catch (e) {
-    print('Error al verificar cuidador activo: $e');
-    return 0;
-  }
-}
-
-/*
- * Función que se encarga de mostrar la nota que contiene
- * la información del contacto del cuidador.
- * @param:
- * no recibe ningún parámetro
- * return
- * Regresa un Container que contiene los widgets con la
- * información.
- */
-Widget showTextEmergyCall(){
-  return Container(
-    height: 60,
-    color: AppStyles.emergencyBar,
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-      child: Row(
-        children: [
-          const Expanded(
-            child: Text(
-              'Llamada de emergencia',
-              style: AppStyles.textoEmergencia,
-            ),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              _callCarer(tel_cuidador);
-              },
-            backgroundColor: AppStyles.secondaryBlue,
-            mini: true,
-            child: const Icon(
-              Icons.call,
-              size: 24.0,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
 
-
-
-
-/*
- * Función que se encarga de obtener el teléfono del
- * cuidador y poder realizar luna llamada telefónica
- * @param:
- * tel_cuidador: variable que recibe el teléfono del cuidador
- * return
- * no regresa ningún valor
- */
-_callCarer(tel_cuidador) async {
+_callCarer() async {
   //$telefono variable
-  launch('tel: $tel_cuidador');
+  launchUrl(Uri.parse('tel: +524831297088'));
 }
 
 _msgMedicamentAppointment(nomAdult, tel_cuidador,  medicamentoInfoList, citaInfoList) async {
@@ -519,10 +455,11 @@ _msgMedicamentAppointment(nomAdult, tel_cuidador,  medicamentoInfoList, citaInfo
   //const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
 
 
-  if (await canLaunch(uri)) {
-    await launch(uri);
+  if (await canLaunchUrl(Uri.parse(uri))) {
+    await launchUrl(Uri.parse(uri));
   }else{
     throw 'Could not launch $uri';
   }
 }
+
 List<Widget> homePageCards = [];

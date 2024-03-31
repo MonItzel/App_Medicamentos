@@ -21,15 +21,16 @@ class Forwarder extends StatefulWidget {
 }
 
 class _Forwarder extends State <Forwarder> {
+
   @override
   Widget build(BuildContext context) {
-    select(context);
+     select(context);
 
     return Scaffold();
   }
 
   //Selecciona la información del usuario y dependiendo del resultado lleva a otra pantalla.
-  Future<void> select(var context) async {
+  Future<void> select(BuildContext context) async {
 
     try {
       Database database = await openDatabase(
@@ -60,6 +61,7 @@ class _Forwarder extends State <Forwarder> {
       }
     }catch(exception){
       //Si se arroja una exepción, no se han creado las tablas y lleva al registro.
+      print('estoy aqui');
       print(exception);
       Navigator.pushAndRemoveUntil <dynamic>(
         context,
@@ -69,8 +71,5 @@ class _Forwarder extends State <Forwarder> {
             (route) => false,
       );
     }
-
-
-
   }
 }

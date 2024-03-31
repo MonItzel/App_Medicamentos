@@ -78,6 +78,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
           elevation: 0,
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(

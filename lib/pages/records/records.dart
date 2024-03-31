@@ -161,6 +161,7 @@ class _RecordsPage extends State <RecordsPage>{
                       child: FloatingActionButton.small(
                         heroTag: "DeleteM" + medicamentos[i]['id_medicamento'].toString(),
                         onPressed: () async {
+
                           await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
                         },
                         backgroundColor: Color(0xFF09184D),
