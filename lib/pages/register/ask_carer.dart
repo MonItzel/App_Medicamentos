@@ -87,7 +87,7 @@ class _AskCarerPage extends State <AskCarerPage> {
 
               const SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(bottom: 20),
                   child: Text(
                     'Si usted cuenta con una persona que esta a su cuidado y '
                         'desea agregar su contacto, seleccione Agregar',
@@ -96,53 +96,69 @@ class _AskCarerPage extends State <AskCarerPage> {
                 ),
               ),
 
-              const SizedBox(height: 190,),
-
-              Padding(
-                  padding: EdgeInsets.all(10.0),
-                child: Row(
-                  //crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ElevatedButton(
-                        onPressed: (){
-                          register();
-                          Navigator.pushAndRemoveUntil <dynamic>(
-                            context,
-                            MaterialPageRoute <dynamic>(
-                                builder: (BuildContext context) => HomePage()
-                            ),
-                                (route) => false,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF0A3461),
-                          padding: EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
-                        ),
-                        child: const Text('Cancelar',
-                          style: TextStyle(fontSize: 22, ),
-                        )
-                    ),
-                    const SizedBox(width: 35,),
-                    ElevatedButton(
-                        onPressed: (){
-                          Navigator.pushAndRemoveUntil <dynamic>(
-                            context,
-                            MaterialPageRoute <dynamic>(
-                                  builder: (BuildContext context) => CarerPage(user: widget.user)
-                            ),
-                                (route) => false,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF0063C9),
-                          padding: EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
-                        ),
-                        child: const Text('Agregar',
-                          style: TextStyle(fontSize: 22, ),
-                        )
-                    ),
-                  ],
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 40),
+                  child: Text(
+                    'El cuidador puede recibir los recordatorios de la toma de sus medicamentos'
+                        'y sus citas medicas, tambien puede realizar llamadas de emergencia a este contacto',
+                    style: AppStyles.texto3,
+                  ),
                 ),
               ),
-              
+
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.zero,
+                  child: Container(
+                    width: double.infinity,
+                    height: AppStyles.altoBoton,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        Navigator.pushAndRemoveUntil <dynamic>(
+                          context,
+                          MaterialPageRoute <dynamic>(
+                              builder: (BuildContext context) => CarerPage(user: widget.user)
+                          ),
+                              (route) => false,
+                        );
+                      },
+                      style: AppStyles.botonPrincipal,
+                      child: const Text(
+                        'Agregar cuidador',
+                        style: AppStyles.textoBoton,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20, bottom: 20),
+                  child: Container(
+                    width: double.infinity,
+                    height: AppStyles.altoBoton,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        register();
+                        Navigator.pushAndRemoveUntil <dynamic>(
+                          context,
+                          MaterialPageRoute <dynamic>(
+                              builder: (BuildContext context) => HomePage()
+                          ),
+                              (route) => false,
+                        );
+                      },
+                      style: AppStyles.botonSecundario,
+                      child: Text(
+                        'Continuar sin cuidador',
+                        style: AppStyles.textoBoton,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
 
             ],
           ),

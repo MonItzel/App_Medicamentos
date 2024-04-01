@@ -103,6 +103,14 @@ class AppStyles {
     )
   );
 
+  static final botonSecundario = ElevatedButton.styleFrom(
+      backgroundColor: secondaryBlue,
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      )
+  );
+
   //TEXTFORMFIELDS
   static final contenedorTextForm = ShapeDecoration(
     color: Colors.white,

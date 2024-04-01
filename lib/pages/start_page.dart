@@ -23,7 +23,7 @@ class _StartPage extends State <StartPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(55, 0, 55, 100),
+            padding: EdgeInsets.fromLTRB(55, 20, 55, 100),
             child: Container(
               child: Image(
                 image: AssetImage('assets/images/logo_apesaam.png'),
@@ -31,28 +31,31 @@ class _StartPage extends State <StartPage> {
             ),
           ),
 
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-            child: Container(
-              width: AppStyles.anchoBoton,
-              height: AppStyles.altoBoton,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil <dynamic>(
+          Center(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(16, 80, 16, 20),
+              child: Container(
+                width: double.infinity,
+                height: AppStyles.altoBoton,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil <dynamic>(
                       context,
                       MaterialPageRoute <dynamic>(
                           builder: (BuildContext context) => NameRegister(user: new User(),)
                       ),
-                      (route) => false,
-                  );
-                },
-                style: AppStyles.botonPrincipal,
-                child: Text("Registrarse",
-                  style: AppStyles.textoBoton,
+                          (route) => false,
+                    );
+                  },
+                  style: AppStyles.botonPrincipal,
+                  child: Text("Comenzar",
+                    style: AppStyles.textoBoton,
+                  ),
                 ),
-              ),
+              )
             ),
-          )
+          ),
+
         ],
       ),
     );
