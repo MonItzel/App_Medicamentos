@@ -23,6 +23,7 @@ class AppStyles {
     color: Colors.black,
   );
 
+
   static const TextStyle encabezado2 = TextStyle(
     fontFamily: 'Roboto',
     fontSize: 22.0,
