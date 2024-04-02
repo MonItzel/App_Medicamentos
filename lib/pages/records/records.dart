@@ -30,12 +30,29 @@ class RecordsPage extends StatefulWidget{
 class _RecordsPage extends State <RecordsPage>{
   int _currentIndex = 3;
 
-  Timer scheduleTimeout([int milliseconds = 10000]) =>
+  /*Timer scheduleTimeout([int milliseconds = 10000]) =>
       Timer(Duration(milliseconds: milliseconds), CheckCurrent);
+*/
+  late Timer _timer;
+
+  _RecordsPage() {
+    _timer = Timer.periodic(Duration(milliseconds: 1000), (_) {
+      if (mounted) {
+        CheckCurrent();
+      } else {
+        _timer.cancel();
+      }
+    });
+  }
 
   @override
+  void dispose() {
+    _timer.cancel(); // Cancelar el temporizador en dispose
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context){
-    scheduleTimeout(300);
+    //scheduleTimeout(300);
 
     //Al ingresar verifica si debe crear nuevas cartas.
     CreateCards(context);
@@ -161,7 +178,6 @@ class _RecordsPage extends State <RecordsPage>{
                       child: FloatingActionButton.small(
                         heroTag: "DeleteM" + medicamentos[i]['id_medicamento'].toString(),
                         onPressed: () async {
-
                           await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
                         },
                         backgroundColor: Color(0xFF09184D),
@@ -217,28 +233,28 @@ class _RecordsPage extends State <RecordsPage>{
               child: Column(
                 children: <Widget>[
                       ListTile(
-                    leading: Icon(Icons.medical_services, size: 40),
-                    // Icono de medicina a la izquierda
-                    title: const Text(
-                      //citas[i]['motivo'].toString(),
-                      'Cita Médica',
-                      //Titulo
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Fecha: ' + citas[i]['fecha'].toString()),
-                        Text("Ubicacion: " +
-                            citas[i]['ubicacion'].toString()),
-                        //Dosis del medicamento
-                      ],
-                    ),
-                    trailing: Text(
-                      "Telefono: " +
-                          citas[i]['telefono_medico'].toString(), //Fecha de inicio
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                        leading: Icon(Icons.medical_services, size: 40),
+                        // Icono de medicina a la izquierda
+                        title: const Text(
+                          //citas[i]['motivo'].toString(),
+                          'Cita Médica',
+                          //Titulo
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Fecha: ' + citas[i]['fecha'].toString()),
+                            Text("Ubicacion: " +
+                                citas[i]['ubicacion'].toString()),
+                            //Dosis del medicamento
+                          ],
+                        ),
+                        trailing: Text(
+                          "Telefono: " +
+                              citas[i]['telefono_medico'].toString(), //Fecha de inicio
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                   ),
                   //Botón para eliminar esta cita.
                   SizedBox(height: 1.0, width: 1.0,),
@@ -250,51 +266,7 @@ class _RecordsPage extends State <RecordsPage>{
                         heroTag: "DeleteC" + citas[i]['id_cita'].toString(),
                         onPressed: () async {
                           await DeleteAppointment(citas[i]['id_cita'].toString());
-                          /*
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                backgroundColor: Colors.white,
 
-                                content: Text(
-                                  '¿Está seguro de que desea eliminar el medicamento?',
-                                  style: TextStyle( fontWeight: FontWeight.bold, fontSize: 22),
-                                ),
-                                actions: [
-                                  MaterialButton(
-                                    onPressed: () {
-                                      Navigator.pop(context); // Close the dialog
-                                    },
-                                    //color: Color(0xFF0063C9),
-                                    color: Colors.redAccent[400],
-                                    minWidth: 137,
-                                    child: Text(
-                                      'Cancelar',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      Navigator.pop(context); // Close the dialog
-                                    },
-                                    color: Color(0xFF0063C9),
-                                    minWidth: 137,
-                                    child: Text(
-                                      'Aceptar',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-
-                              )
-                          );
-                          */
                         },
                         backgroundColor: Color(0xFF09184D),
                         child: Icon(

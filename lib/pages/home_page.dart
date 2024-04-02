@@ -11,7 +11,7 @@ import 'package:app_medicamentos/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-String tel_cuidador = '+524831297088';
+String telCuidador = '';
 String nomAdult = '';
 String apellidos = '';
 List<String> medicamentoInfoList = [];
@@ -30,6 +30,7 @@ class _HomePage extends State<HomePage> {
   int _currentIndex = 0;
   String formattedDate = '';
   bool _isLoading = true; // Añadido para controlar la carga de datos
+  bool tieneCuidadorActivo = false; // Variable para rastrear el estado del cuidador
 
 
   int resCreateNote = 0;
@@ -38,7 +39,13 @@ class _HomePage extends State<HomePage> {
     super.initState();
     _loadDate();
      CreateCards(context);
-     ConsultaMedicamentos(context);
+     _ConsultaMedicamentos(context);
+     ConsultUser(context).then((resultado) {
+      // Actualizar la variable según el resultado de _ConsultUser
+      setState(() {
+        tieneCuidadorActivo = resultado == 1;
+      });
+    });
 
   }
 
@@ -77,18 +84,20 @@ class _HomePage extends State<HomePage> {
 //          toolbarHeight: 140.0,
 
           titleSpacing: titleSpacing,
-          toolbarHeight: 140.0,
+          toolbarHeight: 100.0,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Column(
             children: [
               //if (resCreateNote == 1)
               //showTextEmergyCall(),
-              Container(
-                width: 60,
+             /*Container(
+                width: 100,
                 height: 60,
                 color: Colors.greenAccent,
-              ),
+                child: Text('Contacto de emergencia'),
+              ),*/
+
 
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 16, left: 16),
@@ -117,14 +126,40 @@ class _HomePage extends State<HomePage> {
                   ],
                 ),
               ),
+
             ],
           ),
-          /*
-          actions: 
-           <Widget>[
-             IconButton(onPressed: (){}, icon: Icon(Icons.call))
+
+          actions: tieneCuidadorActivo
+           ?<Widget>[
+             /*IconButton(
+                 onPressed: (){},
+                 icon: Icon(Icons.call,
+                   color: Colors.deepOrangeAccent,)
+             )*/
+             Padding(
+               padding: const EdgeInsets.only(right: 15.0),
+               child: Container(
+                 decoration: BoxDecoration(
+                   shape: BoxShape.circle,
+                   color: Color(0xFF0A3461),
+                 ),
+                 child: IconButton(
+                   onPressed: (){
+                     _callCarer();
+                   },
+                   icon: Icon(
+                     Icons.call,
+                     color: Colors.white,
+
+                   ),
+                 ),
+               ),
+             )
+
            
-          ],*/
+          ]
+          :null,
 
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -132,7 +167,7 @@ class _HomePage extends State<HomePage> {
           backgroundColor: Color(0xFF0A3461),
             onPressed: (){
               //_callCarer();
-              _msgMedicamentAppointment(nomAdult, tel_cuidador,  medicamentoInfoList, citaInfoList) ;
+              _msgMedicamentAppointment() ;
 
               },
           child: Icon(Icons.message),
@@ -196,7 +231,7 @@ class _HomePage extends State<HomePage> {
 
 
   //Crea las cartas de los medicamentos y citas.
-  Future<void> CreateCards(var context) async {
+  Future<int> CreateCards(var context) async {
     try{
       if(homePageCards.isEmpty){
         Database database = await openDatabase(
@@ -306,7 +341,7 @@ class _HomePage extends State<HomePage> {
             citaInfoList.add(
                 'Hora: ${horaFormateada}\n'
                     'Ubicacion: ${citas[i]['ubicacion'].toString()} \n'
-                    'Teléfono : ${citas[i]['telefono_medico'].toString().split(" ")[0]}'
+                    'Teléfono : ${citas[i]['telefono_medico'].toString().split(" ")[0]}\n'
             );
 
             Color color = Colors.white;
@@ -368,15 +403,63 @@ class _HomePage extends State<HomePage> {
                 (route) => false,
           );
       }
+      if(citaInfoList.isEmpty){
+        print('List citas está vacia');
+        return 1;
+      }else{
+        print('List citas tiene datos');
+        return 0;
+      }
 
     }catch(exception){
       print(exception);
+      return 0;
     }
   }
 }
 
 
-Future<void>ConsultaMedicamentos(var context) async{
+Future<int>ConsultUser(var context) async {
+  try {
+    Database database = await openDatabase(
+        Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+    final List<Map<String, dynamic>> result = await database.query(
+      'Usuario',
+      columns: ['*'],
+      where: 'cuidador_telefono IS NOT NULL AND TRIM(cuidador_telefono) != ?',
+      whereArgs: [''],
+    );
+
+    // Imprimir los resultados de la consulta
+    print('Resultados de la consulta: $result');
+
+    // Verificar si la lista de resultados no está vacía
+    if (result.isNotEmpty) {
+      print('Tiene cuidador activo');
+      telCuidador = result[0]['cuidador_telefono'].toString();
+      nomAdult = result[0]['nombre'].toString();
+      String apellidoP = result[0]['apellidoP'].toString();
+      String apellidoM = result[0]['apellidoM'].toString();
+      apellidos = '$apellidoP ${apellidoM.isNotEmpty ? apellidoM : ''}';
+      print('variable tel_cuidador');
+      print(telCuidador);
+      print('nombre Adult' + nomAdult);
+
+      return 1;
+    } else {
+      print('No tiene cuidador activo');
+      return 0;
+    }
+  } catch (e) {
+    print('Error al verificar cuidador activo: $e');
+    return 0;
+  }
+}
+
+
+
+Future<int>_ConsultaMedicamentos(var context) async{
   medicamentoInfoList.clear();
   try{
     Database database = await openDatabase(
@@ -424,11 +507,21 @@ Future<void>ConsultaMedicamentos(var context) async{
                 'Horario de toma:\n${horasFormateadas.join('\n')}'
         );
 
+
       }
+    }
+    if(medicamentoInfoList.isEmpty){
+      print("List medicaments está vacia");
+      return 0;
+    }
+    else{
+      print("List medicaments tiene datos");
+      return 1;
     }
 
   }catch(exception){
     print(exception);
+    return 0;
   }
 }
 
@@ -437,27 +530,40 @@ Future<void>ConsultaMedicamentos(var context) async{
 
 _callCarer() async {
   //$telefono variable
-  launchUrl(Uri.parse('tel: +524831297088'));
+  launchUrl(Uri.parse('tel: $telCuidador'));
 }
 
-_msgMedicamentAppointment(nomAdult, tel_cuidador,  medicamentoInfoList, citaInfoList) async {
+_msgMedicamentAppointment() async {
   //%20 es el espacio
   //Llamado a la función Parámetros a enviar
   //funcion
   print('nom_persona :' + nomAdult);
   print('apellidos :' + apellidos);
 
-  print('tel cuidador msg:' + tel_cuidador);
+  print('tel cuidador ' + telCuidador);
 
   //print('msgmed: ' + medicamentoInfoList);
   //print('msgcita: ' + citaInfoList);
-  final uri = 'sms:$tel_cuidador?body=$nomAdult%20$apellidos%0ATiene%20que%20tomar%20sus%20medicamentos%0A$medicamentoInfoList%0ATiene%20una%20cita%20médica%0A$citaInfoList';
+  final uri = 'sms:$telCuidador?body=$nomAdult%20$apellidos%0ATiene%20que%20tomar%20sus%20medicamentos%0A$medicamentoInfoList%0ATiene%20una%20cita%20médica%0A$citaInfoList';
   //const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
 
+  //final mensaje = '$nomAdult $apellidos\nTiene que tomar sus medicamentos\n$medicamentoInfoList\nTiene una cita médica\n$citaInfoList';
+
+  // Reemplaza los espacios en blanco con %20 para el formato de URL
+  //final mensajeUrl = Uri.encodeFull(mensaje);
+
+ //final uri = 'https://wa.me/$tel_cuidador/?text=estoesunaprueba';
+ // final uri = 'https://wa.me/';
+
+  print('Intentando abrir URL: $uri');
 
   if (await canLaunchUrl(Uri.parse(uri))) {
     await launchUrl(Uri.parse(uri));
-  }else{
+  }
+ /* else if(await canLaunchUrl(Uri.parse(uri2))){
+    await launchUrl(Uri.parse(uri2));
+  }*/
+  else{
     throw 'Could not launch $uri';
   }
 }
