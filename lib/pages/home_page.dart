@@ -17,6 +17,20 @@ String apellidos = '';
 List<String> medicamentoInfoList = [];
 List<String> citaInfoList = [];
 
+int resMed = 0;
+int resCita = 0;
+bool CuidadorActivo = false; // Variable para rastrear el estado del cuidador
+bool iconActivo = false;
+
+
+
+class Resultado{
+  String msgMed;
+  String msgCita;
+  int citayMed;
+  Resultado(this.msgMed, this.msgCita, this.citayMed);
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -30,24 +44,29 @@ class _HomePage extends State<HomePage> {
   int _currentIndex = 0;
   String formattedDate = '';
   bool _isLoading = true; // Añadido para controlar la carga de datos
-  bool tieneCuidadorActivo = false; // Variable para rastrear el estado del cuidador
 
 
   int resCreateNote = 0;
   @override
   void initState()  {
     super.initState();
+
+    ConsultUser(context).then((resultado) {
+      // Actualizar la variable según el resultado de _ConsultUser
+      setState(() {
+        CuidadorActivo = resultado == 1;
+      });
+    });
+    verificaMedyCita(context).then((result) {
+        setState(() {
+          iconActivo = result.citayMed == 1;
+        });
+
+    });
     _loadDate();
      CreateCards(context);
      _ConsultaMedicamentos(context);
-     ConsultUser(context).then((resultado) {
-      // Actualizar la variable según el resultado de _ConsultUser
-      setState(() {
-        tieneCuidadorActivo = resultado == 1;
-      });
-    });
-
-  }
+    }
 
   void _loadDate() async {
     await initializeDateFormatting('es', null);
@@ -130,7 +149,7 @@ class _HomePage extends State<HomePage> {
             ],
           ),
 
-          actions: tieneCuidadorActivo
+          actions: CuidadorActivo
            ?<Widget>[
              /*IconButton(
                  onPressed: (){},
@@ -163,16 +182,14 @@ class _HomePage extends State<HomePage> {
 
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF0A3461),
-            onPressed: (){
-              //_callCarer();
-              _msgMedicamentAppointment() ;
+        floatingActionButton: (iconActivo && CuidadorActivo) ? FloatingActionButton(
+                backgroundColor: Color(0xFF0A3461),
+                  onPressed: (){
+                    _msgMedicamentAppointment(context) ;
 
-              },
-          child: Icon(Icons.message),
-        ),
-
+                    },
+                child: Icon(Icons.message),
+              ) : null,
 
         body: Container(
           height: homePageCards.length * 170,
@@ -405,10 +422,15 @@ class _HomePage extends State<HomePage> {
       }
       if(citaInfoList.isEmpty){
         print('List citas está vacia');
-        return 1;
-      }else{
+        return resCita;
+      }else if(citaInfoList.length == 1){
         print('List citas tiene datos');
-        return 0;
+        resCita = 1;
+        return resCita;
+      }else{
+        print('List citas mas de 1 cita');
+        resCita = 2;
+        return resCita;
       }
 
     }catch(exception){
@@ -461,6 +483,7 @@ Future<int>ConsultUser(var context) async {
 
 Future<int>_ConsultaMedicamentos(var context) async{
   medicamentoInfoList.clear();
+  //int resMed =0;
   try{
     Database database = await openDatabase(
         Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
@@ -501,7 +524,7 @@ Future<int>_ConsultaMedicamentos(var context) async{
 
         //medicamentoInfoList.clear();
         medicamentoInfoList.add(
-            'Medicamento: \n${medicaments[i]['nombre'].toString()}\n'
+            '\nMedicamento: \n${medicaments[i]['nombre'].toString()}\n'
                 'Dosis: ${medicaments[i]['dosis'].toString()}\n'
                 'Frecuencia: Cada ${medicaments[i]['frecuenciaToma'].toString()} horas\n'
                 'Horario de toma:\n${horasFormateadas.join('\n')}'
@@ -512,11 +535,17 @@ Future<int>_ConsultaMedicamentos(var context) async{
     }
     if(medicamentoInfoList.isEmpty){
       print("List medicaments está vacia");
-      return 0;
+      resMed =0;
+      return resMed;
     }
-    else{
-      print("List medicaments tiene datos");
-      return 1;
+    else if(medicamentoInfoList.length == 1){
+      print("List medicaments tiene un medicamento");
+      resMed =1;
+      return resMed;
+    }else{
+      print("List medicaments tiene mas de 1 medicamento");
+      resMed =2;
+      return resMed;
     }
 
   }catch(exception){
@@ -528,14 +557,20 @@ Future<int>_ConsultaMedicamentos(var context) async{
 
 
 
-_callCarer() async {
+Future<void>_callCarer() async {
   //$telefono variable
   launchUrl(Uri.parse('tel: $telCuidador'));
 }
 
-_msgMedicamentAppointment() async {
+Future<void>_msgMedicamentAppointment(var context) async {
   //%20 es el espacio
   //Llamado a la función Parámetros a enviar
+  // Llama a la función verificaMedyCita para obtener el resultado
+  Resultado resultado = await verificaMedyCita(context);
+
+  // Extrae los mensajes de medicamento y cita del resultado
+  String mensajeMedicamento = resultado.msgMed;
+  String mensajeCita = resultado.msgCita;
   //funcion
   print('nom_persona :' + nomAdult);
   print('apellidos :' + apellidos);
@@ -544,7 +579,13 @@ _msgMedicamentAppointment() async {
 
   //print('msgmed: ' + medicamentoInfoList);
   //print('msgcita: ' + citaInfoList);
-  final uri = 'sms:$telCuidador?body=$nomAdult%20$apellidos%0ATiene%20que%20tomar%20sus%20medicamentos%0A$medicamentoInfoList%0ATiene%20una%20cita%20médica%0A$citaInfoList';
+
+  String medicamentoInfo = medicamentoInfoList.join(', ');
+  String citaInfo = citaInfoList.join(', ');
+
+  print('medinfo' + medicamentoInfo);
+
+  final uri = 'sms:$telCuidador?body=$nomAdult%20$apellidos%0A$mensajeMedicamento$medicamentoInfo%0A$mensajeCita%0A$citaInfo';
   //const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
 
   //final mensaje = '$nomAdult $apellidos\nTiene que tomar sus medicamentos\n$medicamentoInfoList\nTiene una cita médica\n$citaInfoList';
@@ -566,6 +607,44 @@ _msgMedicamentAppointment() async {
   else{
     throw 'Could not launch $uri';
   }
+}
+
+Future<Resultado>verificaMedyCita(var context) async{
+  if(resMed == 0 && resCita == 0 ){
+    //print('No hay citas ni medicamentos');
+    return Resultado('', '', 0);
+  }
+  else if(resMed == 1 && resCita == 0){
+    //print('Tiene solo 1 medicamento');
+    return Resultado('Tiene que tomar su medicamento', '', 1);
+  }
+  else if(resMed == 2 && resCita == 0){
+    //print('Tiene más de 1 medicamento');
+    return Resultado('Tiene que tomar sus medicamentos', '', 1);
+  }
+  else if(resMed == 2 && resCita == 1){
+    //print('Tiene más de 1 medicamento');
+    //print('Tiene  1 cita médica');
+    return Resultado('Tiene que tomar sus medicamentos', 'Tiene una cita médica', 1);
+  }
+  else if(resMed == 0 && resCita == 1){
+    //print('Tiene solo 1 cita médica');
+    return Resultado('', 'Tiene una cita médica', 1);
+  }
+  else if(resMed == 0 && resCita == 2){
+    //print('Tiene más de 1 cita médica');
+    return Resultado('', 'Tiene las siguientes citas médicas', 1);
+  }
+  else if(resMed == 1 && resCita == 1){
+    //print('Tiene más de 1 cita médica');
+    return Resultado('Tiene que tomar su medicamento', 'Tiene una cita médica', 1);
+  }
+  else if(resMed == 1 && resCita == 2){
+    //print('Tiene un medicamento y más de 1 cita médica');
+    return Resultado('Tiene que tomar su medicamento', 'Tiene las siguientes citas médicas', 1);
+  }
+  throw Exception('Caso no manejado');
+
 }
 
 List<Widget> homePageCards = [];

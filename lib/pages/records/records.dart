@@ -29,10 +29,11 @@ class RecordsPage extends StatefulWidget{
 
 class _RecordsPage extends State <RecordsPage>{
   int _currentIndex = 3;
-
-  /*Timer scheduleTimeout([int milliseconds = 10000]) =>
+/*
+  Timer scheduleTimeout([int milliseconds = 10000]) =>
       Timer(Duration(milliseconds: milliseconds), CheckCurrent);
 */
+
   late Timer _timer;
 
   _RecordsPage() {
