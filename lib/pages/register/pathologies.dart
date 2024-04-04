@@ -127,7 +127,7 @@ class _Pathologies extends State <Pathologies> {
                         DropDownValueModel(name: 'Demencia o Alzheimer', value: "Demencia o Alzheimer"),
                         DropDownValueModel(name: 'Depresión', value: "Depresión"),
                         DropDownValueModel(name: 'Diabetes Mellitus', value: "Diabetes Mellitus"),
-                        DropDownValueModel(name: 'Hipertensión arterial sistemática', value: "Hipertensión arterial sistemática", /* Muestra un dialog* toolTipMsg: "DropDownButton is a widget that we can use to select one unique value from a set of values"*/),
+                        DropDownValueModel(name: 'Hipertensión arterial', value: "Hipertensión arterial", /* Muestra un dialog* toolTipMsg: "DropDownButton is a widget that we can use to select one unique value from a set of values"*/),
                         DropDownValueModel(name: 'Osteoporosis', value: "Osteoporosis"),
                         DropDownValueModel(name: 'Parkinson', value: "Parkinson"),
                       ],
