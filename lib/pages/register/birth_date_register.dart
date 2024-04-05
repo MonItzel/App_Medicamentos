@@ -189,7 +189,7 @@ class _BirthDateRegister extends State <BirthDateRegister> {
                         decoration: AppStyles.contenedorTextForm,
                         child: DatePickerWidget(
                         locale: DateTimePickerLocale.es,
-                        firstDate: DateTime.utc(1954,01,01),
+                        firstDate: DateTime.utc(1900,01,01),
                         initialDate: lastDate,
                         lastDate: DateTime.now(),
                         dateFormat: 'dd MMMM yyyy',
