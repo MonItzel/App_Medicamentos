@@ -218,8 +218,8 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
               Visibility(
                 visible: isContainerVisible,
                 child: Container(
-                  margin: EdgeInsets.only(top: 3.0),
-                  padding: EdgeInsets.all(16.0),
+                  margin: EdgeInsets.only(top: 1.0),
+                  padding: EdgeInsets.all(10.0),
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -240,6 +240,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                       RadioListTile<Frequency>(
                         activeColor: Color(0xFF0D1C52),
                         title: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
                           children: [
                             Container(
                               width: 50,
@@ -256,10 +257,16 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10,),
-                            const Text('Horas',
-                              style: TextStyle(fontSize: 20),
-                            )
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: const Text(
+                                'Horas',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
                           ],
                         ),
                         value: Frequency.horas,
@@ -274,9 +281,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                       RadioListTile<Frequency>(
                         activeColor: Color(0xFF0D1C52),
                         title: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
                           children: [
                             Container(
-
                               width: 50,
                               child: TextFormField(
                                 controller: freqDay,
@@ -292,9 +299,13 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                               ),
                             ),
                             const SizedBox(width: 10,),
-                            const Text('Días',
-                              style: TextStyle(fontSize: 20),
-                            )
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: const Text(
+                                'Días',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
                           ],
                         ),
                         value: Frequency.dias,
@@ -307,8 +318,10 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                       ),
 
                       RadioListTile<Frequency>(
+
                         activeColor: const Color(0xFF0D1C52),
                         title: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
                           children: [
                             Container(
                               width: 50,
@@ -326,9 +339,10 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                               ),
                             ),
                             const SizedBox(width: 10,),
-                            const Text('Semanas',
+                            const Text(
+                              'Semanas',
                               style: TextStyle(fontSize: 20),
-                            )
+                            ),
                           ],
                         ),
                         value: Frequency.semanas,
@@ -343,6 +357,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                       RadioListTile<Frequency>(
                         activeColor: Color(0xFF0D1C52),
                         title: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
                           children: [
                             Container(
                               width: 50,
@@ -361,20 +376,21 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                               ),
                             ),
                             const SizedBox(width: 10,),
-                            const Text('Meses',
+                            const Text(
+                              'Meses',
                               style: TextStyle(fontSize: 20),
-                            )
+                            ),
                           ],
                         ),
                         value: Frequency.meses,
                         groupValue: _frequency,
                         onChanged: (Frequency? value) {
                           setState(() {
-                            print(freqMonth);
                             _frequency = value;
                           });
                         },
                       ),
+
 
                     ],
                   ),
