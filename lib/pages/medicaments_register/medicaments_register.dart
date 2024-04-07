@@ -72,7 +72,8 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
           leading: IconButton(
             icon: const Icon(
                 Icons.arrow_back_rounded,
-                color: Colors.black),
+                color: Colors.black
+            ),
             onPressed: () {
               if(medicament.id_medicamento != null){
                 update = false;
@@ -109,7 +110,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
