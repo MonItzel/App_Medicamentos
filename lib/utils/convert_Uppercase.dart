@@ -7,16 +7,17 @@
  * Devuelve: No devuelve nada
  */
 void convertoUpperCase(text, nameController, validate){
-  if (text.trim().isNotEmpty) {
-// Dividir el texto por espacios y capitalizar la primera letra de cada palabra
-    List<String> words = text.split(' ');
-    for (int i = 0; i < words.length; i++) {
-      words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    if (text.trim().isNotEmpty) {
+      List<String> words = text.split(' ');
+      for (int i = 0; i < words.length; i++) {
+        if (words[i].isNotEmpty) {
+          words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+        }
+      }
+      nameController.text = words.join(' ');
+      validate = false;
     }
-// Unir las palabras de nuevo con espacios y asignar al controlador
-    nameController.text = words.join(' ');
-    validate = false;
-  }
+
 }
 
 /*
