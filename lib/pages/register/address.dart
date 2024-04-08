@@ -26,10 +26,11 @@ class _Address extends State <Address> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.user.id_usuario != null && calleController.text == '' && numExteriorController.text == '' && coloniaController.text == ''){
+    if(widget.user.id_usuario != null && calleController.text == '' && numExteriorController.text == '' && numInteriorController.text == '' && coloniaController.text == ''){
       buttonText = 'Guardar';
       calleController.text = widget.user.calle.toString();
       numExteriorController.text = widget.user.numExterior.toString();
+      numInteriorController.text = widget.user.numInterior.toString();
       coloniaController.text = widget.user.club.toString();
     }
 
@@ -192,6 +193,7 @@ class _Address extends State <Address> {
                             Container(
                               decoration: AppStyles.contenedorTextForm,
                               child: TextFormField(
+                                controller: numInteriorController,
                                 obscureText: false,
                                 textAlign: TextAlign.left,
                                 decoration: AppStyles.textFieldEstilo.copyWith(
@@ -286,6 +288,7 @@ class _Address extends State <Address> {
     widget.user.calle = calleController.text;
     widget.user.club = coloniaController.text;
     widget.user.numExterior = numExteriorController.text;
+    widget.user.numInterior = numInteriorController.text;
   }
 
   void update(BuildContext context) async{
@@ -294,12 +297,14 @@ class _Address extends State <Address> {
 
     widget.user.calle = calleController.text;
     widget.user.numExterior = numExteriorController.text;
+    widget.user.numInterior = numInteriorController.text;
     widget.user.club = coloniaController.text;
 
     var usuario = {
       'id_usuario': widget.user.id_usuario,
       'calle': widget.user.calle,
       'numero_exterior': widget.user.numExterior,
+      'numero_interior' : widget.user.numInterior,
       'club': widget.user.club
     };
 
