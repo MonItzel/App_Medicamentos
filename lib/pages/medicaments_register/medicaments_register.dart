@@ -400,9 +400,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
 
               Center(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 40, 0, 20),
+                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
                   child: Container(
-                    width: AppStyles.anchoBoton,
+                    width: double.infinity,
                     height: AppStyles.altoBoton,
                     child: ElevatedButton(
                       onPressed: () {

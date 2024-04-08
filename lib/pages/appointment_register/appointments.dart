@@ -159,148 +159,99 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 ),
               ),
 
-              
-              Align(
-                alignment: Alignment.centerLeft,
+
+              const SizedBox(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
+                  padding: EdgeInsets.only(bottom: 10),
                   child: Text(
-                    'Lugar de cita médica',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 20,
-                    ),
+                    'Lugar de la cita',
+                    style: AppStyles.texto1,
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
-              // Campo de entrada para el lugar de la cita médica
-              Container(
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: TextFormField(
-                  controller: lugarController,
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                            color: Colors.white,
-                            width: 1,
-                            style: BorderStyle.solid
-                        )
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  onChanged: (text) {
-                    // Convertir a mayúsculas el primer carácter de la primera palabra
-                    setState(() {
-                      convertFirstWordUpperCase(text, lugarController);
-                    });
-                  },
-                ),
-              ),
-              SizedBox(height: 20.0,),
-              // Sección para el teléfono del médico
-              Align(
-                alignment: Alignment.centerLeft,
+
+              SizedBox(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: AppStyles.contenedorTextForm,
+                    child: TextFormField(
+                      controller: lugarController,
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo,
+                      style: AppStyles.texto1,
+                      onChanged: (text) {
+                        // Convertir a mayúsculas el primer carácter de la primera palabra
+                        setState(() {
+                          convertFirstWordUpperCase(text, lugarController);
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
                   child: Text(
                     'Teléfono del médico',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 20,
+                    style: AppStyles.texto1,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: AppStyles.contenedorTextForm,
+                    child: TextFormField(
+                      controller: telefonoMedicoController,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [maskFormatter],
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo,
+                      style: AppStyles.texto1,
+
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
-              // Campo de entrada para el teléfono del médico con máscara
-              Container(
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: TextFormField(
-                  controller: telefonoMedicoController,
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [maskFormatter],
-                  obscureText: false,
-                  textAlign: TextAlign.left,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: const BorderSide(
-                            color: Colors.white,
-                            width: 1,
-                            style: BorderStyle.solid
-                        )
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                ),
-              ),
-              // Botón para avanzar a la siguiente pantalla
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
-                child: Container(
-                  width: 193,
-                  height: 77,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Al presionar el botón se llena el modelo de la cita y se pasa a la siguiente pantalla.
-                      SetAppointment();
-                      Navigator.pushAndRemoveUntil <dynamic>(
-                        context,
-                        MaterialPageRoute <dynamic>(
-                            builder: (BuildContext context) => AppointmentsDatePage(appointment: appointment,)
-                        ),
-                            (route) => false,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF0063C9),
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        )
-                    ),
-                    child: Text("Siguiente",
-                      style: TextStyle(
-                          fontSize: 26
+
+
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
+                  child: Container(
+                    width: double.infinity,
+                    height: AppStyles.altoBoton,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Al presionar el botón se llena el modelo de la cita y se pasa a la siguiente pantalla.
+                        SetAppointment();
+                        Navigator.pushAndRemoveUntil <dynamic>(
+                          context,
+                          MaterialPageRoute <dynamic>(
+                              builder: (BuildContext context) => AppointmentsDatePage(appointment: appointment,)
+                          ),
+                              (route) => false,
+                        );
+                      },
+                      style: AppStyles.botonPrincipal,
+                      child: const Text(
+                        "Siguiente",
+                        style: AppStyles.textoBoton,
                       ),
                     ),
                   ),
                 ),
-              )
+              ),
+
+
             ],
           ),
         ),
