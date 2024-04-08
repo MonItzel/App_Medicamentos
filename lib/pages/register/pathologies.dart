@@ -253,6 +253,7 @@ class _Pathologies extends State <Pathologies> {
             'calle TEXT, '
             'club TEXT, '
             'numero_exterior TEXT, '
+            'numero_interior TEXT, '
             'cuidador_activo INTEGER, '
             'cuidador_nombre TEXT, '
             'cuidador_telefono TEXT); ';
@@ -308,12 +309,15 @@ class _Pathologies extends State <Pathologies> {
         }
 
         if(otraspatController.text != ''){
-          var otroPadecimiento = {
-            'nombre_padecimiento': otraspatController.text,
-          };
+          List<String> otrasPatologias = otraspatController.text.split(', ');
+          for(int i = 0; i < otrasPatologias.length; i++){
+            var otroPadecimiento = {
+              'nombre_padecimiento': otrasPatologias[i].trim(),
+            };
 
-          var id2 = txn.insert('Padecimiento', otroPadecimiento);
-          print(otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
+            var id2 = txn.insert('Padecimiento', otroPadecimiento);
+            print(otrasPatologias[i].trim() + " insertado.");
+          }
         }
       });
 
@@ -356,14 +360,17 @@ class _Pathologies extends State <Pathologies> {
     }
 
     if(otraspatController.text != ''){
-      var otroPadecimiento = {
-        'nombre_padecimiento': otraspatController.text,
-      };
+      List<String> otrasPatologias = otraspatController.text.split(', ');
+      for(int i = 0; i < otrasPatologias.length; i++){
+        var otroPadecimiento = {
+          'nombre_padecimiento': otrasPatologias[i].trim(),
+        };
 
-      await database.transaction((txn) async {
-        var id2 = txn.insert('Padecimiento', otroPadecimiento);
-      });
-      print(otroPadecimiento["nombre_padecimiento"].toString() + " insertado.");
+        await database.transaction((txn) async {
+          var id2 = txn.insert('Padecimiento', otroPadecimiento);
+        });
+        print(otrasPatologias[i].trim() + " insertado.");
+      }
     }
 
     Navigator.pushAndRemoveUntil <dynamic>(

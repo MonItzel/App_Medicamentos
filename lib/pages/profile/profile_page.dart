@@ -251,6 +251,26 @@ class _ProfilePage extends State<ProfilePage> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 10),
                   child:Text(
+                    'Número interior',
+                    style: AppStyles.texto2,
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    numInteriorController.text,
+                    style:AppStyles.texto3,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child:Text(
                     'Colonia/Barrio',
                     style: AppStyles.texto2,
                   ),
@@ -439,6 +459,7 @@ class _ProfilePage extends State<ProfilePage> {
         calleController.text == "" &&
         coloniaController.text == "" &&
         numExteriorController.text == "" &&
+        numInteriorController.text == "" &&
         cuidadorController.text == "" &&
         numCuidadorController.text == ""){
       Database database = await openDatabase(
@@ -459,7 +480,11 @@ class _ProfilePage extends State<ProfilePage> {
       calleController.text = map1[0]['calle'].toString();
       coloniaController.text = map1[0]['club'].toString();
       numExteriorController.text = map1[0]['numero_exterior'].toString();
-      cuidadorController.text = map1[0]['cuidador_nombre'].toString().split(',')[0] + map1[0]['cuidador_nombre'].toString().split(',')[1];
+      numInteriorController.text = map1[0]['numero_interior'].toString();
+      cuidadorController.text = map1[0]['cuidador_nombre'].toString().split(',')[0];
+      if(map1[0]['cuidador_nombre'].toString().split(',').length > 1) {
+        cuidadorController.text += ' ' + map1[0]['cuidador_nombre'].toString().split(',')[1];
+      }
       numCuidadorController.text = map1[0]['cuidador_telefono'].toString();
 
       Navigator.pushAndRemoveUntil <dynamic>(
@@ -550,6 +575,7 @@ class _ProfilePage extends State<ProfilePage> {
 
     calleController.text = '';
     numExteriorController.text = '';
+    numInteriorController.text = '';
     coloniaController.text = '';
 
     Navigator.pushAndRemoveUntil <dynamic>(
@@ -649,6 +675,7 @@ TextEditingController fechaNacController = TextEditingController();
 TextEditingController calleController = TextEditingController();
 TextEditingController coloniaController = TextEditingController();
 TextEditingController numExteriorController = TextEditingController();
+TextEditingController numInteriorController = TextEditingController();
 TextEditingController cuidadorController = TextEditingController();
 TextEditingController numCuidadorController = TextEditingController();
 List<Widget> patologiasCards = [];

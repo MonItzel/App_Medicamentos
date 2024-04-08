@@ -34,9 +34,24 @@ class _CarerPage extends State <CarerPage> {
 
     if(widget.user.id_usuario != null && nombreCuidadorController.text == '' && apellidoCuidadorController.text == '' && telefonoCuidadorController.text == ''){
       buttonText = 'Guardar';
-      nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
-      apellidoCuidadorController.text = widget.user.cuidador_nombre.toString().split(', ')[1];
+
+      if(widget.user.cuidador_nombre.toString().split(',').length == 2){
+        nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
+        apellidoCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[1];
+      }else{
+        if(widget.user.cuidador_nombre.toString()[0] == ','){
+          apellidoCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
+          nombreCuidadorController.text = '';
+        }else{
+          nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
+          apellidoCuidadorController.text = '';
+        }
+      }
       telefonoCuidadorController.text = widget.user.cuidador_telefono.toString();
+    }else{
+      nombreCuidadorController.text = '';
+      apellidoCuidadorController.text = '';
+      numCuidadorController.text = '';
     }
 
     return Scaffold(
@@ -234,7 +249,10 @@ class _CarerPage extends State <CarerPage> {
 
     await database.transaction((txn) async {
 
-      widget.user.cuidador_nombre = nombreCuidadorController.text + ", " + apellidoCuidadorController.text;
+      if(nombreCuidadorController.text != '' && apellidoCuidadorController.text != '')
+        widget.user.cuidador_nombre = nombreCuidadorController.text + ", " + apellidoCuidadorController.text;
+      else
+        widget.user.cuidador_nombre = nombreCuidadorController.text + apellidoCuidadorController.text;
       widget.user.cuidador_telefono = telefonoCuidadorController.text.replaceAll(' ', '');
 
       var usuario = {
@@ -245,6 +263,7 @@ class _CarerPage extends State <CarerPage> {
         'calle': widget.user.calle,
         'club': widget.user.club,
         'numero_exterior': widget.user.numExterior,
+        'numero_interior': widget.user.numInterior,
         'cuidador_activo': 0,
         'cuidador_nombre': widget.user.cuidador_nombre,
         'cuidador_telefono': widget.user.cuidador_telefono
@@ -260,7 +279,7 @@ class _CarerPage extends State <CarerPage> {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    widget.user.cuidador_nombre = nombreCuidadorController.text + ", " + apellidoCuidadorController.text;
+    widget.user.cuidador_nombre = nombreCuidadorController.text + "," + apellidoCuidadorController.text;
     widget.user.cuidador_telefono = telefonoCuidadorController.text.replaceAll(' ', '');
 
     int activeCarer = 0;

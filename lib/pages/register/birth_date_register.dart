@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:intl/intl.dart';
 import '../../models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:sqflite/sqflite.dart';
@@ -86,6 +87,9 @@ class _BirthDateRegister extends State <BirthDateRegister> {
     }else{
       DateTime today = DateTime.now();
       lastDate = DateTime(today.year - 80, today.month, today.day);
+      if(fechaNacController.text == ''){
+        fechaNacController.text = lastDate.day.toString() + ' / ' + DateFormat('MMMM').format(DateTime(0, lastDate.month)).toUpperCase() + ' / ' + lastDate.year.toString();
+      }
     }
 
     return Scaffold(

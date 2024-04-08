@@ -9,6 +9,7 @@ class User{
    String? calle;
    String? club;
    String? numExterior;
+   String? numInterior;
    bool? cuidador_activo;
    String? cuidador_nombre;
    String? cuidador_telefono;
@@ -22,6 +23,7 @@ class User{
     this.telefono,
     this.calle,
     this.numExterior,
+    this.numInterior,
     this.club,
     this.cuidador_activo,
     this.cuidador_nombre,
@@ -37,6 +39,9 @@ class User{
       'apellidoM': apellidoM,
       'telefono': telefono,
       'fechaNac': fechaNac,
+      'calle' : calle,
+      'numero_exterior' : numExterior,
+      'numero_interior' : numInterior,
       'club': club,
       'cuidador_activo': cuidador_activo,
       'cuidador_nombre': cuidador_nombre,
