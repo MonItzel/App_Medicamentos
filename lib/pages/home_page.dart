@@ -376,29 +376,37 @@ class _HomePage extends State<HomePage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: ListTile(
-                leading: Icon(Icons.medical_services, size: 40),
-                // Icono de medicina a la izquierda
-                title: const Text(
-                  //citas[i]['motivo'].toString(),
-                  'Cita Médica',
-                  //Titulo
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Hora: ' + citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
-                    Text("Ubicacion: " +
-                        citas[i]['ubicacion'].toString()),
-                    //Dosis del medicamento
-                  ],
-                ),
-                trailing: Text(
-                  "Telefono: " +
-                      citas[i]['telefono_medico'].toString().split(
-                          " ")[0], //Fecha de inicio
-                  style: TextStyle(fontWeight: FontWeight.bold),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(Icons.medical_services, size: 44),
+                  // Icono de medicina a la izquierda
+                  title: const Text(
+                    //citas[i]['motivo'].toString(),
+                    'Cita Médica',
+                    //Titulo
+                    style: AppStyles.tituloCard,
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        citas[i]['ubicacion'].toString(),
+                        style: AppStyles.dosisCard,
+                      ),
+                      Text(
+                        citas[i]['telefono_medico'].toString().split(
+                            " ")[0], //Fecha de inicio
+                        style: AppStyles.dosisCard,
+                      ),
+                      //Dosis del medicamento
+                    ],
+                  ),
+                  trailing: Text(
+                    citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0],
+                    style: AppStyles.dosisCard,
+                  ),
                 ),
               ),
             )

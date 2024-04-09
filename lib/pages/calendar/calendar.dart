@@ -45,8 +45,9 @@ class _CalendarPage extends State<CalendarPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
+
         child: Container(
-          height: calendarPageCards.length * 120 + 350, // Establece la altura del Container a 200 píxeles
+          height: calendarPageCards.length * 120 + 550, // Establece la altura del Container a 200 píxeles
           child: ListView(
             children: <Widget>[
               SfDateRangePicker(
@@ -69,6 +70,15 @@ class _CalendarPage extends State<CalendarPage> {
                 selectionColor: Color(0xFF09184D),
               ),
               const SizedBox(height: 20.0,),
+              const SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Selecciona una fecha para ver los medicamentos y citas programados para el dia seleccionado',
+                    style: AppStyles.texto3,
+                  ),
+                ),
+              ),
               const Text(
                 'Eventos de ',
                 style: AppStyles.encabezado2,
