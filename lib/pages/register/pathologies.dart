@@ -1,18 +1,13 @@
-//import 'dart:html';
-
 import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/pages/register/ask_carer.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
-import 'package:app_medicamentos/pages/register/carer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:app_medicamentos/constants.dart';
-
 import '../profile/profile_page.dart';
-
 
 class Pathologies extends StatefulWidget {
   const Pathologies({super.key, required User this.user, required List<String> this.pathologies});
@@ -39,7 +34,9 @@ class _Pathologies extends State <Pathologies> {
       //otraspatController.text = widget.pathologies[widget.pathologies.length - 1];
     }
 
-    List patologias = ['Diabetes Mellitus', 'Hipertensión arterial sistemática', 'Demencia o Alzheimer', 'Artritis', 'Osteoporosis', 'Cardiopatias', 'Parkinson', 'Depresión'];
+    List patologias = ['Diabetes Mellitus', 'Hipertensión arterial sistemática',
+                       'Demencia o Alzheimer', 'Artritis', 'Osteoporosis',
+                       'Cardiopatias', 'Parkinson', 'Depresión'];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppStyles.primaryBackground,
@@ -104,21 +101,20 @@ class _Pathologies extends State <Pathologies> {
                   ),
                 ),
                 SizedBox(height: 30.0),
-
-
                 Column(
                   children: [
                     DropDownTextField.multiSelection(
-                      //controller: _cntMulti.dropDownValueList,
                       submitButtonColor: AppStyles.primaryBlue,
-                      submitButtonText: 'Aceptar',
+                      submitButtonText: '                                 Aceptar                              ',
+                      submitButtonTextStyle: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                       textStyle: AppStyles.texto1,
-
                       dropdownColor: Colors.white,
-
-                      dropdownRadius: 0,
-                      //displayCompleteItem: true, //Muestra los campos seleccionados
-                      //initialValue: const ["name1", "name2", "name8", "name3"],
+                      dropdownRadius: 12,
                       dropDownItemCount: 10, //La cantidad que te muestra al inicio, lo demás con el scroll
                       dropDownList: const [
                         DropDownValueModel(name: 'Artritis', value: "Artritis", /*toolTipMsg: "DropDownButton is a widget that we can use to select one unique value from a set of values"*/),
@@ -133,7 +129,6 @@ class _Pathologies extends State <Pathologies> {
                       ],
                       onChanged: (val) {
                         setState(() {
-
                           for(int i=0; i<val.length; i++) {
                             print(val[i].name);
                           }
@@ -142,11 +137,8 @@ class _Pathologies extends State <Pathologies> {
                       },
                     ),
                   ],
-
                 ),
                 const SizedBox(height: 50),
-
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: const Padding(
@@ -178,11 +170,10 @@ class _Pathologies extends State <Pathologies> {
                     ),
                 ),
                 const SizedBox(height: 20,),
-
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 150, 0, 0),
                   child: Container(
-                    width: AppStyles.anchoBoton,
+                    width: double.infinity,
                     height: AppStyles.altoBoton,
                     child: ElevatedButton(
                       onPressed: () {
@@ -209,16 +200,10 @@ class _Pathologies extends State <Pathologies> {
                     ),
                   ),
                 ),
-
               ],
-
-
             ),
-
-
           ),
         ),
-
       ),
     );
   }

@@ -81,7 +81,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,8 +118,8 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                     onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
                       medicamentDate = args.value;
                     },
-                    todayHighlightColor: Color(0xFF09184D),
-                    selectionColor: Color(0xFF09184D),
+                    todayHighlightColor: AppStyles.secondaryBlue,
+                    selectionColor: AppStyles.primaryBlue,
                   ),
                 ),
               ),
@@ -172,11 +172,12 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                 },
               ),
 
+
               Center(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 40, 0, 20),
                   child: Container(
-                    width: AppStyles.anchoBoton,
+                    width: double.infinity,
                     height: AppStyles.altoBoton,
                     child: ElevatedButton(
                       onPressed: () async {

@@ -43,43 +43,60 @@ class _CalendarPage extends State<CalendarPage> {
           elevation: 0,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Container(
-          height: calendarPageCards.length * 120 + 350, // Establece la altura del Container a 200 píxeles
-          child: ListView(
-            children: <Widget>[
-              SfDateRangePicker(
-                initialDisplayDate: widget.initialDate.year == DateTime.now().year &&
-                    widget.initialDate.month == DateTime.now().month &&
-                    widget.initialDate.day == DateTime.now().day ?
-                null : widget.initialDate,
-                initialSelectedDate: widget.initialDate.year == DateTime.now().year &&
-                    widget.initialDate.month == DateTime.now().month &&
-                    widget.initialDate.day == DateTime.now().day ?
-                null : widget.initialDate,
-                selectionMode: DateRangePickerSelectionMode.single,
-                showNavigationArrow: true,
-                onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                  // Al seleccionar cualquier fecha, se generan las cartas correspondientes.
-                  dateTime = args.value;
-                  CreateCards(context, args.value.toString());
-                },
-                todayHighlightColor: Color(0xFF09184D),
-                selectionColor: Color(0xFF09184D),
-              ),
-              const SizedBox(height: 20.0,),
-              const Text(
-                'Eventos de ',
-                style: AppStyles.encabezado2,
-              )
-            ]
-                // Se genera el calendario y debajo de él las cartas.
-                + calendarPageCards
-            ,
-          ),
+      body: SingleChildScrollView(
+        child:Padding(
+          padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'Selecciona una fecha para ver los medicamentos y citas programados para el dia seleccionado',
+                      style: AppStyles.texto3,
+                    ),
+                  ),
+                ),
+
+                SfDateRangePicker(
+                  initialDisplayDate: widget.initialDate.year == DateTime.now().year &&
+                      widget.initialDate.month == DateTime.now().month &&
+                      widget.initialDate.day == DateTime.now().day ?
+                  null : widget.initialDate,
+                  initialSelectedDate: widget.initialDate.year == DateTime.now().year &&
+                      widget.initialDate.month == DateTime.now().month &&
+                      widget.initialDate.day == DateTime.now().day ?
+                  null : widget.initialDate,
+                  selectionMode: DateRangePickerSelectionMode.single,
+                  showNavigationArrow: true,
+                  onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                    // Al seleccionar cualquier fecha, se generan las cartas correspondientes.
+                    dateTime = args.value;
+                    CreateCards(context, args.value.toString());
+                  },
+                  todayHighlightColor: AppStyles.secondaryBlue,
+                  selectionColor: AppStyles.primaryBlue,
+                ),
+                const SizedBox(height: 20.0,),
+
+                const SizedBox(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'Eventos para',
+                      style: AppStyles.texto1,
+                    ),
+                  ),
+                ),
+              ]
+                  // Se genera el calendario y debajo de él las cartas.
+                    + calendarPageCards
+            ),
         ),
       ),
+
       bottomNavigationBar: Container(
         child: CustomNavigationBar(
           currentIndex: _currentIndex,
@@ -291,32 +308,39 @@ class _CalendarPage extends State<CalendarPage> {
 
           calendarPageCards.add(Card(
             color: color,
-            elevation: 3, // Elevación para dar profundidad al card
-            margin: EdgeInsets.all(16), // Margen alrededor del card
+            elevation: 3,
+            margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                  15), // Borde redondeado con radio de 15
+              borderRadius: BorderRadius.circular(16), // Borde redondeado con radio de 15
             ),
-            child: ListTile(
-              leading: Icon(Icons.medical_services, size: 40),
-              // Icono de medicina a la izquierda
-              title: Text(
-                //citas[i]['motivo'].toString(),
-                'Cita Médica',
-                //Titulo
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Hora: ' + citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0]),
-                  Text("Ubicacion: " + citas[i]['ubicacion'].toString()),
-                ],
-              ),
-              trailing: Text(
-                "Telefono: " +
-                    citas[i]['telefono_medico'].toString().split(" ")[0], //Fecha de inicio
-                style: TextStyle(fontWeight: FontWeight.bold),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+              child: ListTile(
+                leading: Icon(Icons.medical_services, size: 44),
+                // Icono de medicina a la izquierda
+                title: Text(
+                  //citas[i]['motivo'].toString(),
+                  'Cita Médica',
+                  //Titulo
+                  style: AppStyles.tituloCard,
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        citas[i]['ubicacion'].toString(),
+                        style: AppStyles.dosisCard,
+                    ),
+                    Text(
+                      citas[i]['telefono_medico'].toString().split(" ")[0], //Fecha de inicio
+                      style: AppStyles.dosisCard,
+                    ),
+                  ],
+                ),
+                trailing: Text(
+                  citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0],
+                  style: AppStyles.dosisCard,
+                ),
               ),
             ),
           )
