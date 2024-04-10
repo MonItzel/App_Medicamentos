@@ -548,6 +548,10 @@ class _ProfilePage extends State<ProfilePage> {
       cuidador_telefono: map1[0]['cuidador_telefono'].toString()
     );
 
+    nombreCuidadorController.text = '';
+    apellidoCuidadorController.text = '';
+    telefonoCuidadorController.text = '';
+
     Navigator.pushAndRemoveUntil <dynamic>(
       context,
       MaterialPageRoute <dynamic>(

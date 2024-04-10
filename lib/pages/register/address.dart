@@ -312,8 +312,8 @@ class _Address extends State <Address> {
       var id1 = txn.update('Usuario', usuario);
     });
 
-    cuidadorController.text = widget.user.cuidador_nombre.toString();
-    numCuidadorController.text = widget.user.cuidador_telefono.toString();
+    //cuidadorController.text = widget.user.cuidador_nombre.toString();
+    //numCuidadorController.text = widget.user.cuidador_telefono.toString();
 
     Navigator.pushAndRemoveUntil <dynamic>(
       context,

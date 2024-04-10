@@ -48,10 +48,6 @@ class _CarerPage extends State <CarerPage> {
         }
       }
       telefonoCuidadorController.text = widget.user.cuidador_telefono.toString();
-    }else{
-      nombreCuidadorController.text = '';
-      apellidoCuidadorController.text = '';
-      numCuidadorController.text = '';
     }
 
     return Scaffold(
@@ -71,6 +67,10 @@ class _CarerPage extends State <CarerPage> {
             ),
             onPressed: () {
               if(widget.user.id_usuario != null){
+                nombreCuidadorController.text = '';
+                apellidoCuidadorController.text = '';
+                telefonoCuidadorController.text = '';
+
                 Navigator.pushAndRemoveUntil <dynamic>(
                   context,
                   MaterialPageRoute <dynamic>(
@@ -300,6 +300,10 @@ class _CarerPage extends State <CarerPage> {
 
     cuidadorController.text = widget.user.cuidador_nombre.toString();
     numCuidadorController.text = widget.user.cuidador_telefono.toString();
+
+    nombreCuidadorController.text = '';
+    apellidoCuidadorController.text = '';
+    telefonoCuidadorController.text = '';
 
     Navigator.pushAndRemoveUntil <dynamic>(
       context,
