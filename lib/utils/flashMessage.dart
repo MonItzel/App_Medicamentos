@@ -22,6 +22,8 @@ void muestraSnackBar(BuildContext context, int bandShow){
                            TextoSnackBar(contenido: 'Por favor ingrese su(s) nombres', tamFontSize: 25),
                          if(bandShow == 1)
                           TextoSnackBar(contenido: 'Puede ingresar su(s) apellido(s) paterno y/o materno', tamFontSize: 19),
+                          if(bandShow == 2)
+                            TextoSnackBar(contenido: 'Por favor, ingrese la hora de toma de su medicamento', tamFontSize: 22),
                           ]
                       ),
 
