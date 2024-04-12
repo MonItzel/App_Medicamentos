@@ -1,5 +1,6 @@
 import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/pages/register/ask_carer.dart';
+import 'package:app_medicamentos/utils/flashMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,6 +17,7 @@ class Pathologies extends StatefulWidget {
   final User user;
   final List<String> pathologies;
 
+
   @override
   State<StatefulWidget> createState() {
     return _Pathologies();
@@ -23,6 +25,7 @@ class Pathologies extends StatefulWidget {
 }
 
 class _Pathologies extends State <Pathologies> {
+  late bool _validateP = false;
   List<String> patologias = [];
   String buttonText = "Siguiente";
   List <String> pathDrop= [];
@@ -35,14 +38,14 @@ class _Pathologies extends State <Pathologies> {
   void initState() {
     super.initState();
   }
-  /*Incompleta
+
   void eliminarElemento(String elemento) {
     setState(() {
       pathDrop.remove(elemento);
       others.remove(elemento);
       allPath.remove(elemento);
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,12 +150,15 @@ class _Pathologies extends State <Pathologies> {
                         DropDownValueModel(name: 'Osteoporosis', value: "Osteoporosis"),
                         DropDownValueModel(name: 'Parkinson', value: "Parkinson"),
                       ],
+
                       onChanged: (val) {
+
                         setState(() {
                           //allPath.clear();
                           pathDrop.clear();
                           //others.clear();
                          allPath.clear();
+                         //val= pathDrop;
                           for(int i=0; i<val.length; i++) {
                             print('ingreso a drop');
                             print(val[i].name);
@@ -193,6 +199,8 @@ class _Pathologies extends State <Pathologies> {
                           ),
                           child: IconButton(
                             onPressed: (){
+                              otraspatController.text = ""; // Esto borra el contenido del controlador
+
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -217,16 +225,7 @@ class _Pathologies extends State <Pathologies> {
                                               textAlign: TextAlign.left,
                                               decoration: AppStyles.textFieldEstilo,
                                               style: AppStyles.texto1,
-                                              onTap: (){
-                                                otraspatController.clear();
 
-                                              },
-                                              onChanged: (text) {
-                                                setState(() {
-
-                                                  convertFirstWordUpperCase(text, otraspatController);
-                                                });
-                                              },
                                             ),
                                           ),
                                         ),
@@ -255,15 +254,18 @@ class _Pathologies extends State <Pathologies> {
                                                   minimumSize: Size(130, 45),
                                                 ),
                                                 onPressed: (){
+                                                  if(otraspatController.text.isEmpty){
+                                                    muestraSnackBar(context, 3);
+                                                  }else{
+                                                    setState(() {
+                                                      print('allpath other');
+                                                      print(allPath);
 
-                                                  setState(() {
-                                                    print('allpath other');
-                                                    print(allPath);
-
-                                                  });
-                                                  others.add(otraspatController.text);
-                                                  allPath.add(others); // Agregar el contenido de `others` a `allPath`
-                                                  Navigator.of(context).pop();
+                                                    });
+                                                    others.add(otraspatController.text);
+                                                    allPath.add(others); // Agregar el contenido de `others` a `allPath`
+                                                    Navigator.of(context).pop();
+                                                  }
                                                 },
                                                 child: Text('Agregar')
                                             )
@@ -297,13 +299,28 @@ class _Pathologies extends State <Pathologies> {
                         ),
                         direction: DismissDirection.endToStart,
                         onDismissed: (direction) async {
+                          print('indice: $index');
 
-                          //deletePath(allPath[index]);
+                          // Eliminar el elemento de todas las listas
+                          setState(() {
+                            String elementoEliminar = allPathList[index];
+                            print(elementoEliminar);
+                            allPathList.removeAt(index);
+
+                            // Encuentra y elimina el mismo elemento de pathDrop y others
+                            for (var lista in allPath) {
+                              if (lista.contains(elementoEliminar)) {
+                                lista.remove(elementoEliminar);
+                              }
+                            }
+                          });
+
 
                         },
                         confirmDismiss: (direction) async{
                           bool result = false;
-                          result = await showDialog(context: context, builder: (context){
+                          if (direction == DismissDirection.endToStart){
+                           return await showDialog(context: context, builder: (context){
                             return AlertDialog(
                               title: Text('¿Esta seguro que desea eliminar este padecimiento?',),
                               actions: <Widget>[
@@ -318,7 +335,7 @@ class _Pathologies extends State <Pathologies> {
                                           minimumSize: Size(130, 45),
                                         ),
                                         onPressed: () {
-                                          return Navigator.pop(context, false);
+                                          return Navigator.of(context).pop(false);
                                         },
                                         child: Text('Cancelar'),
                                       ),
@@ -329,7 +346,7 @@ class _Pathologies extends State <Pathologies> {
                                             minimumSize: Size(130, 45),
                                           ),
                                           onPressed: (){
-                                            Navigator.pop(context, true);
+                                            Navigator.of(context).pop(true);
                                           },
                                           child: Text('Aceptar')
                                       )
@@ -340,9 +357,10 @@ class _Pathologies extends State <Pathologies> {
                               ],
                             );
                           });
-                          return result;
+                          }
+                          return null;
                         },
-                        key: UniqueKey(),
+                        key: ValueKey<String>(allPathList[index]),
                         child: ListTile(
                           title: Row(
                             children: [
