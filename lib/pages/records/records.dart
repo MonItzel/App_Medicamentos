@@ -153,58 +153,82 @@ class _RecordsPage extends State <RecordsPage>{
               child: Column(
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.medication_liquid, size: 40), // Icono de medicina a la izquierda
+                    leading: Icon(
+                        Icons.medication_liquid,
+                        size: 44,
+                    ),
                     title: Text(
                       medicamentos[i]['nombre'].toString(), //Nombre del medicamento
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: AppStyles.tituloCard,
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Cada ' + medicamentos[i]['frecuenciaToma'].toString() + ' ' + medicamentos[i]['frecuenciaTipo'].toString() + 's'),
-                        Text("Dosis: " + medicamentos[i]['dosis'].toString()), //Dosis del medicamento
+                        Text(
+                          "Dosis: " + medicamentos[i]['dosis'].toString(),
+                          style: AppStyles.dosisCard,
+                        ),
+                        Text(
+                          'Cada ' + medicamentos[i]['frecuenciaToma'].toString() + ' ' + medicamentos[i]['frecuenciaTipo'].toString() + 's',
+                          style: AppStyles.dosisCard,
+                        ),
+                        Text(
+                          "Inicio de toma: " + medicamentos[i]['inicioToma'].toString().split(" ")[0],
+                          style: AppStyles.dosisCard,
+                        ), //Fecha de inicio
                       ],
                     ),
-                    trailing: Text(
-                      "Inicio: " + medicamentos[i]['inicioToma'].toString().split(" ")[0], //Fecha de inicio
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
                   ),
-                  //Botón para eliminar este medicamento.
-                  SizedBox(height: 1.0, width: 1.0,),
+
                   Padding(
-                    padding: const EdgeInsets.only(right: 5, bottom: 0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton.small(
-                        heroTag: "DeleteM" + medicamentos[i]['id_medicamento'].toString(),
-                        onPressed: () async {
-                          await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
-                        },
-                        backgroundColor: Color(0xFF09184D),
-                        child: Icon(
-                            Icons.delete
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                    child: Container(
+                      child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+
+                        Expanded(
+                          child: Container(
+                            height: 60,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                EditMedicament(medicamentos[i]['id_medicamento'].toString());
+                              },
+                              style: AppStyles.botonPrincipal,
+                              child: Icon(
+                                Icons.edit,
+                                size: 30,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+
+                        SizedBox(
+                          width: 20,
+                        ),
+
+                        Expanded(
+                          child: Container(
+                            height: 60,
+                            child: ElevatedButton(
+                              onPressed:  () async {
+                                await DeleteMedicament(medicamentos[i]['id_medicamento'].toString());
+                              },
+                              style: AppStyles.botonSecundario,
+                              child: Icon(
+                                Icons.delete,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
                     ),
                   ),
-                  SizedBox(height: 1.0, width: 1.0,),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5, bottom: 0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton.small(
-                        heroTag: "EditM" + medicamentos[i]['id_medicamento'].toString(),
-                        onPressed: () {
-                          EditMedicament(medicamentos[i]['id_medicamento'].toString());
-                        },
-                        backgroundColor: Color(0xFF09184D),
-                        child: Icon(
-                            Icons.edit
-                        ),
-                      ),
-                    ),
-                  ),
+
                 ],
               )
             )
@@ -234,62 +258,83 @@ class _RecordsPage extends State <RecordsPage>{
               child: Column(
                 children: <Widget>[
                       ListTile(
-                        leading: Icon(Icons.medical_services, size: 40),
-                        // Icono de medicina a la izquierda
+                        leading: Icon(
+                            Icons.medical_services,
+                            size: 44,
+                        ),
                         title: const Text(
-                          //citas[i]['motivo'].toString(),
                           'Cita Médica',
-                          //Titulo
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: AppStyles.tituloCard,
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Fecha: ' + citas[i]['fecha'].toString()),
-                            Text("Ubicacion: " +
-                                citas[i]['ubicacion'].toString()),
-                            //Dosis del medicamento
+                            Text(
+                              'Medico: ' + citas[i]['nombre_medico'].toString(),
+                              style: AppStyles.dosisCard,
+                            ),
+                            Text(
+                              'Fecha: ' + citas[i]['fecha'].toString(),
+                              style: AppStyles.dosisCard,
+                            ),
+                            Text(
+                              "Ubicacion: " + citas[i]['ubicacion'].toString(),
+                              style: AppStyles.dosisCard,
+                            ),
+                            Text(
+                              "Telefono: " + citas[i]['telefono_medico'].toString(),
+                              style: AppStyles.dosisCard,
+                            ),
                           ],
                         ),
-                        trailing: Text(
-                          "Telefono: " +
-                              citas[i]['telefono_medico'].toString(), //Fecha de inicio
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
                   ),
-                  //Botón para eliminar esta cita.
-                  SizedBox(height: 1.0, width: 1.0,),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5, bottom: 0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton.small(
-                        heroTag: "DeleteC" + citas[i]['id_cita'].toString(),
-                        onPressed: () async {
-                          await DeleteAppointment(citas[i]['id_cita'].toString());
 
-                        },
-                        backgroundColor: Color(0xFF09184D),
-                        child: Icon(
-                            Icons.delete
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 1.0, width: 1.0,),
+
                   Padding(
-                    padding: const EdgeInsets.only(right: 5, bottom: 0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: FloatingActionButton.small(
-                        heroTag: "EditC" + citas[i]['id_cita'].toString(),
-                        onPressed: () {
-                          EditAppointment(citas[i]['id_cita'].toString());
-                        },
-                        backgroundColor: Color(0xFF09184D),
-                        child: Icon(
-                            Icons.edit
-                        ),
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+
+                          Expanded(
+                            child: Container(
+                              height: 60,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  EditAppointment(citas[i]['id_cita'].toString());
+                                },
+                                style: AppStyles.botonPrincipal,
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 30,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(
+                            width: 20,
+                          ),
+
+                          Expanded(
+                            child: Container(
+                              height: 60,
+                              child: ElevatedButton(
+                                onPressed:  () async {
+                                  await DeleteAppointment(citas[i]['id_cita'].toString());
+                                },
+                                style: AppStyles.botonSecundario,
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 30,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
                       ),
                     ),
                   ),
