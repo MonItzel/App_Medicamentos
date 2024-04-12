@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/constants.dart';
 
-import '../models/user_model.dart';
+import 'package:app_medicamentos/models/user_model.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});

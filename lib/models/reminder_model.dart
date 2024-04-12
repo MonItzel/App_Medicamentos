@@ -68,7 +68,7 @@ class Reminder{
         "SELECT * FROM Medicamento AS M INNER JOIN Recordatorio AS R ON M.id_medicamento = R.id_medicamento WHERE R.fecha_hora LIKE '" + horas[i]["fecha_hora"] + "%'",
       );
       if(mRecordatorios.length > 0)
-        mensaje += "Medicamentos: ";
+        mensaje += "Medicamento: ";
       for(int j = 0; j < mRecordatorios.length; j++){
         mensaje += mRecordatorios[j]["nombre"].toString() + ", ";
       }

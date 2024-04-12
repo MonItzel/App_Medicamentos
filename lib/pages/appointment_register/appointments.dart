@@ -100,7 +100,7 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 10),
                   child: Text(
-                    'Nombre del medico',
+                    'Nombre del médico',
                     style: AppStyles.texto1,
                   ),
                 ),

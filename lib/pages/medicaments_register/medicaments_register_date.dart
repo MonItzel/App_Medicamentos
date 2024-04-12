@@ -3,6 +3,7 @@ import 'package:app_medicamentos/pages/calendar/calendar.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/pages/profile/profile_page.dart';
 import 'package:app_medicamentos/pages/records/records.dart';
+import 'package:app_medicamentos/utils/flashMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -27,6 +28,8 @@ class MedicamentDateRegister extends StatefulWidget {
 
 class _MedicamentDateRegister extends State <MedicamentDateRegister> {
   var medicamentDate;
+  late bool _validateF = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -165,9 +168,11 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                     time = time.split(")")[0];
                     setState(() {
                       timeinput.text = time; //set the value of text field.
+                      _validateF = true;
                     });
                   }else{
                     print("Time is not selected");
+                    _validateF = false;
                   }
                 },
               ),
@@ -181,6 +186,11 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                     height: AppStyles.altoBoton,
                     child: ElevatedButton(
                       onPressed: () async {
+                        if (_validateF == false) {
+                          muestraSnackBar(context, 2);
+                          return;
+                        }
+
                         if(widget.medicament.id_medicamento != null){
                           //Si el user ya tiene un id, actualiza la información del usuario
                           update(context);
@@ -189,6 +199,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                           int result = await RegisterMedicament();
                           muestraButtonSheet(context, result);
                         }
+
                       },
                       style: AppStyles.botonPrincipal,
                       child: Text(buttonText,

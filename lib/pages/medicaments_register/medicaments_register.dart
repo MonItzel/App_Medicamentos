@@ -20,6 +20,7 @@ class MedicamentNameRegister extends StatefulWidget {
 }
 
 class _MedicamentNameRegister extends State <MedicamentNameRegister> {
+
   //Objeto usado para pasar la información del medicamento de esta pantalla a la suiguiente.
   Medicament medicament = Medicament();
   final  freqHour = TextEditingController();
@@ -27,7 +28,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
   final  freqWeek = TextEditingController();
   final  freqMonth = TextEditingController();
 
-  Frequency? _frequency = Frequency.horas;
+  Frequency? _frequency;
 
   bool isContainerVisible = false;
 
@@ -193,211 +194,185 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                   ),
                 ),
               ),
-
-              //AQUI INKWELL
-              InkWell(
-                child: Container(
-                  decoration: AppStyles.contenedorTextForm,
-                  padding: EdgeInsets.all(16.0),
-
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Toca para agregar', style: TextStyle(fontSize: 20),),
-                      Icon(Icons.arrow_drop_down),
-                    ],
+              
+              Container(
+                margin: EdgeInsets.only(top: 1.0),
+                padding: EdgeInsets.all(10.0),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    )
+                  ],
                 ),
-                onTap: () {
-                  print('Contenedor visible');
-                  setState(() {
-                    isContainerVisible = !isContainerVisible;
-                    print(freqDay);
-                  });
-                },
-              ),
-              Visibility(
-                visible: isContainerVisible,
-                child: Container(
-                  margin: EdgeInsets.only(top: 1.0),
-                  padding: EdgeInsets.all(10.0),
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+
+                child: Column(
+                  children: <Widget>[
+                    RadioListTile<Frequency>(
+                      activeColor: Color(0xFF0D1C52),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
+                        children: [
+                          Container(
+                            width: 50,
+                            child: TextFormField(
+                              controller: freqHour,
+                              obscureText: false,
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xFF0D1C52),),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: const Text(
+                              'Horas',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                      value: Frequency.horas,
+                      groupValue: _frequency,
+                      onChanged: (Frequency? value) {
+                        setState(() {
+                          _frequency = value;
+                        });
+                      },
                     ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
 
-                  child: Column(
-                    children: <Widget>[
-                      RadioListTile<Frequency>(
-                        activeColor: Color(0xFF0D1C52),
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
-                          children: [
-                            Container(
-                              width: 50,
-                              child: TextFormField(
-                                controller: freqHour,
-                                obscureText: false,
-                                textAlign: TextAlign.left,
-                                decoration: InputDecoration(
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xFF0D1C52),),
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
+                    RadioListTile<Frequency>(
+                      activeColor: Color(0xFF0D1C52),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
+                        children: [
+                          Container(
+                            width: 50,
+                            child: TextFormField(
+                              controller: freqDay,
+                              obscureText: false,
+                              textAlign: TextAlign.left,
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xFF0D1C52),),
                                 ),
+                                filled: true,
+                                fillColor: Colors.white,
                               ),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: const Text(
-                                'Horas',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ],
-                        ),
-                        value: Frequency.horas,
-                        groupValue: _frequency,
-                        onChanged: (Frequency? value) {
-                          setState(() {
-                            _frequency = value;
-                          });
-                        },
-                      ),
-
-                      RadioListTile<Frequency>(
-                        activeColor: Color(0xFF0D1C52),
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
-                          children: [
-                            Container(
-                              width: 50,
-                              child: TextFormField(
-                                controller: freqDay,
-                                obscureText: false,
-                                textAlign: TextAlign.left,
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xFF0D1C52),),
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10,),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: const Text(
-                                'Días',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ],
-                        ),
-                        value: Frequency.dias,
-                        groupValue: _frequency,
-                        onChanged: (Frequency? value) {
-                          setState(() {
-                            _frequency = value;
-                          });
-                        },
-                      ),
-
-                      RadioListTile<Frequency>(
-
-                        activeColor: const Color(0xFF0D1C52),
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
-                          children: [
-                            Container(
-                              width: 50,
-                              child: TextFormField(
-                                controller: freqWeek,
-                                obscureText: false,
-                                textAlign: TextAlign.left,
-                                decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xFF0D1C52)),
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10,),
-                            const Text(
-                              'Semanas',
+                          ),
+                          const SizedBox(width: 10,),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: const Text(
+                              'Días',
                               style: TextStyle(fontSize: 20),
                             ),
-                          ],
-                        ),
-                        value: Frequency.semanas,
-                        groupValue: _frequency,
-                        onChanged: (Frequency? value) {
-                          setState(() {
-                            _frequency = value;
-                          });
-                        },
+                          ),
+                        ],
                       ),
+                      value: Frequency.dias,
+                      groupValue: _frequency,
+                      onChanged: (Frequency? value) {
+                        setState(() {
+                          _frequency = value;
+                        });
+                      },
+                    ),
 
-                      RadioListTile<Frequency>(
-                        activeColor: Color(0xFF0D1C52),
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
-                          children: [
-                            Container(
-                              width: 50,
-                              child: TextFormField(
-                                controller: freqMonth,
-                                obscureText: false,
-                                textAlign: TextAlign.left,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.zero,
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Color(0xFF0D1C52)),
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
+                    RadioListTile<Frequency>(
+
+                      activeColor: const Color(0xFF0D1C52),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
+                        children: [
+                          Container(
+                            width: 50,
+                            child: TextFormField(
+                              controller: freqWeek,
+                              obscureText: false,
+                              textAlign: TextAlign.left,
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xFF0D1C52)),
                                 ),
+                                filled: true,
+                                fillColor: Colors.white,
                               ),
                             ),
-                            const SizedBox(width: 10,),
-                            const Text(
-                              'Meses',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        value: Frequency.meses,
-                        groupValue: _frequency,
-                        onChanged: (Frequency? value) {
-                          setState(() {
-                            _frequency = value;
-                          });
-                        },
+                          ),
+                          const SizedBox(width: 10,),
+                          const Text(
+                            'Semanas',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
+                      value: Frequency.semanas,
+                      groupValue: _frequency,
+                      onChanged: (Frequency? value) {
+                        setState(() {
+                          _frequency = value;
+                        });
+                      },
+                    ),
+
+                    RadioListTile<Frequency>(
+                      activeColor: Color(0xFF0D1C52),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
+                        children: [
+                          Container(
+                            width: 50,
+                            child: TextFormField(
+                              controller: freqMonth,
+                              obscureText: false,
+                              textAlign: TextAlign.left,
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xFF0D1C52)),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10,),
+                          const Text(
+                            'Meses',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      value: Frequency.meses,
+                      groupValue: _frequency,
+                      onChanged: (Frequency? value) {
+                        setState(() {
+                          _frequency = value;
+                        });
+                      },
+                    ),
 
 
-                    ],
-                  ),
+                  ],
                 ),
               ),
-
               Center(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),

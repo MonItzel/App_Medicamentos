@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:sqflite/sqflite.dart';
-import '../../models/user_model.dart';
+import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/utils/validaciones.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:app_medicamentos/constants.dart';

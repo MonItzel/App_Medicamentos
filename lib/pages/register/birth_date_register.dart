@@ -3,7 +3,7 @@ import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:intl/intl.dart';
-import '../../models/user_model.dart';
+import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
