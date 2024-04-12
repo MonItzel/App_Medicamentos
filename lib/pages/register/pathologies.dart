@@ -128,7 +128,7 @@ class _Pathologies extends State <Pathologies> {
                   children: [
                     DropDownTextField.multiSelection(
                       submitButtonColor: AppStyles.primaryBlue,
-                      submitButtonText: '                            Aceptar                         ',
+                      submitButtonText: '                    Aceptar                 ',
                       submitButtonTextStyle: TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: 18.0,

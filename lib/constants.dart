@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppStyles {
 
   //MEDIDAS
-  static final anchoBoton = 200.0;
+  static final anchoBoton = 225.0;
   static final altoBoton = 70.0;
 
   //COLORES
