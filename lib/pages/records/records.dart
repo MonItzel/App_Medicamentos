@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/models/medicament_model.dart';
@@ -345,12 +344,14 @@ class _RecordsPage extends State <RecordsPage>{
           );
         }
 
+        /*
         final List<Map<String, dynamic>> citas = await database.rawQuery(
           "DELETE FROM Cita WHERE id_cita = " + id,
         );
         final List<Map<String, dynamic>> rCitas = await database.rawQuery(
           "DELETE FROM Recordatorio WHERE id_cita = " + id,
         );
+        */
 
         homePageCards.clear();
         calendarPageCards.clear();
@@ -388,12 +389,12 @@ class _RecordsPage extends State <RecordsPage>{
         );
       }
 
-      final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
+      /*final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
         "DELETE FROM Medicamento WHERE id_medicamento = " + id,
       );
       final List<Map<String, dynamic>> rMedicamentos = await database.rawQuery(
         "DELETE FROM Recordatorio WHERE id_medicamento = " + id,
-      );
+      );*/
 
       homePageCards.clear();
       calendarPageCards.clear();
@@ -486,8 +487,9 @@ class _RecordsPage extends State <RecordsPage>{
             ),
                 (route) => false,
           );
-        } else if (delete) {
-          currentMedicament = Medicament();
+        } else if (delete && !deleting) {
+          //currentMedicament = Medicament();
+          deleting = true;
           muestraButtonSheet(context, deleteResult);
         }
       }
@@ -503,8 +505,9 @@ class _RecordsPage extends State <RecordsPage>{
             ),
                 (route) => false,
           );
-        } else if (delete) {
-          currentAppointment = Appointment();
+        } else if (delete && !deleting) {
+          //currentAppointment = Appointment();
+          deleting = true;
           muestraButtonSheet(context, deleteResult);
         }
       }
@@ -524,4 +527,5 @@ Appointment currentAppointment = Appointment();
 List<Widget> recordsPageCards = [];
 bool update = false;
 bool delete = false;
+bool deleting = false;
 int deleteResult = 0;

@@ -10,6 +10,8 @@ import 'package:app_medicamentos/pages/appointment_register/appointments.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as Path;
 
 class Button extends StatelessWidget {
   final int color;
@@ -22,9 +24,17 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     //int direction = 1;
     double ancho = AppStyles.anchoBoton, alto = AppStyles.altoBoton;
+
+    /*
+    if(currentMedicament.id_medicamento != null){
+      ancho = 100;
+      alto = 50;
+    }
+    */
+
     return Container(
-      width: AppStyles.anchoBoton,
-      height: AppStyles.altoBoton,
+      width: ancho,
+      height: alto,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(color),
@@ -35,7 +45,7 @@ class Button extends StatelessWidget {
           fixedSize: Size(ancho, alto),
         ),
         //263, 71
-      onPressed: (){
+      onPressed: () async {
         if(ruta == 0){
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
@@ -68,6 +78,63 @@ class Button extends StatelessWidget {
         }else if (ruta == 3){
           delete = false;
           update = false;
+          deleting = false;
+          currentMedicament = Medicament();
+          currentAppointment = Appointment();
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            PageTransition(
+              type: PageTransitionType.topToBottom,
+              child: const RecordsPage(),
+            ),
+                (route) => false,
+          );
+        }else if (ruta == 4){
+          delete = false;
+          update = false;
+          deleting = false;
+
+          Database database = await openDatabase(
+              Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+          print("Eliminando medicamento id: " + currentMedicament.id_medicamento.toString());
+
+          final List<Map<String, dynamic>> medicamentos = await database.rawQuery(
+            "DELETE FROM Medicamento WHERE id_medicamento = " + currentMedicament.id_medicamento.toString(),
+          );
+          final List<Map<String, dynamic>> rMedicamentos = await database.rawQuery(
+            "DELETE FROM Recordatorio WHERE id_medicamento = " + currentMedicament.id_medicamento.toString(),
+          );
+
+          currentMedicament = Medicament();
+
+          Navigator.pushAndRemoveUntil <dynamic>(
+            context,
+            PageTransition(
+              type: PageTransitionType.topToBottom,
+              child: const RecordsPage(),
+            ),
+                (route) => false,
+          );
+        }else if (ruta == 5){
+          delete = false;
+          update = false;
+          deleting = false;
+
+          Database database = await openDatabase(
+              Path.join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
+
+          print("Eliminando cita id: " + currentAppointment.id_cita.toString());
+
+          final List<Map<String, dynamic>> citas = await database.rawQuery(
+            "DELETE FROM Cita WHERE id_cita = " + currentAppointment.id_cita.toString(),
+          );
+          final List<Map<String, dynamic>> rCitas = await database.rawQuery(
+            "DELETE FROM Recordatorio WHERE id_cita = " + currentAppointment.id_cita.toString(),
+          );
+
+          currentAppointment = Appointment();
+
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             PageTransition(

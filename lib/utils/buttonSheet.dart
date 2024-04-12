@@ -265,32 +265,26 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                         child: Padding(
                           padding: EdgeInsets.only(left: 16, top: 30, bottom: 16),
                           child:Text(
-                            'Medicamento eliminado',
+                            '¿Desea eliminar el Medicamento?',
                             style: AppStyles.encabezado1,
                           ),
                         ),
+                      ),
+
+
+                      const Button(
+                        color: 0xFF0063C9,
+                        contenido: 'Aceptar',
+                        ruta: 4,
                       ),
 
                       const SizedBox(
                         height: 30.0,
                       ),
 
-                      Center(
-                        child: SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
-                            child: Container(
-                              child: Image.asset('assets/images/icon_ok.png'),
-                            ),
-                          ),
-                        ),
-                      ),
-
                       const Button(
                         color: 0xFF0063C9,
-                        contenido: 'Aceptar',
+                        contenido: 'Cancelar',
                         ruta: 3,
                       ),
                     ],
@@ -351,26 +345,19 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                         ),
                       ),
 
+                      const Button(
+                        color: 0xFF0063C9,
+                        contenido: 'Aceptar',
+                        ruta: 5,
+                      ),
+
                       const SizedBox(
                         height: 30.0,
                       ),
 
-                      Center(
-                        child: SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
-                            child: Container(
-                              child: Image.asset('assets/images/icon_ok.png'),
-                            ),
-                          ),
-                        ),
-                      ),
-
                       const Button(
                         color: 0xFF0063C9,
-                        contenido: 'Aceptar',
+                        contenido: 'Cancelar',
                         ruta: 3,
                       ),
                     ],
