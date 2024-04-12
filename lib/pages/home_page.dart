@@ -279,12 +279,16 @@ class _HomePage extends State<HomePage> {
             // Formatea la hora en formato de 12 horas sin segundos
             String horaFormateada = DateFormat('hh:mm a').format(horaDateTime);
             Color color = Colors.white;
+            IconData iconoCard = Icons.abc;
             if (horaDateTime.hour >= 6 && horaDateTime.hour < 12) {
-              color = Colors.orange.shade50;
+              color = Color(0xFFDAEAF6);
+              iconoCard = Icons.sunny;
             } else if (horaDateTime.hour >= 12 && horaDateTime.hour < 18) {
-              color = Colors.lightBlue.shade50;
+              color = Color(0xFFFCF4DD);
+              iconoCard = Icons.wb_twilight_rounded;
             } else if (horaDateTime.hour < 6 || horaDateTime.hour >= 18) {
-              color = Colors.indigo.shade50;
+              color = Color(0xFFE8DFF5);
+              iconoCard = Icons.mode_night_rounded;
             }
 
             homePageCards.add(
@@ -325,9 +329,18 @@ class _HomePage extends State<HomePage> {
                           ),
                         ],
                       ),
-                      trailing: Text(
-                        horaFormateada,
-                        style: AppStyles.dosisCard,
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            iconoCard,
+                            size: 30,
+                          ),
+                          Text(
+                            horaFormateada,
+                            style: AppStyles.dosisCard,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -361,13 +374,14 @@ class _HomePage extends State<HomePage> {
                     'Teléfono : ${citas[i]['telefono_medico'].toString().split(" ")[0]}\n'
             );
 
-            Color color = Colors.white;
+            Color color = Color(0xFFDDEDEA);
+            IconData iconoCard = Icons.abc;
             if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
-              color = Colors.orange.shade50;
+              iconoCard = Icons.sunny;
             }else if(horaDateTime.hour >= 12 && horaDateTime.hour <= 18){
-              color = Colors.lightBlue.shade50;
+              iconoCard = Icons.wb_twilight_rounded;
             }else if(horaDateTime.hour < 6 || horaDateTime.hour >= 18){
-              color = Colors.indigo.shade50;
+              iconoCard = Icons.mode_night_rounded;
             }
             homePageCards.add(Card(
               color: color,
@@ -403,9 +417,18 @@ class _HomePage extends State<HomePage> {
                       //Dosis del medicamento
                     ],
                   ),
-                  trailing: Text(
-                    citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0],
-                    style: AppStyles.dosisCard,
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        iconoCard,
+                        size: 30,
+                      ),
+                      Text(
+                        citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0],
+                        style: AppStyles.dosisCard,
+                      ),
+                    ],
                   ),
                 ),
               ),
