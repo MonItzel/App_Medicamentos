@@ -240,7 +240,7 @@ class _Pathologies extends State <Pathologies> {
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Color(0xFF0A3461),
-                                                minimumSize: Size(130, 45),
+                                                minimumSize: Size(120, 45),
                                               ),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
@@ -251,7 +251,7 @@ class _Pathologies extends State <Pathologies> {
                                             ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor: Color(0xFF0063C9),
-                                                  minimumSize: Size(130, 45),
+                                                  minimumSize: Size(120, 45),
                                                 ),
                                                 onPressed: (){
                                                   if(otraspatController.text.isEmpty){
