@@ -40,15 +40,56 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePage extends State<HomePage> {
+class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   String formattedDate = '';
   bool _isLoading = true; // Añadido para controlar la carga de datos
 
 
   int resCreateNote = 0;
+
+  //Mensajes animación
+  late AnimationController animationController;
+  late Animation degOneTranslationAnimation,degTwoTranslationAnimation,degThreeTranslationAnimation;
+  late Animation rotationAnimation;
+
+
+  double getRadiansFromDegree(double degree) {
+    double unitRadian = 57.295779513;
+    return degree / unitRadian;
+  }
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+
+
   @override
   void initState()  {
+    animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 250));
+    degOneTranslationAnimation = TweenSequence([
+      TweenSequenceItem<double>(tween: Tween<double >(begin: 0.0,end: 1.2), weight: 75.0),
+      TweenSequenceItem<double>(tween: Tween<double>(begin: 1.2,end: 1.0), weight: 25.0),
+    ]).animate(animationController);
+    degTwoTranslationAnimation = TweenSequence([
+      TweenSequenceItem<double>(tween: Tween<double >(begin: 0.0,end: 1.4), weight: 55.0),
+      TweenSequenceItem<double>(tween: Tween<double>(begin: 1.4,end: 1.0), weight: 45.0),
+    ]).animate(animationController);
+    degThreeTranslationAnimation = TweenSequence([
+      TweenSequenceItem<double>(tween: Tween<double >(begin: 0.0,end: 1.75), weight: 35.0),
+      TweenSequenceItem<double>(tween: Tween<double>(begin: 1.75,end: 1.0), weight: 65.0),
+    ]).animate(animationController);
+    rotationAnimation = Tween<double>(begin: 180.0,end: 0.0).animate(CurvedAnimation(parent: animationController
+        , curve: Curves.easeOut));
+    super.initState();
+    animationController.addListener((){
+      setState(() {
+
+      });
+    });
+
     super.initState();
 
     ConsultUser(context).then((resultado) {
@@ -90,9 +131,10 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     //Al ingresar se crean las cartas.
     //CreateCards(context);
-
     double titleSpacing = resCreateNote == 1 ? 0.0 : 0.0;
     //double toolbarHeight = resCreateNote == 1 ? 140.0 : 80.0;
+    Size size = MediaQuery.of(context).size;
+
 
     return MaterialApp(
       home: Scaffold(
@@ -157,7 +199,7 @@ class _HomePage extends State<HomePage> {
                    color: Colors.deepOrangeAccent,)
              )*/
              Padding(
-               padding: const EdgeInsets.only(right: 15.0),
+               padding: const EdgeInsets.only(right: 25.0),
                child: Container(
                  decoration: BoxDecoration(
                    shape: BoxShape.circle,
@@ -170,6 +212,7 @@ class _HomePage extends State<HomePage> {
                    icon: Icon(
                      Icons.call,
                      color: Colors.white,
+                     size: 32,
 
                    ),
                  ),
@@ -181,7 +224,7 @@ class _HomePage extends State<HomePage> {
           :null,
 
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+       /* floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: (iconActivo && CuidadorActivo) ? FloatingActionButton(
                 backgroundColor: Color(0xFF0A3461),
                   onPressed: (){
@@ -190,14 +233,128 @@ class _HomePage extends State<HomePage> {
                     },
                 child: Icon(Icons.message),
               ) : null,
+*/
+        body: Stack(
+          children: [
+            Container(
+              height: homePageCards.length * 170,
+              child: new ListView(
+                //Lista de cartas del día actual.
+                children: homePageCards,
+              )
+            ),
+            Container(
+              width: size.width,
+              height: size.height,
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                      right: 30,
+                      bottom: 30,
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: <Widget>[
+                          IgnorePointer(
+                            child: Container(
+                              color: Colors.transparent,
+                              height: 150.0,
+                              width: 150.0,
+                            ),
+                          ),
+                          Transform.translate(
+                            offset: Offset.fromDirection(getRadiansFromDegree(270),degOneTranslationAnimation.value * 100),
+                            child: Transform(
+                              transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value))..scale(degOneTranslationAnimation.value),
+                              alignment: Alignment.center,
+                              child: CircularButton(
+                                color: Color(0xFF2ACF49),
+                                width: 55,
+                                height: 55,
+                                icon:Icon(
+                                  Icons.message,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                                onClick: (){
+                                  print('First Button');
+                                  _msgMedicamentAppointmentWhats(context);
+                                },
+                              ),
+                            ),
+                          ),
+                          Transform.translate(
+                            offset: Offset.fromDirection(getRadiansFromDegree(225),degTwoTranslationAnimation.value * 100),
+                            child: Transform(
+                              transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value))..scale(degTwoTranslationAnimation.value),
+                              alignment: Alignment.center,
+                              child: CircularButton(
+                                color: Color(0xFF1483F5),
+                                width: 55,
+                                height: 55,
+                                icon: Icon(
+                                  Icons.sms,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                                onClick: (){
+                                  _msgMedicamentAppointmentMsg(context);
+                                  print('Second button');
+                                },
+                              ),
+                            ),
+                          ),
+                          /*
+                          Transform.translate(
+                            offset: Offset.fromDirection(getRadiansFromDegree(180),degThreeTranslationAnimation.value * 100),
+                            child: Transform(
+                              transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value))..scale(degThreeTranslationAnimation.value),
+                              alignment: Alignment.center,
+                              child: CircularButton(
+                                color: Colors.orangeAccent,
+                                width: 50,
+                                height: 50,
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                                onClick: (){
+                                  print('Third Button');
+                                },
+                              ),
+                            ),
+                          ),*/
+                          Transform(
+                            //transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value)),
+                            transform: Matrix4.rotationZ(0),
+                            alignment: Alignment.center,
+                            child: CircularButton(
+                              color: Color(0xFF0A3461),
+                              width: 60,
+                              height: 60,
+                              icon: Icon(
+                                Icons.messenger,
+                                color: Colors.white,
+                                size: 32,
+                              ),
+                              onClick: (){
+                                if (animationController.isCompleted) {
+                                  animationController.reverse();
+                                } else {
+                                  animationController.forward();
+                                }
+                              },
+                            ),
+                          )
 
-        body: Container(
-          height: homePageCards.length * 170,
-          child: new ListView(
-            //Lista de cartas del día actual.
-            children: homePageCards,
-          )
+                        ],
+                      ))
+                ],
+              ),
+            )
+
+          ],
         ),
+
 
 
         bottomNavigationBar: Container(
@@ -593,6 +750,7 @@ Future<void>_callCarer() async {
   launchUrl(Uri.parse('tel: $telCuidador'));
 }
 
+/*
 Future<void>_msgMedicamentAppointment(var context) async {
   //%20 es el espacio
   //Llamado a la función Parámetros a enviar
@@ -639,6 +797,81 @@ Future<void>_msgMedicamentAppointment(var context) async {
     throw 'Could not launch $uri';
   }
 }
+*/
+
+Future<void>_msgMedicamentAppointmentMsg(var context) async {
+  //%20 es el espacio
+  //Llamado a la función Parámetros a enviar
+  // Llama a la función verificaMedyCita para obtener el resultado
+  Resultado resultado = await verificaMedyCita(context);
+
+  // Extrae los mensajes de medicamento y cita del resultado
+  String mensajeMedicamento = resultado.msgMed;
+  String mensajeCita = resultado.msgCita;
+  //funcion
+  print('nom_persona :' + nomAdult);
+  print('apellidos :' + apellidos);
+
+  print('tel cuidador ' + telCuidador);
+
+  //print('msgmed: ' + medicamentoInfoList);
+  //print('msgcita: ' + citaInfoList);
+
+  String medicamentoInfo = medicamentoInfoList.join(', ');
+  String citaInfo = citaInfoList.join(', ');
+
+  print('medinfo' + medicamentoInfo);
+
+  final uri = 'sms:$telCuidador?body=$nomAdult%20$apellidos%0A$mensajeMedicamento$medicamentoInfo%0A$mensajeCita%0A$citaInfo';
+  //const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
+
+  //final mensaje = '$nomAdult $apellidos\nTiene que tomar sus medicamentos\n$medicamentoInfoList\nTiene una cita médica\n$citaInfoList';
+
+  // Reemplaza los espacios en blanco con %20 para el formato de URL
+  //final mensajeUrl = Uri.encodeFull(mensaje);
+
+  //final uri = 'https://wa.me/$tel_cuidador/?text=estoesunaprueba';
+  // final uri = 'https://wa.me/';
+
+  print('Intentando abrir URL: $uri');
+
+  if (await canLaunchUrl(Uri.parse(uri))) {
+    await launchUrl(Uri.parse(uri));
+  }
+  /* else if(await canLaunchUrl(Uri.parse(uri2))){
+    await launchUrl(Uri.parse(uri2));
+  }*/
+  else{
+    throw 'Could not launch $uri';
+  }
+}
+
+
+Future<void>_msgMedicamentAppointmentWhats(var context) async {
+  Resultado resultado = await verificaMedyCita(context);
+
+  // Extrae los mensajes de medicamento y cita del resultado
+  String mensajeMedicamento = resultado.msgMed;
+  String mensajeCita = resultado.msgCita;
+
+  String medicamentoInfo = medicamentoInfoList.join(', ');
+  String citaInfo = citaInfoList.join(', ');
+
+  // Reemplaza los espacios en blanco con %20 para el formato de URL
+  //final mensajeUrl = Uri.encodeFull(mensaje);
+
+  final uri = 'https://wa.me/$telCuidador/?text=$nomAdult%20$apellidos%0A$mensajeMedicamento$medicamentoInfo%0A$mensajeCita%0A$citaInfo';
+  // final uri = 'https://wa.me/';
+
+  print('Intentando abrir URL: $uri');
+
+  if (await launchUrl(Uri.parse(uri))) {
+    await launchUrl(Uri.parse(uri));
+  }
+  else{
+    throw 'Could not launch $uri';
+  }
+}
 
 Future<Resultado>verificaMedyCita(var context) async{
   if(resMed == 0 && resCita == 0 ){
@@ -679,3 +912,25 @@ Future<Resultado>verificaMedyCita(var context) async{
 }
 
 List<Widget> homePageCards = [];
+
+class CircularButton extends StatelessWidget {
+
+  final double width;
+  final double height;
+  final Color color;
+  final Icon icon;
+  final VoidCallback onClick;
+
+  CircularButton({required this.color, required this.width, required this.height, required this.icon, required this.onClick});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: color,shape: BoxShape.circle),
+      width: width,
+      height: height,
+      child: IconButton(icon: icon,enableFeedback: true, onPressed: onClick),
+    );
+  }
+}
