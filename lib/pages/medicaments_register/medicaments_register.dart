@@ -224,6 +224,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                             width: 50,
                             child: TextFormField(
                               controller: freqHour,
+                              keyboardType: TextInputType.number,
                               obscureText: false,
                               textAlign: TextAlign.left,
                               decoration: InputDecoration(
@@ -265,6 +266,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                             width: 50,
                             child: TextFormField(
                               controller: freqDay,
+                              keyboardType: TextInputType.number,
                               obscureText: false,
                               textAlign: TextAlign.left,
                               decoration: const InputDecoration(
@@ -305,6 +307,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                             width: 50,
                             child: TextFormField(
                               controller: freqWeek,
+                              keyboardType: TextInputType.number,
                               obscureText: false,
                               textAlign: TextAlign.left,
                               decoration: const InputDecoration(
@@ -341,6 +344,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                             width: 50,
                             child: TextFormField(
                               controller: freqMonth,
+                              keyboardType: TextInputType.number,
                               obscureText: false,
                               textAlign: TextAlign.left,
                               decoration: const InputDecoration(

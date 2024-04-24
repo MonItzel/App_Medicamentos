@@ -304,9 +304,11 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
         print(query);
       });
 
+      print('maxID');
       final List<Map<String, dynamic>> maxID = await database.rawQuery(
         'DELETE FROM Recordatorio WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString(),
       );
+
 
       Reminder reminder = Reminder(
           tipo: "M",

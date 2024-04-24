@@ -4,9 +4,17 @@ import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:app_medicamentos/provider/patprovider.dart';
 
 void main() {
-  runApp(const MyApp());
+  //runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

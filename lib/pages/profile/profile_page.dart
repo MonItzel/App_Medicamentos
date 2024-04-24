@@ -15,6 +15,10 @@ import '../../models/user_model.dart';
 import '../register/birth_date_register.dart';
 import '../register/pathologies.dart';
 
+import 'package:provider/provider.dart';
+import 'package:app_medicamentos/pages/register/name_pathologies.dart';
+import 'package:app_medicamentos/provider/patprovider.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -386,12 +390,7 @@ class _ProfilePage extends State<ProfilePage> {
                 ),
               ),
 
-              Container(
-                height: 40.0 * patologiasCards.length,
-                  child: ListView(
-                    children: patologiasCards,
-                  )
-              )
+              _buildUI(),
 
             ],
           ),
@@ -683,3 +682,38 @@ TextEditingController numInteriorController = TextEditingController();
 TextEditingController cuidadorController = TextEditingController();
 TextEditingController numCuidadorController = TextEditingController();
 List<Widget> patologiasCards = [];
+
+
+Widget _buildUI() {
+  return Consumer<CartProvider>(
+    builder: (context, provider, _) {
+      return Column(
+        children: [
+          SizedBox(
+            width: 240,
+            height: MediaQuery.sizeOf(context).height * 0.40,
+            child: ListView.builder(
+              itemCount: provider.items.length,
+              itemBuilder: (context, index) {
+                Patologia patologia = provider.items[index];
+                return SizedBox(
+                  height: 30,
+                  child: ListTile(
+                    title: Text(
+                      patologia.name,
+                      style: AppStyles.texto3,
+                    ),
+                    onLongPress: () {
+                      provider.remove(patologia);
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
