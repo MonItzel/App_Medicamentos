@@ -243,7 +243,7 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
                 children: homePageCards,
               )
             ),
-            Container(
+            CuidadorActivo  && iconActivo ? Container(
               width: size.width,
               height: size.height,
               child: Stack(
@@ -345,13 +345,12 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
                               },
                             ),
                           )
-
                         ],
-                      ))
+                      )
+                  )
                 ],
               ),
-            )
-
+            ): Container(),
           ],
         ),
 
