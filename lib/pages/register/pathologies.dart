@@ -56,6 +56,7 @@ class _Pathologies extends State <Pathologies> {
 
   @override
   Widget build(BuildContext context) {
+
     patologias = context.watch<CartProvider>().getCartNames();
     if(widget.pathologies.length > 0 && patologiasCards.isEmpty && otraspatController.text == ''){
       buttonText = 'Guardar';
@@ -66,7 +67,7 @@ class _Pathologies extends State <Pathologies> {
                        'Demencia o Alzheimer', 'Artritis', 'Osteoporosis',
                        'Cardiopatias', 'Parkinson', 'Depresión'];*/
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -105,12 +106,14 @@ class _Pathologies extends State <Pathologies> {
         ),
       ),
 
+
+
       body: SingleChildScrollView(
         // padding: EdgeInsets.only(top: 150),
         child: Form(
           //key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 30.0),
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
             //padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,13 +131,41 @@ class _Pathologies extends State <Pathologies> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30.0),
+                SizedBox(height: 10.0),
                 _buildUI(context),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: const Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text(
+                      'Otro padecimiento',
+                      textAlign: TextAlign.left,
+                      style: AppStyles.texto1,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Container(
+                  decoration: AppStyles.contenedorTextForm,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: TextFormField(
+                      controller: otraspatController,
+                      obscureText: false,
+                      textAlign: TextAlign.left,
+                      decoration: AppStyles.textFieldEstilo,
+                      style: AppStyles.texto1,
+                      onChanged: (text) {
+                        setState(() {
+                         // convertFirstWordUpperCase(text, otraspatController);
+                        });
+                      },
+                    ),
+                  ),
+                ),
 
-                const SizedBox(height: 10.0,),
 
-
-                const SizedBox(height: 20,),
+                const SizedBox(height: 10,),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Container(
@@ -165,6 +196,7 @@ class _Pathologies extends State <Pathologies> {
                     ),
                   ),
                 ),
+                //SizedBox(height: 200,)
               ],
             ),
           ),
@@ -346,7 +378,7 @@ Widget _buildUI(BuildContext context) {
       itemBuilder: (context, index) {
         Patologia patologia = PATOLOGIA[index];
         return ListTile(
-          //contentPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
           dense: true,
           title: Text(
             patologia.name,

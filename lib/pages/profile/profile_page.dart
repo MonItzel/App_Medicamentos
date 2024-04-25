@@ -30,6 +30,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   int _currentIndex = 4;
+  //List<String> otrasPatologias = otraspatController.text.split(', ');
+
 
   @override
   Widget build(BuildContext context) {
@@ -391,6 +393,28 @@ class _ProfilePage extends State<ProfilePage> {
               ),
 
               _buildUI(),
+              /*
+              SizedBox(
+                width: 240,
+                //height: totalHeight,
+                child: ListView.builder(
+                  itemCount: otrasPatologias.le,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      height: 30,
+                      child: ListTile(
+                        title: Text(
+                          //patologia.name,
+                          //style: AppStyles.texto3,
+                        ),
+
+                      ),
+                    );
+                  },
+                ),
+              ),
+*/
+
 
             ],
           ),
@@ -686,12 +710,15 @@ List<Widget> patologiasCards = [];
 
 Widget _buildUI() {
   return Consumer<CartProvider>(
+
     builder: (context, provider, _) {
+      double totalHeight = 30.0 * provider.items.length;
+
       return Column(
         children: [
           SizedBox(
             width: 240,
-            height: MediaQuery.sizeOf(context).height * 0.40,
+            height: totalHeight,
             child: ListView.builder(
               itemCount: provider.items.length,
               itemBuilder: (context, index) {
@@ -711,6 +738,7 @@ Widget _buildUI() {
               },
             ),
           ),
+          SizedBox(height: 30,),
         ],
       );
     },

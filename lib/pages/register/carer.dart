@@ -37,13 +37,15 @@ class _CarerPage extends State <CarerPage> {
 
       if(widget.user.cuidador_nombre.toString().split(',').length == 2){
         nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
+        print('1 nombre' + nombreCuidadorController.text);
         apellidoCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[1];
       }else{
         if(widget.user.cuidador_nombre.toString()[0] == ','){
           apellidoCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
+          print('2 nombre' + nombreCuidadorController.text);
           nombreCuidadorController.text = '';
         }else{
-          nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0];
+          nombreCuidadorController.text = widget.user.cuidador_nombre.toString().split(',')[0].trim();
           apellidoCuidadorController.text = '';
         }
       }
@@ -281,7 +283,7 @@ class _CarerPage extends State <CarerPage> {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    widget.user.cuidador_nombre = nombreCuidadorController.text + " " + apellidoCuidadorController.text;
+    widget.user.cuidador_nombre = nombreCuidadorController.text + "," + apellidoCuidadorController.text;
     widget.user.cuidador_telefono = telefonoCuidadorController.text.replaceAll(' ', '');
 
     int activeCarer = 0;
@@ -300,7 +302,8 @@ class _CarerPage extends State <CarerPage> {
       var id1 = txn.update('Usuario', usuario);
     });
 
-    cuidadorController.text = widget.user.cuidador_nombre.toString();
+    cuidadorController.text = widget.user.cuidador_nombre.toString().replaceAll(",", "");
+    print('guarda ' + cuidadorController.text);
     numCuidadorController.text = widget.user.cuidador_telefono.toString();
 
     nombreCuidadorController.text = '';
