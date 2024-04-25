@@ -244,6 +244,8 @@ class _CarerPage extends State <CarerPage> {
 
   //Registra la inforamción del usuario y cuidador en la base de datos.
   void register() async {
+    cuidadorController.text = nombreCuidadorController.text + ' ' + apellidoCuidadorController.text;
+    numCuidadorController.text = telefonoCuidadorController.text;
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
@@ -279,7 +281,7 @@ class _CarerPage extends State <CarerPage> {
     Database database = await openDatabase(
         join(await getDatabasesPath(), 'medicamentos.db'), version: 1);
 
-    widget.user.cuidador_nombre = nombreCuidadorController.text + "," + apellidoCuidadorController.text;
+    widget.user.cuidador_nombre = nombreCuidadorController.text + " " + apellidoCuidadorController.text;
     widget.user.cuidador_telefono = telefonoCuidadorController.text.replaceAll(' ', '');
 
     int activeCarer = 0;
