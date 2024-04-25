@@ -392,7 +392,16 @@ class _ProfilePage extends State<ProfilePage> {
                 ),
               ),
 
-              _buildUI(),
+             // _buildUI(),
+
+              Container(
+                  height: 40.0 * patologiasCards.length,
+                  width: 250,
+                  child: ListView(
+                    children: patologiasCards,
+                  )
+              )
+
               /*
               SizedBox(
                 width: 240,
@@ -705,6 +714,7 @@ TextEditingController numExteriorController = TextEditingController();
 TextEditingController numInteriorController = TextEditingController();
 TextEditingController cuidadorController = TextEditingController();
 TextEditingController numCuidadorController = TextEditingController();
+TextEditingController otraspatController = TextEditingController();
 List<Widget> patologiasCards = [];
 
 

@@ -58,7 +58,7 @@ class _Pathologies extends State <Pathologies> {
   Widget build(BuildContext context) {
 
     patologias = context.watch<CartProvider>().getCartNames();
-    if(widget.pathologies.length > 0 && patologiasCards.isEmpty && otraspatController.text == ''){
+    if(widget.pathologies.length > 0 && patologiasCards.isEmpty || otraspatController.text == ''){
       buttonText = 'Guardar';
       //otraspatController.text = widget.pathologies[widget.pathologies.length - 1];
     }
@@ -371,31 +371,37 @@ final otraspatController = TextEditingController();
 
 Widget _buildUI(BuildContext context) {
   CartProvider cartProvider = Provider.of<CartProvider>(context);
-  return SizedBox(
-    height: MediaQuery.of(context).size.height * 0.55, // Define una altura específica, puedes ajustar este valor según tus necesidades
-    child: ListView.builder(
-      itemCount: PATOLOGIA.length,
-      itemBuilder: (context, index) {
-        Patologia patologia = PATOLOGIA[index];
-        return ListTile(
-          contentPadding: EdgeInsets.zero,
-          dense: true,
-          title: Text(
-            patologia.name,
-            style: TextStyle(fontSize: 20),
-          ),
-          trailing: Checkbox(
-            value: cartProvider.items.contains(patologia),
-            onChanged: (value) {
-              if (value == true) {
-                cartProvider.add(patologia);
-              } else {
-                cartProvider.remove(patologia);
-              }
-            },
-          ),
-        );
-      },
+  return Padding(
+    padding: const EdgeInsets.only(left: 8.0),
+    child: SizedBox(
+      height: MediaQuery.of(context).size.height * 0.50, // Define una altura específica, puedes ajustar este valor según tus necesidades
+      child: ListView.builder(
+        itemCount: PATOLOGIA.length,
+        itemBuilder: (context, index) {
+          Patologia patologia = PATOLOGIA[index];
+          return SizedBox(
+            height: 42,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: Text(
+                patologia.name,
+                style: TextStyle(fontSize: 20),
+              ),
+              trailing: Checkbox(
+                value: cartProvider.items.contains(patologia),
+                onChanged: (value) {
+                  if (value == true) {
+                    cartProvider.add(patologia);
+                  } else {
+                    cartProvider.remove(patologia);
+                  }
+                },
+              ),
+            ),
+          );
+        },
+      ),
     ),
   );
 }
