@@ -10,6 +10,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 String telCuidador = '';
 String nomAdult = '';
@@ -41,6 +43,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
+
+  final permissionSms = Permission.sms;
+
   int _currentIndex = 0;
   String formattedDate = '';
   bool _isLoading = true; // Añadido para controlar la carga de datos
@@ -127,6 +132,18 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
     });*/
   }
 
+  void smsPermissionStatus() async {
+    // Request camera permission
+    final status = await permissionSms.request();
+    if (status.isGranted) { // Utiliza el valor almacenado en la variable 'status'
+      _msgMedicamentAppointmentMsg(context);
+
+      print('Opening SMS...');
+    } else {
+      // Permission denied
+      print('SMS permission denied.');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     //Al ingresar se crean las cartas.
@@ -297,7 +314,7 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
                                   size: 32,
                                 ),
                                 onClick: (){
-                                  _msgMedicamentAppointmentMsg(context);
+                                  smsPermissionStatus();
                                   print('Second button');
                                 },
                               ),
