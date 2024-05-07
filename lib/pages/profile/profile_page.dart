@@ -11,7 +11,7 @@ import 'package:path/path.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:app_medicamentos/constants.dart';
 
-import '../../models/user_model.dart';
+import 'package:app_medicamentos/models/user_model.dart';
 import '../register/birth_date_register.dart';
 import '../register/pathologies.dart';
 

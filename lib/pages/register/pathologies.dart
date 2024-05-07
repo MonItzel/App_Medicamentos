@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:app_medicamentos/constants.dart';
 import '../profile/profile_page.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'package:app_medicamentos/pages/register/name_pathologies.dart';
@@ -160,6 +161,9 @@ class _Pathologies extends State <Pathologies> {
                          // convertFirstWordUpperCase(text, otraspatController);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(20),
+                      ],
                     ),
                   ),
                 ),

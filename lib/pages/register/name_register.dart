@@ -9,6 +9,7 @@ import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:app_medicamentos/utils/flashMessage.dart';
 import 'package:path/path.dart';
+import 'package:flutter/services.dart';
 
 class NameRegister extends StatefulWidget {
   const NameRegister({super.key, required User this.user});
@@ -130,6 +131,9 @@ class _NameRegister extends State <NameRegister> {
                             convertoUpperCase(text, nombreController, _validateU);
                           });
                         },
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(40),
+                        ],
                       ),
                   ),
                 ),
@@ -164,6 +168,9 @@ class _NameRegister extends State <NameRegister> {
                           convertoUpperCase(text, apellidoPController, _validateApp);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(30),
+                      ],
                     ),
                   ),
                 ),
@@ -198,6 +205,9 @@ class _NameRegister extends State <NameRegister> {
                           convertoUpperCase(text, apellidoMController, _validateApm);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(30),
+                      ],
                     ),
                   ),
                 ),

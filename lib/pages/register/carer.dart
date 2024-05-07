@@ -9,6 +9,7 @@ import 'package:path/path.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:flutter/services.dart';
 
 import '../profile/profile_page.dart';
 
@@ -135,6 +136,9 @@ class _CarerPage extends State <CarerPage> {
                           convertoUpperCase(text, nombreCuidadorController, 0);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(40),
+                      ],
                     ),
                   ),
                 ),
@@ -169,6 +173,9 @@ class _CarerPage extends State <CarerPage> {
                           convertoUpperCase(text, apellidoCuidadorController, 0);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(30),
+                      ],
                     ),
                   ),
                 ),
