@@ -6,6 +6,7 @@ import 'package:app_medicamentos/models/medicament_model.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter/services.dart';
 
 enum Frequency { horas, dias, semanas, meses  }
 
@@ -145,6 +146,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                           convertFirstWordUpperCase(text, nombreController);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(20),
+                      ],
                     ),
                   ),
                 ),
@@ -179,6 +183,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                           convertFirstWordUpperCase(text, dosisController);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(20),
+                      ],
                     ),
                   ),
                 ),
@@ -234,6 +241,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(2),
+                              ],
                             ),
                           ),
                           SizedBox(
@@ -276,6 +286,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(2),
+                              ],
                             ),
                           ),
                           const SizedBox(width: 10,),
@@ -317,6 +330,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(2),
+                              ],
                             ),
                           ),
                           const SizedBox(width: 10,),
@@ -355,6 +371,9 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                                 filled: true,
                                 fillColor: Colors.white,
                               ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(2),
+                              ],
                             ),
                           ),
                           const SizedBox(width: 10,),

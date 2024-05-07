@@ -6,6 +6,7 @@ import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_medicamentos/constants.dart';
+import 'package:flutter/services.dart';
 
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key, required this.initAppointment});
@@ -122,6 +123,9 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                           convertoUpperCase(text, nombreMedicoController, 0);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(40),
+                      ],
                     ),
                   ),
                 ),
@@ -154,6 +158,9 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                           convertFirstWordUpperCase(text, motivoController);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(50),
+                      ],
                     ),
                   ),
                 ),
@@ -187,6 +194,9 @@ class _AppointmentsPage extends State <AppointmentsPage> {
                           convertFirstWordUpperCase(text, lugarController);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(40),
+                      ],
                     ),
                   ),
                 ),
