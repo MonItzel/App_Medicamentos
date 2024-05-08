@@ -41,7 +41,7 @@ class _NameRegister extends State <NameRegister> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),

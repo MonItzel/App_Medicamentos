@@ -54,7 +54,7 @@ class _CarerPage extends State <CarerPage> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),

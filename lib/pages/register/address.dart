@@ -36,7 +36,7 @@ class _Address extends State <Address> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),

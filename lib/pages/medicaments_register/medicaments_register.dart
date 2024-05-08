@@ -61,7 +61,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
     currentMedicament = Medicament();
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
