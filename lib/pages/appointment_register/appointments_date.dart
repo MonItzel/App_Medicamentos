@@ -31,11 +31,14 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
   Widget build(BuildContext context) {
     String buttonText = 'Agendar cita';
     if(widget.appointment.id_cita != null && timeinput.text == ''){
-      buttonText = 'Guardar';
       appointmentDate = DateTime(int.parse(widget.appointment.fecha.toString().split('-')[0]), int.parse(widget.appointment.fecha.toString().split('-')[1]), int.parse(widget.appointment.fecha.toString().split('-')[2].split(' ')[0]));
       timeinput.text = widget.appointment.fecha.toString().split(' ')[1].split(':')[0] + ':' + widget.appointment.fecha.toString().split(' ')[1].split(':')[1];
     }else{
       appointmentDate = DateTime.now();
+    }
+
+    if(widget.appointment.id_cita != null){
+      buttonText = 'Guardar';
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,

@@ -39,7 +39,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
       buttonText = 'Guardar';
       print(widget.medicament.inicioToma.toString());
       initialDate = DateTime(int.parse(widget.medicament.inicioToma.toString().split('-')[0]), int.parse(widget.medicament.inicioToma.toString().split('-')[1]), int.parse(widget.medicament.inicioToma.toString().split('-')[2].split(' ')[0]));
-      medicamentDate = initialDate;
+      medicamentDate = widget.medicament.inicioToma;
       print(initialDate.toString());
       timeinput.text = widget.medicament.inicioToma.toString().split(' ')[1].split(':')[0] + ':' + widget.medicament.inicioToma.toString().split(' ')[1].split(':')[1];
     }else{
@@ -296,7 +296,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
             'nombre = \'' + widget.medicament.nombre.toString() +
             '\', dosis = \'' + widget.medicament.dosis.toString() +
             '\', inicioToma = \'' + widget.medicament.inicioToma.toString() +
-            '\', frecuenciaTipo = \'' + widget.medicament.frecuenciaTipo.toString() +
+        '\', frecuenciaTipo = \'' + widget.medicament.frecuenciaTipo.toString() +
             '\', frecuenciaToma = \'' + widget.medicament.frecuenciaToma.toString() +
             '\' WHERE id_medicamento = ' + widget.medicament.id_medicamento.toString();
         var id1 = txn.rawQuery(query);
