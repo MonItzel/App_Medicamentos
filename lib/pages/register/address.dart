@@ -3,9 +3,10 @@ import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:app_medicamentos/pages/register/pathologies.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
 import 'package:sqflite/sqflite.dart';
-import '../../models/user_model.dart';
+import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
 import 'package:path/path.dart';
+import 'package:flutter/services.dart';
 
 import '../profile/profile_page.dart';
 
@@ -35,7 +36,7 @@ class _Address extends State <Address> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppStyles.primaryBackground,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -121,6 +122,9 @@ class _Address extends State <Address> {
                           convertFirstWordUpperCase(text, calleController);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(30),
+                      ],
                     ),
                   ),
                 ),
@@ -164,6 +168,9 @@ class _Address extends State <Address> {
                                     convertFirstWordUpperCase(text, numExteriorController);
                                   });
                                 },
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(6),
+                                ],
                               ),
                             ),
 
@@ -200,6 +207,9 @@ class _Address extends State <Address> {
 
                                 ),
                                 style: AppStyles.texto1,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(6),
+                                ],
                               ),
                             ),
                           ],
@@ -239,6 +249,9 @@ class _Address extends State <Address> {
                           convertFirstWordUpperCase(text, coloniaController);
                         });
                       },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(30),
+                      ],
                     ),
                   ),
                 ),
