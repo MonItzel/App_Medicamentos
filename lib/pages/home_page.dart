@@ -154,6 +154,7 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
 
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
         appBar: AppBar(

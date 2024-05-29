@@ -393,6 +393,7 @@ Widget _buildUI(BuildContext context) {
                 style: TextStyle(fontSize: 20),
               ),
               trailing: Checkbox(
+                activeColor: AppStyles.primaryBlue,
                 value: cartProvider.items.contains(patologia),
                 onChanged: (value) {
                   if (value == true) {

@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
     //select(context);
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       //Forwarder es la funcion para verificar si existe algun usuario registrado en la app
       //Si el usuario se ha registrado entre al HomePage, sino se muestra el formulario de registro
