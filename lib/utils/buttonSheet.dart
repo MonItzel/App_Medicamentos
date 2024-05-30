@@ -261,13 +261,11 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                 if (bandShow == 6)
                   Column(
                     children: [
-                      const SizedBox(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16, top: 30, bottom: 16),
-                          child:Text(
-                            '¿Desea eliminar el Medicamento?',
-                            style: AppStyles.encabezado1,
-                          ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
+                        child:Text(
+                          '¿Desea eliminar el Medicamento?',
+                          style: AppStyles.encabezado1,
                         ),
                       ),
 
@@ -283,7 +281,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                       ),
 
                       const Button(
-                        color: 0xFF0063C9,
+                        color: 0xFF0A3461,
                         contenido: 'Cancelar',
                         ruta: 3,
                       ),
@@ -334,14 +332,14 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                 //Notificacion de cita eliminada con exito
                 if (bandShow == 8)
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16, top: 30, bottom: 16),
-                          child:Text(
-                            'Cita médica eliminada',
-                            style: AppStyles.encabezado1,
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Text(
+                          '¿Desea eliminar la Cita Médica?',
+                          style: AppStyles.encabezado1,
                         ),
                       ),
 
@@ -356,7 +354,7 @@ void muestraButtonSheet(BuildContext context, int bandShow){
                       ),
 
                       const Button(
-                        color: 0xFF0063C9,
+                        color: 0xFF0A3461,
                         contenido: 'Cancelar',
                         ruta: 3,
                       ),
