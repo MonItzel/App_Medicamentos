@@ -7,6 +7,8 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:app_medicamentos/provider/patprovider.dart';
 
+import 'constants.dart';
+
 void main() {
   //runApp(const MyApp());
   runApp(
@@ -23,10 +25,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //select(context);
+    final baseColorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
+
+    // Copia el ColorScheme y ajusta el color primario.
+    final customColorScheme = baseColorScheme.copyWith(
+      primary: Colors.blue, // Ajusta el color primario al azul exacto
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      theme: ThemeData(
+          colorScheme: customColorScheme,
+
+          primaryColor: Colors.blue,
+        //useMaterial3: true
+      ),
       //Forwarder es la funcion para verificar si existe algun usuario registrado en la app
       //Si el usuario se ha registrado entre al HomePage, sino se muestra el formulario de registro
       home: Forwarder(),

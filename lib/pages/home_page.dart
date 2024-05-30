@@ -151,12 +151,28 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
     double titleSpacing = resCreateNote == 1 ? 0.0 : 0.0;
     //double toolbarHeight = resCreateNote == 1 ? 140.0 : 80.0;
     Size size = MediaQuery.of(context).size;
+    final baseColorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
 
+    // Copia el ColorScheme y ajusta el color primario.
+    final customColorScheme = baseColorScheme.copyWith(
+      primary: Colors.blue, // Ajusta el color primario al azul exacto
+      tertiaryContainer: Color(0xFFA7CFFC),
+
+
+    );
 
     return MaterialApp(
+      theme: ThemeData(
+          colorScheme: customColorScheme,
+
+
+         // primaryColor: Colors.blue,
+          useMaterial3: true
+      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
+
         appBar: AppBar(
 
   //        titleSpacing: 0.0,
@@ -479,43 +495,50 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
                   ),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Icon(Icons.medication_liquid, size: 44),
-                      //Nombre del medicamento
-                      title: Text(
-                        medicamentos[i]['nombre'].toString(),
-                        style: AppStyles.tituloCard,
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            medicamentos[i]['dosis'].toString(),
-                            style: AppStyles.dosisCard,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Icon(Icons.medication_liquid, size: 44),
+                          //Nombre del medicamento
+                          title: Text(
+                            medicamentos[i]['nombre'].toString(),
+                            style: AppStyles.tituloCard,
                           ),
-                          Text(
-                            'Cada ' +
-                                medicamentos[i]['frecuenciaToma'].toString() +
-                                ' ' + medicamentos[i]['frecuenciaTipo']
-                                .toString() + 's',
-                            style: AppStyles.dosisCard,
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                medicamentos[i]['dosis'].toString(),
+                                style: AppStyles.dosisCard,
+                              ),
+                              Text(
+                                'Cada ' +
+                                    medicamentos[i]['frecuenciaToma'].toString() +
+                                    ' ' + medicamentos[i]['frecuenciaTipo']
+                                    .toString() + 's',
+                                style: AppStyles.dosisCard,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Icon(
-                            iconoCard,
-                            size: 30,
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                iconoCard,
+                                size: 30,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  horaFormateada,
+                                  style: AppStyles.dosisCard,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            horaFormateada,
-                            style: AppStyles.dosisCard,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -598,9 +621,11 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
                         iconoCard,
                         size: 30,
                       ),
-                      Text(
-                        citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0],
-                        style: AppStyles.dosisCard,
+                      Expanded(
+                        child: Text(
+                          citas[i]['fecha_hora'].toString().split(" ")[1].split(".")[0],
+                          style: AppStyles.dosisCard,
+                        ),
                       ),
                     ],
                   ),

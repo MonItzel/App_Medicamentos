@@ -144,12 +144,14 @@ class _RecordsPage extends State <RecordsPage>{
         if(medicamentos.length > 0){
           for(int i = 0; i < medicamentos.length; i++){
             recordsPageCards.add(Card(
+              color: Color(0xFFFDFDFE),
               elevation: 3, // Elevación para dar profundidad al card
               margin: EdgeInsets.all(16), // Margen alrededor del card
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15), // Borde redondeado con radio de 15
               ),
               child: Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ListTile(
                     leading: Icon(
@@ -196,6 +198,7 @@ class _RecordsPage extends State <RecordsPage>{
                               },
                               style: AppStyles.botonPrincipal,
                               child: Icon(
+                                color: AppStyles.primaryBackground,
                                 Icons.edit,
                                 size: 30,
                               ),
@@ -216,6 +219,7 @@ class _RecordsPage extends State <RecordsPage>{
                               },
                               style: AppStyles.botonSecundario,
                               child: Icon(
+                                color: AppStyles.primaryBackground,
                                 Icons.delete,
                                 size: 30,
                               ),
