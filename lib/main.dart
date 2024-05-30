@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
     // Copia el ColorScheme y ajusta el color primario.
     final customColorScheme = baseColorScheme.copyWith(
       primary: Colors.blue, // Ajusta el color primario al azul exacto
+      tertiaryContainer: Color(0xFFA7CFFC),
+
     );
 
     return MaterialApp(

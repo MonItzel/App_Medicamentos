@@ -245,7 +245,7 @@ class _CalendarPage extends State<CalendarPage> {
           // Analiza la hora original en un objeto DateTime
           DateTime horaDateTime = DateTime.parse("2022-01-01 $horaOriginal");
 
-          Color color = Colors.red;
+          Color color = Colors.orange.shade50;
           if(horaDateTime.hour >= 6 && horaDateTime.hour < 12){
             color = Colors.orange.shade50;
           }else if(horaDateTime.hour >= 12 && horaDateTime.hour < 18){

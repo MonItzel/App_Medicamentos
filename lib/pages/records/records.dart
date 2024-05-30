@@ -252,6 +252,7 @@ class _RecordsPage extends State <RecordsPage>{
           for(int i = 0; i < citas.length; i++){
             String date = citas[i]['fecha'].toString();
             recordsPageCards.add(Card(
+                color: Color(0xFFFDFDFE),
               elevation: 3, // Elevación para dar profundidad al card
               margin: EdgeInsets.all(16), // Margen alrededor del card
               shape: RoundedRectangleBorder(
@@ -310,6 +311,7 @@ class _RecordsPage extends State <RecordsPage>{
                                 },
                                 style: AppStyles.botonPrincipal,
                                 child: Icon(
+                                  color: AppStyles.primaryBackground,
                                   Icons.edit,
                                   size: 30,
                                 ),
@@ -330,6 +332,7 @@ class _RecordsPage extends State <RecordsPage>{
                                 },
                                 style: AppStyles.botonSecundario,
                                 child: Icon(
+                                  color: AppStyles.primaryBackground,
                                   Icons.delete,
                                   size: 30,
                                 ),
