@@ -6,7 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:app_medicamentos/provider/patprovider.dart';
-
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'constants.dart';
 
 void main() {
@@ -43,6 +44,18 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue,
         //useMaterial3: true
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,  // Añadido para soportar Cupertino widgets
+        GlobalWidgetsLocalizations.delegate,
+        SfGlobalLocalizations.delegate,
+      ],
+      //ignore: always_specify_types
+      supportedLocales: const [
+        Locale('es'),
+        // ... other locales the app supports
+      ],
+      locale: const Locale('es'),
       //Forwarder es la funcion para verificar si existe algun usuario registrado en la app
       //Si el usuario se ha registrado entre al HomePage, sino se muestra el formulario de registro
       home: Forwarder(),

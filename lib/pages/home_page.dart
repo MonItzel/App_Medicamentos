@@ -11,7 +11,8 @@ import 'package:app_medicamentos/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 String telCuidador = '';
 String nomAdult = '';
@@ -162,13 +163,27 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
     );
 
     return MaterialApp(
-      theme: ThemeData(
+     theme: ThemeData(
           colorScheme: customColorScheme,
 
 
          // primaryColor: Colors.blue,
           useMaterial3: true
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,  // Añadido para soportar Cupertino widgets
+        GlobalWidgetsLocalizations.delegate,
+        SfGlobalLocalizations.delegate,
+      ],
+      //ignore: always_specify_types
+      supportedLocales: const [
+        Locale('es'),
+        Locale('us'),
+        // ... other locales the app supports
+      ],
+      locale: const Locale('es'),
+
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: AppStyles.primaryBackground,
@@ -483,7 +498,7 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
 
             homePageCards.add(
               SizedBox(
-                height: 120.0 + (medicamentos[i]['nombre']
+                height: 121.0 + (medicamentos[i]['nombre']
                     .toString()
                     .length / 15 + 1) * 20,
                 child: Card(

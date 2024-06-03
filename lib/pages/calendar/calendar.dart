@@ -61,6 +61,7 @@ class _CalendarPage extends State<CalendarPage> {
                 ),
 
                 SfDateRangePicker(
+                  backgroundColor: Colors.transparent,
                   initialDisplayDate: widget.initialDate.year == DateTime.now().year &&
                       widget.initialDate.month == DateTime.now().month &&
                       widget.initialDate.day == DateTime.now().day ?
@@ -78,6 +79,8 @@ class _CalendarPage extends State<CalendarPage> {
                   },
                   todayHighlightColor: AppStyles.secondaryBlue,
                   selectionColor: AppStyles.primaryBlue,
+                  headerStyle: DateRangePickerHeaderStyle(backgroundColor: Colors.transparent),
+
                 ),
                 const SizedBox(height: 20.0,),
 
@@ -309,20 +312,20 @@ class _CalendarPage extends State<CalendarPage> {
           calendarPageCards.add(Card(
             color: color,
             elevation: 3,
-            margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+           // margin: EdgeInsets.fromLTRB(12, 8, 16, 8),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16), // Borde redondeado con radio de 15
             ),
             child: Padding(
-              padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: ListTile(
-                leading: Icon(Icons.medical_services, size: 44),
+                leading: Icon(Icons.medical_services, size: 40),
                 // Icono de medicina a la izquierda
                 title: Text(
                   //citas[i]['motivo'].toString(),
                   'Cita Médica',
                   //Titulo
-                  style: AppStyles.tituloCard,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,6 +6,7 @@ import 'package:app_medicamentos/pages/records/records.dart';
 import 'package:app_medicamentos/utils/flashMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -114,6 +115,8 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24),
                   child: SfDateRangePicker(
+                    backgroundColor: Colors.transparent,
+
                     initialDisplayDate: initialDate,
                     initialSelectedDate: initialDate,
                     selectionMode: DateRangePickerSelectionMode.single,
@@ -121,8 +124,10 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                     onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
                       medicamentDate = args.value;
                     },
+
                     todayHighlightColor: AppStyles.secondaryBlue,
                     selectionColor: AppStyles.primaryBlue,
+                    headerStyle: DateRangePickerHeaderStyle(backgroundColor: Colors.transparent),
                   ),
                 ),
               ),
@@ -149,6 +154,59 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
               ),
 
               TextField(
+                controller: timeinput,
+                decoration: InputDecoration(
+                    icon: Icon(Icons.timer),
+                    labelText: "Hora"
+                ),
+                readOnly: true,
+                onTap: () async {
+                  TimeOfDay? pickedTime = await showTimePicker(
+                    initialTime: TimeOfDay.now(),
+                    context: context,
+                    builder: (BuildContext context, Widget? child) {
+                      return Localizations.override(
+                        context: context,
+                        locale: Locale('en', 'US'), // Cambia el locale a inglés
+                        child: child,
+                      );
+                    }
+                  );
+
+                  if(pickedTime != null) {
+                    print('picked');
+                    print(pickedTime.format(context));
+                    print('despues');
+
+                    // Obteniendo la fecha actual
+                    DateTime now = DateTime.now();
+
+                    // Creando un nuevo objeto DateTime con la fecha actual y la hora seleccionada
+                    DateTime selectedDateTime = DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                      pickedTime.hour,
+                      pickedTime.minute,
+                    );
+
+                    print(selectedDateTime);
+
+                    String formattedTime = DateFormat('HH:mm').format(selectedDateTime);
+                    print(formattedTime);
+
+                    setState(() {
+                      timeinput.text = formattedTime;
+                      _validateF = true;
+                    });
+                  } else {
+                    print("Time is not selected");
+                    _validateF = false;
+                  }
+                },
+              ),
+
+              /*TextField(
                 controller: timeinput, //editing controller of this TextField
                 decoration: const InputDecoration(
                     icon: Icon(Icons.timer), //icon of text field
@@ -175,7 +233,7 @@ class _MedicamentDateRegister extends State <MedicamentDateRegister> {
                     _validateF = false;
                   }
                 },
-              ),
+              ),*/
 
 
               Center(

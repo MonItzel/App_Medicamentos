@@ -8,7 +8,7 @@ void muestraSnackBar(BuildContext context, int bandShow){
           clipBehavior: Clip.none,
           children: [
             Container(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   const SizedBox(width: 25,),
@@ -19,20 +19,22 @@ void muestraSnackBar(BuildContext context, int bandShow){
                           Text('Advertencia', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),),
                           Spacer(),
                           if(bandShow == 0)
-                           TextoSnackBar(contenido: 'Por favor ingrese su(s) nombres', tamFontSize: 25),
+                           TextoSnackBar(contenido: 'Por favor ingrese su(s) nombres', tamFontSize: 22),
                          if(bandShow == 1)
                           TextoSnackBar(contenido: 'Puede ingresar su(s) apellido(s) paterno y/o materno', tamFontSize: 19),
                           if(bandShow == 2)
                             TextoSnackBar(contenido: 'Por favor, ingrese la hora de toma de su medicamento', tamFontSize: 22),
                           if(bandShow == 3)
                             TextoSnackBar(contenido: 'Por favor ingrese el nombre de la patología', tamFontSize: 25),
+                          if(bandShow == 4)
+                            TextoSnackBar(contenido: 'Por favor, ingrese la hora de su cita médica', tamFontSize: 22),
                           ]
                       ),
 
                   )
                 ],
               ),
-              height: 115,
+              height: 118,
               decoration: BoxDecoration(
                   color: Colors.redAccent[400],
                   borderRadius: BorderRadius.all(Radius.circular(20))

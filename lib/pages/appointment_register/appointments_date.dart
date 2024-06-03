@@ -2,10 +2,12 @@ import 'package:app_medicamentos/models/appointment_model.dart';
 import 'package:app_medicamentos/models/reminder_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../utils/flashMessage.dart';
 import '../calendar/calendar.dart';
 import '../records/records.dart';
 import 'package:app_medicamentos/utils/buttonSheet.dart';
@@ -26,6 +28,8 @@ class AppointmentsDatePage extends StatefulWidget {
 
 class _AppointmentsDatePage extends State <AppointmentsDatePage> {
   var appointmentDate;
+  late bool _validateF = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +121,7 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24),
                   child: SfDateRangePicker(
+                    backgroundColor: Colors.transparent,
                     selectionMode: DateRangePickerSelectionMode.single,
                     initialSelectedDate: appointmentDate,
                     initialDisplayDate: appointmentDate,
@@ -126,6 +131,8 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
                     },
                     todayHighlightColor: AppStyles.secondaryBlue,
                     selectionColor: AppStyles.primaryBlue,
+                    headerStyle: DateRangePickerHeaderStyle(backgroundColor: Colors.transparent),
+
                   ),
                 ),
               ),
@@ -159,23 +166,47 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
                 ),
                 readOnly: true,
                 onTap: () async {
-                  // Mostrar el selector de tiempo
-                  TimeOfDay? pickedTime =  await showTimePicker(
-                    initialTime: TimeOfDay.now(),
-                    context: context,
+                  TimeOfDay? pickedTime = await showTimePicker(
+                      initialTime: TimeOfDay.now(),
+                      context: context,
+                      builder: (BuildContext context, Widget? child) {
+                        return Localizations.override(
+                          context: context,
+                          locale: Locale('en', 'US'), // Cambia el locale a inglés
+                          child: child,
+                        );
+                      }
                   );
 
-                  if(pickedTime != null ){
+                  if(pickedTime != null) {
+                    print('picked');
                     print(pickedTime.format(context));
+                    print('despues');
 
-                    // Formatear y establecer la hora seleccionada
-                    String time = pickedTime.toString().split("(")[1];
-                    time = time.split(")")[0];
+                    // Obteniendo la fecha actual
+                    DateTime now = DateTime.now();
+
+                    // Creando un nuevo objeto DateTime con la fecha actual y la hora seleccionada
+                    DateTime selectedDateTime = DateTime(
+                      now.year,
+                      now.month,
+                      now.day,
+                      pickedTime.hour,
+                      pickedTime.minute,
+                    );
+
+                    print(selectedDateTime);
+
+                    String formattedTime = DateFormat('HH:mm').format(selectedDateTime);
+                    print(formattedTime);
+
                     setState(() {
-                      timeinput.text = time;
+                      timeinput.text = formattedTime;
+                      _validateF = true;
                     });
                   } else {
                     print("Time is not selected");
+                    _validateF = false;
                   }
                 },
               ),
@@ -189,6 +220,10 @@ class _AppointmentsDatePage extends State <AppointmentsDatePage> {
                     height: AppStyles.altoBoton,
                     child: ElevatedButton(
                       onPressed: () async {
+                        if (_validateF == false) {
+                          muestraSnackBar(context, 4);
+                          return;
+                        }
                         if(widget.appointment.id_cita != null){
                           update(context);
                         }else{
