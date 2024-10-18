@@ -67,6 +67,31 @@ class Button extends StatelessWidget {
           );
         }
         else if (ruta == 2){
+  /*        showDialog(
+            context: context,
+            barrierDismissible: false, // Evita que el usuario cierre el diálogo tocando fuera de él
+            builder: (BuildContext context) {
+              return Dialog(
+                backgroundColor: Colors.transparent, // Fondo transparente
+                child: Container(
+                  color: Colors.transparent, // Fondo transparente
+                  padding: EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+
+          await Future.delayed(Duration(seconds: 3)); // Espera de 1 segundo
+          Navigator.of(context, rootNavigator: true).pop();
+*/
+
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             PageTransition(
@@ -81,6 +106,30 @@ class Button extends StatelessWidget {
           deleting = false;
           currentMedicament = Medicament();
           currentAppointment = Appointment();
+          showDialog(
+            context: context,
+            barrierDismissible: false, // Evita que el usuario cierre el diálogo tocando fuera de él
+            builder: (BuildContext context) {
+              return Dialog(
+                backgroundColor: Colors.transparent, // Fondo transparente
+                child: Container(
+                  color: Colors.transparent, // Fondo transparente
+                  padding: EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+
+          await Future.delayed(Duration(seconds: 2)); // Espera de 1 segundo
+          Navigator.of(context, rootNavigator: true).pop();
+
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             PageTransition(
@@ -107,7 +156,30 @@ class Button extends StatelessWidget {
           );
 
           currentMedicament = Medicament();
+  /*        showDialog(
+            context: context,
+            barrierDismissible: false, // Evita que el usuario cierre el diálogo tocando fuera de él
+            builder: (BuildContext context) {
+              return Dialog(
+                backgroundColor: Colors.transparent, // Fondo transparente
+                child: Container(
+                  color: Colors.transparent, // Fondo transparente
+                  padding: EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
 
+          await Future.delayed(Duration(seconds: 2)); // Espera de 1 segundo
+          Navigator.of(context, rootNavigator: true).pop();
+*/
           Navigator.pushAndRemoveUntil <dynamic>(
             context,
             PageTransition(

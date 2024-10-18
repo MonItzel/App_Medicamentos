@@ -1,4 +1,5 @@
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:app_medicamentos/pages/profile/agradecimientos.dart';
 import 'package:app_medicamentos/pages/register/address.dart';
 import 'package:app_medicamentos/pages/register/carer.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
@@ -51,7 +52,25 @@ class _ProfilePage extends State<ProfilePage> {
             'Perfil',
             style: AppStyles.encabezado1,
           ),
-          actions: const [],
+          actions:  [
+
+            IconButton(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil <dynamic>(
+                  context,
+                  MaterialPageRoute <dynamic>(
+                      builder: (BuildContext context) => Agradecimiento()
+                  ),
+                      (route) => false,
+                );
+              },
+              icon: const Icon(
+                Icons.info,
+                color: AppStyles.primaryBlue,
+                size: 45,
+              ),
+            ),
+          ],
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           elevation: 0,

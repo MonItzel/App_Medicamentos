@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/birth_date_register.dart';
 import 'package:app_medicamentos/pages/register/pathologies.dart';
 import 'package:app_medicamentos/utils/convert_Uppercase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:app_medicamentos/models/user_model.dart';
 import 'package:app_medicamentos/constants.dart';
@@ -25,13 +26,35 @@ class Address extends StatefulWidget {
 class _Address extends State <Address> {
   String buttonText = "Siguiente";
 
+
   @override
   Widget build(BuildContext context) {
+    Future<void> saveToPreferences(String numInterior) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('numInterior', numInterior);
+    }
+
+    Future<void> loadFromPreferences() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? numInterior = prefs.getString('numInterior') ?? '';
+      setState(() {
+        numInteriorController.text = numInterior;
+      });
+      print('Número Interior desde SharedPreferences: $numInterior');
+    }
+
     if(widget.user.id_usuario != null && calleController.text == '' && numExteriorController.text == '' && numInteriorController.text == '' && coloniaController.text == ''){
       buttonText = 'Guardar';
+
       calleController.text = widget.user.calle.toString();
       numExteriorController.text = widget.user.numExterior.toString();
-      numInteriorController.text = widget.user.numInterior.toString();
+      //numInteriorController.text = numExterior;
+// Llamar a loadFromPreferences para recuperar y asignar el valor.
+      loadFromPreferences().then((_) {
+        print('num int ini');
+        print(numInteriorController.text);
+      });      print('num int ini');
+      print(numInteriorController.text);
       coloniaController.text = widget.user.club.toString();
     }
 
@@ -159,15 +182,8 @@ class _Address extends State <Address> {
                                 controller: numExteriorController,
                                 obscureText: false,
                                 textAlign: TextAlign.left,
-                                decoration: AppStyles.textFieldEstilo.copyWith(
-
-                                ),
+                                decoration: AppStyles.textFieldEstilo.copyWith(),
                                 style: AppStyles.texto1,
-                                onChanged: (text) {
-                                  setState(() {
-                                    convertFirstWordUpperCase(text, numExteriorController);
-                                  });
-                                },
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(6),
                                 ],
@@ -207,9 +223,13 @@ class _Address extends State <Address> {
 
                                 ),
                                 style: AppStyles.texto1,
+
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(6),
                                 ],
+                                onChanged: (value) {
+                                  saveToPreferences(value);  // Guardar en SharedPreferences cuando el texto cambie.
+                                },
                               ),
                             ),
                           ],
@@ -268,6 +288,10 @@ class _Address extends State <Address> {
                         if(widget.user.id_usuario != null){
                           //Si el user ya tiene un id, actualiza la información del usuario
                           update(context);
+                          //saveToPreferences();  // Guarda en SharedPreferences
+                          saveToPreferences(numInteriorController.text);  // Guardar en SharedPreferences cuando se presione el botón.
+
+
                         }else{
                           //Al presionar le botón llena el objeto y lo pasa a la siguiente pantalla.
                           SetUser();
@@ -302,6 +326,7 @@ class _Address extends State <Address> {
     widget.user.club = coloniaController.text;
     widget.user.numExterior = numExteriorController.text;
     widget.user.numInterior = numInteriorController.text;
+    print(widget.user.numInterior);
   }
 
   void update(BuildContext context) async{
@@ -311,6 +336,7 @@ class _Address extends State <Address> {
     widget.user.calle = calleController.text;
     widget.user.numExterior = numExteriorController.text;
     widget.user.numInterior = numInteriorController.text;
+    print(widget.user.numInterior);
     widget.user.club = coloniaController.text;
 
     var usuario = {
@@ -323,6 +349,7 @@ class _Address extends State <Address> {
 
     await database.transaction((txn) async {
       var id1 = txn.update('Usuario', usuario);
+      print(id1);
     });
 
     //cuidadorController.text = widget.user.cuidador_nombre.toString();

@@ -1,0 +1,8 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  color: "#FF69B4"
+  image: "assets/images/logo_apesaam.png"
+  branding: "assets/images/app_name.png"

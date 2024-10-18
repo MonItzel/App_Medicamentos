@@ -44,16 +44,6 @@ class _Pathologies extends State <Pathologies> {
     super.initState();
   }
 
-  /*
-  Widget _obtainnames() {
-    return Consumer<CartProvider>(
-      builder: (context, provider, _) {
-        patologias = provider.getCartNames().toList();
-        return  1;//Text("patologias ingresadas: \$${provider.getCartNames()}");
-      },
-    );
-  }
-*/
 
   @override
   Widget build(BuildContext context) {
@@ -209,19 +199,7 @@ class _Pathologies extends State <Pathologies> {
     );
 
   }
-/*
-  void savePathologies(dynamic val){
-    var patologiasRaw = val;
-    patologias.clear();
 
-    List<String> patologias1 = patologiasRaw.toString().split('(');
-    for(int i = 0; i < patologias1.length; i++){
-      patologias.add(patologias1[i].split(', ')[0]);
-    }
-    patologias.removeAt(0);
-    print(patologias);
-    print(otraspatController.text);
-  }*/
 
   //Crea las tablas en la base de datos y registra los padecimientos.
   void register() async {
@@ -410,13 +388,3 @@ Widget _buildUI(BuildContext context) {
     ),
   );
 }
-/*
-Widget _obtainnames() {
-  return Consumer<CartProvider>(
-    builder: (context, provider, _) {
-      return Text("patologias ingresadas: \$${provider.getCartNames()}");
-    },
-  );
-}
-
-*/

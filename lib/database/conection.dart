@@ -30,13 +30,14 @@ void main() async {
             'telefono TEXT, '
             'calle TEXT'
             'club TEXT, '
-            'numero_exterior TEXT'
+            'numero_exterior TEXT,'
+            'numero_interior TEXT,'
             'cuidador_activo INTEGER, '
             'cuidador_nombre TEXT, '
             'cuidador_telefono TEXT)',
       );
     },
-    version: 1,
+    version: 2,
   );
 
   final medicamentos = openDatabase(
@@ -97,4 +98,6 @@ void main() async {
     },
     version: 1,
   );
+
 }
+

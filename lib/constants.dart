@@ -52,6 +52,13 @@ class AppStyles {
     color: primaryGrey,
   );
 
+  static const TextStyle textoA = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 20.0,
+    fontWeight: FontWeight.normal,
+    color: primaryBlue,
+  );
+
   static const TextStyle tituloCard = TextStyle(
     fontFamily: 'Roboto',
     fontSize: 22.0,

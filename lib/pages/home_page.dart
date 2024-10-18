@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/layout/bottom_navbar.dart';
 import 'package:app_medicamentos/pages/calendar/calendar.dart';
@@ -45,14 +48,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
 
-  final permissionSms = Permission.sms;
+  //final permissionSms = Permission.sms;
 
   int _currentIndex = 0;
   String formattedDate = '';
   bool _isLoading = true; // Añadido para controlar la carga de datos
-
+  bool _isActionPerformed = false;
 
   int resCreateNote = 0;
+
 
   //Mensajes animación
   late AnimationController animationController;
@@ -111,8 +115,10 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
 
     });
     _loadDate();
-     CreateCards(context);
-     _ConsultaMedicamentos(context);
+    // CreateCards(context);
+     //_ConsultaMedicamentos(context);
+    _loadData();
+
     }
 
   void _loadDate() async {
@@ -121,30 +127,24 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
     setState(() {
       formattedDate = DateFormat.yMMMMd('es').format(now);
     });
-    /*
+
+  }
+  Future<void> _loadData() async {
+    setState(() {
+      _isLoading = true; // Comienza la carga
+    });
+
     await Future.wait([
       CreateCards(context),
-      ConsultaMedicamentos(context),
+      _ConsultaMedicamentos(context),
     ]);
 
-    // Indicar que la carga ha terminado
     setState(() {
-      _isLoading = false;
-    });*/
+      _isLoading = false; // Finaliza la carga
+    });
   }
 
-  void smsPermissionStatus() async {
-    // Request camera permission
-    final status = await permissionSms.request();
-    if (status.isGranted) { // Utiliza el valor almacenado en la variable 'status'
-      _msgMedicamentAppointmentMsg(context);
 
-      print('Opening SMS...');
-    } else {
-      // Permission denied
-      print('SMS permission denied.');
-    }
-  }
   @override
   Widget build(BuildContext context) {
     //Al ingresar se crean las cartas.
@@ -199,16 +199,6 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
           elevation: 0,
           title: Column(
             children: [
-              //if (resCreateNote == 1)
-              //showTextEmergyCall(),
-             /*Container(
-                width: 100,
-                height: 60,
-                color: Colors.greenAccent,
-                child: Text('Contacto de emergencia'),
-              ),*/
-
-
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 16, left: 16),
                 child: Column(
@@ -242,11 +232,7 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
 
           actions: CuidadorActivo
            ?<Widget>[
-             /*IconButton(
-                 onPressed: (){},
-                 icon: Icon(Icons.call,
-                   color: Colors.deepOrangeAccent,)
-             )*/
+
              Padding(
                padding: const EdgeInsets.only(right: 25.0),
                child: Container(
@@ -273,24 +259,27 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
           :null,
 
         ),
-       /* floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: (iconActivo && CuidadorActivo) ? FloatingActionButton(
-                backgroundColor: Color(0xFF0A3461),
-                  onPressed: (){
-                    _msgMedicamentAppointment(context) ;
-
-                    },
-                child: Icon(Icons.message),
-              ) : null,
-*/
         body: Stack(
           children: [
-            Container(
+            _isLoading
+                ? Center(
+              child: CircularProgressIndicator(),
+            )
+                : homePageCards.isEmpty
+                ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  'No tiene medicamentos ni citas registradas',
+                  style: TextStyle(fontSize: 24, color: Color(0xFF5E5E5E)),
+                ),
+              ),
+            )
+                : Container(
               height: homePageCards.length * 170,
-              child: new ListView(
-                //Lista de cartas del día actual.
+              child: ListView(
                 children: homePageCards,
-              )
+              ),
             ),
             CuidadorActivo  && iconActivo ? Container(
               width: size.width,
@@ -346,32 +335,15 @@ class _HomePage extends State<HomePage>with SingleTickerProviderStateMixin {
                                   size: 32,
                                 ),
                                 onClick: (){
-                                  smsPermissionStatus();
+                                  //smsPermissionStatus();
+                                  _msgMedicamentAppointmentMsg(context);
+
                                   print('Second button');
                                 },
                               ),
                             ),
                           ),
-                          /*
-                          Transform.translate(
-                            offset: Offset.fromDirection(getRadiansFromDegree(180),degThreeTranslationAnimation.value * 100),
-                            child: Transform(
-                              transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value))..scale(degThreeTranslationAnimation.value),
-                              alignment: Alignment.center,
-                              child: CircularButton(
-                                color: Colors.orangeAccent,
-                                width: 50,
-                                height: 50,
-                                icon: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),
-                                onClick: (){
-                                  print('Third Button');
-                                },
-                              ),
-                            ),
-                          ),*/
+
                           Transform(
                             //transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value)),
                             transform: Matrix4.rotationZ(0),
@@ -855,7 +827,6 @@ Future<void>_msgMedicamentAppointment(var context) async {
   }
 }
 */
-
 Future<void>_msgMedicamentAppointmentMsg(var context) async {
   //%20 es el espacio
   //Llamado a la función Parámetros a enviar
@@ -879,7 +850,18 @@ Future<void>_msgMedicamentAppointmentMsg(var context) async {
 
   print('medinfo' + medicamentoInfo);
 
+  //String mensaje = Uri.encodeComponent('$nomAdult%20$apellidos%0A$mensajeMedicamento$medicamentoInfo%0A$mensajeCita%0A$citaInfo');
+//esta es
   final uri = 'sms:$telCuidador?body=$nomAdult%20$apellidos%0A$mensajeMedicamento$medicamentoInfo%0A$mensajeCita%0A$citaInfo';
+  /*final Uri url = Uri(
+    scheme: 'sms',
+    path: '4831297088',
+    queryParameters: <String, String>{
+      'body': Uri.encodeComponent('Example Subject & Symbols are allowed!'),
+    },
+  );*/
+  //final uri = 'sms:$telCuidador?body=$mensaje';
+
   //const uri = 'sms:+4448284676?body=Yessica%20Téllez%20Martínez%0ATiene%20una%20cita%20médica%0AFecha:%0AHora:%0ANombre%20del%20doctor:%0ANúmero%20del%20cuidador%0ALugar:';
 
   //final mensaje = '$nomAdult $apellidos\nTiene que tomar sus medicamentos\n$medicamentoInfoList\nTiene una cita médica\n$citaInfoList';
@@ -899,7 +881,16 @@ Future<void>_msgMedicamentAppointmentMsg(var context) async {
     await launchUrl(Uri.parse(uri2));
   }*/
   else{
-    throw 'Could not launch $uri';
+    final msgUri = 'https://messages.google.com/web/';
+    if (await launchUrl(Uri.parse(msgUri))) {
+      //await launchUrl(Uri.parse(uri));
+      print('abre');
+    }
+    else{
+      //throw 'Could not launch $msgUri';
+      showErrorDialog(context);
+
+    }
   }
 }
 
@@ -923,7 +914,8 @@ Future<void>_msgMedicamentAppointmentWhats(var context) async {
   print('Intentando abrir URL: $uri');
 
   if (await launchUrl(Uri.parse(uri))) {
-    await launchUrl(Uri.parse(uri));
+    //await launchUrl(Uri.parse(uri));
+    print('abre');
   }
   else{
     throw 'Could not launch $uri';
@@ -991,3 +983,73 @@ class CircularButton extends StatelessWidget {
     );
   }
 }
+
+
+void showErrorDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      final double screenWidth = MediaQuery.of(context).size.width;
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        //title: Text('Error'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/images/error_msg2.png', // Ruta a tu imagen en assets
+              height: 150, // Ajusta el tamaño según sea necesario
+            ),
+            SizedBox(height: 30),
+            Text(
+              'Oops!',
+              style: TextStyle(color: Colors.redAccent[400], fontSize: 30, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 30),
+
+            Text(
+              '   No  se  pudo  abrir  la aplicación de mensajería',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+
+            ),
+            SizedBox(height: 40),
+            Text(
+              'Por favor, asegúrate de tener una aplicación de mensajería instalada y vuelve a intentarlo.      ',
+              style: TextStyle(fontSize: 19, color: Colors.blueGrey),
+              textAlign: TextAlign.center,
+            ),
+
+
+          ],
+
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent[400], // Color de fondo rojo
+              minimumSize: Size(screenWidth * 0.7, 50), // Tamaño mínimo del botón adaptado a la pantalla
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // Bordes menos redondeados
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop(); // Cerrar el diálogo
+            },
+            child: Text('Aceptar', style: TextStyle(color: Colors.white, fontSize: 20),),
+          ),
+        ],
+      );
+    },
+  );
+
+}
+
+
+
+
+
+
+
+

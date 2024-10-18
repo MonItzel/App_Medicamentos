@@ -5,6 +5,7 @@ import 'package:app_medicamentos/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/register/name_register.dart';
 import 'package:app_medicamentos/pages/medicaments_register/medicaments_register.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -21,6 +22,12 @@ class Forwarder extends StatefulWidget {
 }
 
 class _Forwarder extends State <Forwarder> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

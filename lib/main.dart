@@ -1,7 +1,9 @@
+import 'package:app_medicamentos/splash_screen.dart';
 import 'package:app_medicamentos/utils/forwarder.dart';
 import 'package:flutter/material.dart';
 import 'package:app_medicamentos/pages/start_page.dart';
 import 'package:app_medicamentos/pages/home_page.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,8 @@ import 'constants.dart';
 
 void main() {
   //runApp(const MyApp());
+  //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     ChangeNotifierProvider(
       create: (context) => CartProvider(),
@@ -58,7 +62,9 @@ class MyApp extends StatelessWidget {
       locale: const Locale('es'),
       //Forwarder es la funcion para verificar si existe algun usuario registrado en la app
       //Si el usuario se ha registrado entre al HomePage, sino se muestra el formulario de registro
-      home: Forwarder(),
+      //home: Forwarder(),
+      home: SplashScreenP(),
+
     );
   }
 
@@ -92,3 +98,5 @@ class MyApp extends StatelessWidget {
     }
   }
 }
+
+

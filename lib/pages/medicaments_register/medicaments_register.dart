@@ -29,9 +29,77 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
   final  freqWeek = TextEditingController();
   final  freqMonth = TextEditingController();
 
+  final FocusNode focusNodeHour = FocusNode();
+  final FocusNode focusNodeDay = FocusNode();
+  final FocusNode focusNodeWeek = FocusNode();
+  final FocusNode focusNodeMonth = FocusNode();
+
   Frequency? _frequency;
 
   bool isContainerVisible = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    focusNodeHour.addListener(() {
+      if (focusNodeHour.hasFocus) {
+        _clearOtherTextFields(Frequency.horas);
+        setState(() {
+          _frequency = Frequency.horas;
+        });
+      }
+    });
+
+    focusNodeDay.addListener(() {
+      if (focusNodeDay.hasFocus) {
+        _clearOtherTextFields(Frequency.dias);
+        setState(() {
+          _frequency = Frequency.dias;
+        });
+      }
+    });
+
+    focusNodeWeek.addListener(() {
+      if (focusNodeWeek.hasFocus) {
+        _clearOtherTextFields(Frequency.semanas);
+        setState(() {
+          _frequency = Frequency.semanas;
+        });
+      }
+    });
+
+    focusNodeMonth.addListener(() {
+      if (focusNodeMonth.hasFocus) {
+        _clearOtherTextFields(Frequency.meses);
+        setState(() {
+          _frequency = Frequency.meses;
+        });
+      }
+    });
+  }
+
+  void _clearOtherTextFields(Frequency selectedFrequency) {
+    if (selectedFrequency != Frequency.horas) freqHour.clear();
+    if (selectedFrequency != Frequency.dias) freqDay.clear();
+    if (selectedFrequency != Frequency.semanas) freqWeek.clear();
+    if (selectedFrequency != Frequency.meses) freqMonth.clear();
+  }
+
+  @override
+  void dispose() {
+    freqHour.dispose();
+    freqDay.dispose();
+    freqWeek.dispose();
+    freqMonth.dispose();
+
+    focusNodeHour.dispose();
+    focusNodeDay.dispose();
+    focusNodeWeek.dispose();
+    focusNodeMonth.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,12 +299,13 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                             width: 50,
                             child: TextFormField(
                               controller: freqHour,
+                              focusNode: focusNodeHour,
                               keyboardType: TextInputType.number,
                               obscureText: false,
                               textAlign: TextAlign.left,
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xFF0D1C52),),
+                                  borderSide: BorderSide(color: Color(0xFF0D1C52)),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -263,10 +332,10 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                       onChanged: (Frequency? value) {
                         setState(() {
                           _frequency = value;
+                          FocusScope.of(context).requestFocus(focusNodeHour);
                         });
                       },
                     ),
-
                     RadioListTile<Frequency>(
                       activeColor: Color(0xFF0D1C52),
                       title: Row(
@@ -276,50 +345,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                             width: 50,
                             child: TextFormField(
                               controller: freqDay,
-                              keyboardType: TextInputType.number,
-                              obscureText: false,
-                              textAlign: TextAlign.left,
-                              decoration: const InputDecoration(
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xFF0D1C52),),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(2),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 10,),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: const Text(
-                              'Días',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
-                        ],
-                      ),
-                      value: Frequency.dias,
-                      groupValue: _frequency,
-                      onChanged: (Frequency? value) {
-                        setState(() {
-                          _frequency = value;
-                        });
-                      },
-                    ),
-
-                    RadioListTile<Frequency>(
-
-                      activeColor: const Color(0xFF0D1C52),
-                      title: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
-                        children: [
-                          Container(
-                            width: 50,
-                            child: TextFormField(
-                              controller: freqWeek,
+                              focusNode: focusNodeDay,
                               keyboardType: TextInputType.number,
                               obscureText: false,
                               textAlign: TextAlign.left,
@@ -335,7 +361,51 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                               ],
                             ),
                           ),
-                          const SizedBox(width: 10,),
+                          const SizedBox(width: 10),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: const Text(
+                              'Días',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                      value: Frequency.dias,
+                      groupValue: _frequency,
+                      onChanged: (Frequency? value) {
+                        setState(() {
+                          _frequency = value;
+                          FocusScope.of(context).requestFocus(focusNodeDay);
+                        });
+                      },
+                    ),
+                    RadioListTile<Frequency>(
+                      activeColor: const Color(0xFF0D1C52),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end, // Alinea los elementos a la parte inferior
+                        children: [
+                          Container(
+                            width: 50,
+                            child: TextFormField(
+                              controller: freqWeek,
+                              focusNode: focusNodeWeek,
+                              keyboardType: TextInputType.number,
+                              obscureText: false,
+                              textAlign: TextAlign.left,
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xFF0D1C52)),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(2),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 10),
                           const Text(
                             'Semanas',
                             style: TextStyle(fontSize: 20),
@@ -347,10 +417,10 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                       onChanged: (Frequency? value) {
                         setState(() {
                           _frequency = value;
+                          FocusScope.of(context).requestFocus(focusNodeWeek);
                         });
                       },
                     ),
-
                     RadioListTile<Frequency>(
                       activeColor: Color(0xFF0D1C52),
                       title: Row(
@@ -360,6 +430,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                             width: 50,
                             child: TextFormField(
                               controller: freqMonth,
+                              focusNode: focusNodeMonth,
                               keyboardType: TextInputType.number,
                               obscureText: false,
                               textAlign: TextAlign.left,
@@ -376,7 +447,7 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                               ],
                             ),
                           ),
-                          const SizedBox(width: 10,),
+                          const SizedBox(width: 10),
                           const Text(
                             'Meses',
                             style: TextStyle(fontSize: 20),
@@ -388,11 +459,10 @@ class _MedicamentNameRegister extends State <MedicamentNameRegister> {
                       onChanged: (Frequency? value) {
                         setState(() {
                           _frequency = value;
+                          FocusScope.of(context).requestFocus(focusNodeMonth);
                         });
                       },
                     ),
-
-
                   ],
                 ),
               ),

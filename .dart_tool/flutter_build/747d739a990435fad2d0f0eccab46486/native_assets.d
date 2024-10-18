@@ -1,0 +1,1 @@
+ C:\\Users\\52483\\Documents\\GitHub\\appmedicamentos\\appmedicamentos\\.dart_tool\\flutter_build\\747d739a990435fad2d0f0eccab46486\\native_assets.yaml: 
