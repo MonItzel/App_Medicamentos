@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # app_medicamentos
 
 App Medicamentos UASLP
@@ -23,3 +24,7 @@ organizacion: apesaam
 localidad: MX
 estado o provincia:MX
 Codigo del pais: MX
+=======
+# App_Medicamentos
+Aplicación enfocada a personas adultos mayores para registrar medicamentos que tengan que tomar durante un periodo de tiempo, asi como también registra citas médicas y realiza un recordatorio de estas.
+>>>>>>> 5f8637e63c7da863a6f4489fd96c7ba443e87029
